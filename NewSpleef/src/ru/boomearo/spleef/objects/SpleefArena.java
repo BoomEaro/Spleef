@@ -81,7 +81,7 @@ public class SpleefArena implements IGameArena, ConfigurationSerializable {
     
     @Override
     public SpleefManager getManager() {
-        return Spleef.getInstance().getTntRunManager();
+        return Spleef.getInstance().getSpleefManager();
     }
     
     @Override

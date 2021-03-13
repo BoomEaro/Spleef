@@ -200,7 +200,7 @@ public final class SpleefManager implements IGameManager {
     }
 
     public SpleefArena getArenaByLocation(Location loc) {
-        for (SpleefArena ar : Spleef.getInstance().getTntRunManager().getAllArenas()) {
+        for (SpleefArena ar : Spleef.getInstance().getSpleefManager().getAllArenas()) {
             if (ar.getArenaRegion().isInRegion(loc)) {
                 return ar;
             }

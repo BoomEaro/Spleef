@@ -1,6 +1,7 @@
 package ru.boomearo.spleef.commands.spleef;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -24,7 +25,7 @@ import ru.boomearo.spleef.objects.region.CuboidRegion;
 public class SpleefUse {
 
 
-    @CmdInfo(name = "createarena", description = "Создать арену с указанным названием.", usage = "/spleef createarena <название>", permission = "tntrun.admin")
+    @CmdInfo(name = "createarena", description = "Создать арену с указанным названием.", usage = "/spleef createarena <название>", permission = "spleef.admin")
     public boolean createarena(CommandSender cs, String[] args) {
         if (!(cs instanceof Player)) {
             cs.sendMessage("Данная команда только для игроков.");
@@ -47,7 +48,7 @@ public class SpleefUse {
         try {
             SpleefArena newArena = new SpleefArena(arena, 2, 15, 300, pl.getWorld(), new CuboidRegion(re.getMaximumPoint(), re.getMinimumPoint(), pl.getWorld()), new ArrayList<Location>(), pl.getLocation(), null);
             
-            SpleefManager am = Spleef.getInstance().getTntRunManager();
+            SpleefManager am = Spleef.getInstance().getSpleefManager();
             am.addArena(newArena);
 
             am.saveArenas();
@@ -61,7 +62,7 @@ public class SpleefUse {
         return true;
     }
     
-    @CmdInfo(name = "addspawnpoint", description = "Добавить указанной арене точку спавна.", usage = "/spleef addspawnpoint <арена>", permission = "tntrun.admin")
+    @CmdInfo(name = "addspawnpoint", description = "Добавить указанной арене точку спавна.", usage = "/spleef addspawnpoint <арена>", permission = "spleef.admin")
     public boolean addspawnpoint(CommandSender cs, String[] args) {
         if (!(cs instanceof Player)) {
             cs.sendMessage("Данная команда только для игроков.");
@@ -73,7 +74,7 @@ public class SpleefUse {
         String arena = args[0];
         Player pl = (Player) cs;
 
-        SpleefManager trm = Spleef.getInstance().getTntRunManager();
+        SpleefManager trm = Spleef.getInstance().getSpleefManager();
         SpleefArena ar = trm.getGameArena(arena);
         if (ar == null) {
             cs.sendMessage(SpleefManager.prefix + "Арена '§c" + arena + "§7' не найдена!");
@@ -89,7 +90,7 @@ public class SpleefUse {
         return true;
     }
     
-    @CmdInfo(name = "clearspawnpoints", description = "Удалить все точки спавна в указанной арене.", usage = "/spleef cleanspawnpoints <арена>", permission = "tntrun.admin")
+    @CmdInfo(name = "clearspawnpoints", description = "Удалить все точки спавна в указанной арене.", usage = "/spleef cleanspawnpoints <арена>", permission = "spleef.admin")
     public boolean clearspawnpoints(CommandSender cs, String[] args) {
         if (!(cs instanceof Player)) {
             cs.sendMessage("Данная команда только для игроков.");
@@ -100,7 +101,7 @@ public class SpleefUse {
         }
         String arena = args[0];
 
-        SpleefManager trm = Spleef.getInstance().getTntRunManager();
+        SpleefManager trm = Spleef.getInstance().getSpleefManager();
         SpleefArena ar = trm.getGameArena(arena);
         if (ar == null) {
             cs.sendMessage(SpleefManager.prefix + "Арена '§b" + arena + "§7' не найдена!");
@@ -171,9 +172,14 @@ public class SpleefUse {
             return false;
         }
         
+        Collection<SpleefArena> arenas = Spleef.getInstance().getSpleefManager().getAllArenas();
+        if (arenas.isEmpty()) {
+            cs.sendMessage(SpleefManager.prefix + "Арены еще не созданы!");
+            return true;
+        }
         final String sep = SpleefManager.prefix + "§8============================";
         cs.sendMessage(sep);
-        for (SpleefArena arena : Spleef.getInstance().getTntRunManager().getAllArenas()) {
+        for (SpleefArena arena : arenas) {
             cs.sendMessage(SpleefManager.prefix + "Арена: '§b" + arena.getName() + "§7'. Статус: " + arena.getState().getName() + "§7. Игроков: " + SpleefManager.getRemainPlayersArena(arena));
         }
         cs.sendMessage(sep);

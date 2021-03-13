@@ -27,7 +27,7 @@ public class PlayerListener implements Listener {
     public void onPlayerDeathEvent(PlayerDeathEvent e) {
         Player pl = e.getEntity();
         
-        SpleefPlayer tp = Spleef.getInstance().getTntRunManager().getGamePlayer(pl.getName());
+        SpleefPlayer tp = Spleef.getInstance().getSpleefManager().getGamePlayer(pl.getName());
         if (tp != null) {
             LosePlayer lp = new LosePlayer();
             tp.setPlayerType(lp);
@@ -41,7 +41,7 @@ public class PlayerListener implements Listener {
     public void onPlayerRespawnEvent(PlayerRespawnEvent e) {
         Player pl = e.getPlayer();
         
-        SpleefPlayer tp = Spleef.getInstance().getTntRunManager().getGamePlayer(pl.getName());
+        SpleefPlayer tp = Spleef.getInstance().getSpleefManager().getGamePlayer(pl.getName());
         if (tp != null) {
             e.setRespawnLocation(tp.getArena().getRandomSpawnLocation());
             tp.getPlayerType().preparePlayer(tp);
@@ -60,7 +60,7 @@ public class PlayerListener implements Listener {
             return;
         }
         
-        SpleefPlayer tp = Spleef.getInstance().getTntRunManager().getGamePlayer(pl.getName());
+        SpleefPlayer tp = Spleef.getInstance().getSpleefManager().getGamePlayer(pl.getName());
         if (tp != null) {
             e.setCancelled(true);
             pl.sendMessage(SpleefManager.prefix + "Вы не можете использовать эти команды в игре!");
@@ -76,7 +76,7 @@ public class PlayerListener implements Listener {
         if (en instanceof Player) {
             Player pl = (Player) en;
             
-            SpleefPlayer tp = Spleef.getInstance().getTntRunManager().getGamePlayer(pl.getName());
+            SpleefPlayer tp = Spleef.getInstance().getSpleefManager().getGamePlayer(pl.getName());
             if (tp != null) {
                 e.setCancelled(true);
             }
@@ -89,7 +89,7 @@ public class PlayerListener implements Listener {
             return;
         }
         Player pl = e.getPlayer();
-        SpleefPlayer tp = Spleef.getInstance().getTntRunManager().getGamePlayer(pl.getName());
+        SpleefPlayer tp = Spleef.getInstance().getSpleefManager().getGamePlayer(pl.getName());
         if (tp != null) {
             
             //Если игрок ломает в арене этот блок то позволяем
@@ -108,7 +108,7 @@ public class PlayerListener implements Listener {
             return;
         }
         Player pl = e.getPlayer();
-        SpleefPlayer tp = Spleef.getInstance().getTntRunManager().getGamePlayer(pl.getName());
+        SpleefPlayer tp = Spleef.getInstance().getSpleefManager().getGamePlayer(pl.getName());
         if (tp != null) {
             e.setCancelled(true);
         }
@@ -121,7 +121,7 @@ public class PlayerListener implements Listener {
         }
         
         Player pl = e.getPlayer();
-        SpleefPlayer tp = Spleef.getInstance().getTntRunManager().getGamePlayer(pl.getName());
+        SpleefPlayer tp = Spleef.getInstance().getSpleefManager().getGamePlayer(pl.getName());
         if (tp != null) {
             e.setCancelled(true);
         }
@@ -135,7 +135,7 @@ public class PlayerListener implements Listener {
         Entity en = e.getEntity();
         if (en instanceof Player) {
             Player pl = (Player) en;
-            SpleefPlayer tp = Spleef.getInstance().getTntRunManager().getGamePlayer(pl.getName());
+            SpleefPlayer tp = Spleef.getInstance().getSpleefManager().getGamePlayer(pl.getName());
             if (tp != null) {
                 e.setCancelled(true);
             }

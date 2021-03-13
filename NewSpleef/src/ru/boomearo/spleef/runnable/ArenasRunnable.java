@@ -18,7 +18,7 @@ public class ArenasRunnable extends BukkitRunnable {
     
     @Override
     public void run() {
-        for (SpleefArena arena : Spleef.getInstance().getTntRunManager().getAllArenas()) {
+        for (SpleefArena arena : Spleef.getInstance().getSpleefManager().getAllArenas()) {
             
             IGameState state = arena.getState();
             

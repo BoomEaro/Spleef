@@ -23,7 +23,7 @@ public class SpectatorListener implements Listener {
         }
         if (e.getCause() == TeleportCause.SPECTATE) {
             Player pl = e.getPlayer();
-            SpleefPlayer tp = Spleef.getInstance().getTntRunManager().getGamePlayer(pl.getName());
+            SpleefPlayer tp = Spleef.getInstance().getSpleefManager().getGamePlayer(pl.getName());
             if (tp != null) {
                 
                 try {
@@ -44,7 +44,7 @@ public class SpectatorListener implements Listener {
         }
         Player pl = e.getPlayer();
         
-        SpleefPlayer tp = Spleef.getInstance().getTntRunManager().getGamePlayer(pl.getName());
+        SpleefPlayer tp = Spleef.getInstance().getSpleefManager().getGamePlayer(pl.getName());
         if (tp != null) {
             e.setCancelled(true);
         }

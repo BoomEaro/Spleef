@@ -79,7 +79,7 @@ public class RunningState implements IRunningState, ICountable, SpectatorFirst {
                     this.deathPlayers++;
                     
                     //Добавляем единицу в статистику поражений
-                    SpleefStatistics trs = Spleef.getInstance().getTntRunManager().getStatisticManager();
+                    SpleefStatistics trs = Spleef.getInstance().getSpleefManager().getStatisticManager();
                     trs.addStats(SpleefStatsType.Defeat, tp.getName());
                     
                     this.arena.sendSounds(Sound.ENTITY_WITHER_HURT, 999, 2);

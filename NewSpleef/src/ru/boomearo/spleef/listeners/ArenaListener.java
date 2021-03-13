@@ -31,7 +31,7 @@ public class ArenaListener implements Listener {
             if (e.getTo() == Material.SAND) {
                 Location loc = e.getBlock().getLocation();
                 
-                SpleefArena arena = Spleef.getInstance().getTntRunManager().getArenaByLocation(loc);
+                SpleefArena arena = Spleef.getInstance().getSpleefManager().getArenaByLocation(loc);
                 if (arena != null) {
                     e.setCancelled(true);
                 }
@@ -47,7 +47,7 @@ public class ArenaListener implements Listener {
         
         Location loc = e.getLocation();
         
-        SpleefArena arena = Spleef.getInstance().getTntRunManager().getArenaByLocation(loc);
+        SpleefArena arena = Spleef.getInstance().getSpleefManager().getArenaByLocation(loc);
         if (arena != null) {
             e.setCancelled(true);
         }
@@ -66,7 +66,7 @@ public class ArenaListener implements Listener {
         
         Location loc = b.getLocation();
         
-        SpleefArena arena = Spleef.getInstance().getTntRunManager().getArenaByLocation(loc);
+        SpleefArena arena = Spleef.getInstance().getSpleefManager().getArenaByLocation(loc);
         if (arena != null) {
             e.setCancelled(true);
         }
@@ -85,7 +85,7 @@ public class ArenaListener implements Listener {
         
         Location loc = b.getLocation();
         
-        SpleefArena arena = Spleef.getInstance().getTntRunManager().getArenaByLocation(loc);
+        SpleefArena arena = Spleef.getInstance().getSpleefManager().getArenaByLocation(loc);
         if (arena != null) {
             e.setCancelled(true);
         }
@@ -104,7 +104,7 @@ public class ArenaListener implements Listener {
         
         Location loc = b.getLocation();
         
-        SpleefArena arena = Spleef.getInstance().getTntRunManager().getArenaByLocation(loc);
+        SpleefArena arena = Spleef.getInstance().getSpleefManager().getArenaByLocation(loc);
         if (arena != null) {
             e.setCancelled(true);
         }
@@ -123,7 +123,7 @@ public class ArenaListener implements Listener {
         
         Location loc = b.getLocation();
         
-        SpleefArena arena = Spleef.getInstance().getTntRunManager().getArenaByLocation(loc);
+        SpleefArena arena = Spleef.getInstance().getSpleefManager().getArenaByLocation(loc);
         if (arena != null) {
             e.setCancelled(true);
         }
@@ -142,7 +142,7 @@ public class ArenaListener implements Listener {
         
         Location loc = b.getLocation();
         
-        SpleefArena arena = Spleef.getInstance().getTntRunManager().getArenaByLocation(loc);
+        SpleefArena arena = Spleef.getInstance().getSpleefManager().getArenaByLocation(loc);
         if (arena != null) {
             e.setCancelled(true);
         }
@@ -161,7 +161,7 @@ public class ArenaListener implements Listener {
         
         Location loc = b.getLocation();
         
-        SpleefArena arena = Spleef.getInstance().getTntRunManager().getArenaByLocation(loc);
+        SpleefArena arena = Spleef.getInstance().getSpleefManager().getArenaByLocation(loc);
         if (arena != null) {
             e.setCancelled(true);
         }
@@ -175,7 +175,7 @@ public class ArenaListener implements Listener {
         
         Location loc = e.getLocation();
         
-        SpleefArena arena = Spleef.getInstance().getTntRunManager().getArenaByLocation(loc);
+        SpleefArena arena = Spleef.getInstance().getSpleefManager().getArenaByLocation(loc);
         if (arena != null) {
             e.setCancelled(true);
         }

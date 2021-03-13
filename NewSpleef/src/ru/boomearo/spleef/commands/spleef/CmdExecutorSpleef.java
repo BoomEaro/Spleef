@@ -50,7 +50,7 @@ public class CmdExecutorSpleef extends AbstractExecutor {
         if (arg3.length == 2) {
             if (arg3[0].equalsIgnoreCase("join")) {
                 List<String> ss = new ArrayList<String>();
-                for (SpleefArena arena : Spleef.getInstance().getTntRunManager().getAllArenas()) {
+                for (SpleefArena arena : Spleef.getInstance().getSpleefManager().getAllArenas()) {
                     ss.add(arena.getName());
                 }
                 List<String> matches = new ArrayList<>();

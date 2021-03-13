@@ -24,7 +24,7 @@ public class PlayerButtonListener implements Listener {
     @EventHandler
     public void onPlayerInteractEvent(PlayerInteractEvent e) {
         Player pl = e.getPlayer();
-        SpleefPlayer tp = Spleef.getInstance().getTntRunManager().getGamePlayer(pl.getName());
+        SpleefPlayer tp = Spleef.getInstance().getSpleefManager().getGamePlayer(pl.getName());
         if (tp != null) {
             e.setCancelled(true);
             
@@ -50,7 +50,7 @@ public class PlayerButtonListener implements Listener {
             return;
         }
         Player pl = e.getPlayer();
-        SpleefPlayer tp = Spleef.getInstance().getTntRunManager().getGamePlayer(pl.getName());
+        SpleefPlayer tp = Spleef.getInstance().getSpleefManager().getGamePlayer(pl.getName());
         if (tp != null) {
             e.setCancelled(true);
         }
@@ -65,7 +65,7 @@ public class PlayerButtonListener implements Listener {
         if (en instanceof Player) {
             Player pl = (Player) en;
 
-            SpleefPlayer tp = Spleef.getInstance().getTntRunManager().getGamePlayer(pl.getName());
+            SpleefPlayer tp = Spleef.getInstance().getSpleefManager().getGamePlayer(pl.getName());
             if (tp != null) {
                 e.setCancelled(true);
             }
@@ -81,7 +81,7 @@ public class PlayerButtonListener implements Listener {
         if (en instanceof Player) {
             Player pl = (Player) en;
             
-            SpleefPlayer tp = Spleef.getInstance().getTntRunManager().getGamePlayer(pl.getName());
+            SpleefPlayer tp = Spleef.getInstance().getSpleefManager().getGamePlayer(pl.getName());
             if (tp != null) {
                 e.setCancelled(true);
                 e.setResult(Result.DENY);
@@ -99,7 +99,7 @@ public class PlayerButtonListener implements Listener {
         if (en instanceof Player) {
             Player pl = (Player) en;
             
-            SpleefPlayer tp = Spleef.getInstance().getTntRunManager().getGamePlayer(pl.getName());
+            SpleefPlayer tp = Spleef.getInstance().getSpleefManager().getGamePlayer(pl.getName());
             if (tp != null) {
                 e.setCancelled(true);
                 e.setResult(Result.DENY);

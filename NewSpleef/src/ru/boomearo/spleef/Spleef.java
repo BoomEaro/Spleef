@@ -116,7 +116,7 @@ public class Spleef extends JavaPlugin {
         getLogger().info("Плагин успешно выключен.");
     }
     
-    public SpleefManager getTntRunManager() {
+    public SpleefManager getSpleefManager() {
         return this.arenaManager;
     }
     
