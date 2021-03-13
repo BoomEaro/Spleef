@@ -26,7 +26,6 @@ public class PlayerButtonListener implements Listener {
         Player pl = e.getPlayer();
         SpleefPlayer tp = Spleef.getInstance().getSpleefManager().getGamePlayer(pl.getName());
         if (tp != null) {
-            e.setCancelled(true);
             
             Action ac = e.getAction();
             if (ac == Action.RIGHT_CLICK_AIR || ac == Action.RIGHT_CLICK_BLOCK) {
@@ -37,6 +36,7 @@ public class PlayerButtonListener implements Listener {
                         ButtonClick click = ib.getClick();
                         if (click != null) {
                             click.click(tp);
+                            e.setCancelled(true);
                         }
                     }
                 }

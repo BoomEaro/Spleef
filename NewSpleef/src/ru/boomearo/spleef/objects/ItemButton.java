@@ -54,7 +54,7 @@ public enum ItemButton {
     private static ItemStack createLeaveButton() {
         ItemStack item = new ItemStack(Material.MAGMA_CREAM, 1);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName("§cПокинуть игру");
+        meta.setDisplayName("§cПокинуть игру §8[§cПКМ§8]");
         meta.setLore(Arrays.asList("§fКликните чтобы покинуть игру."));
         meta.addEnchant(Enchantment.DIG_SPEED, 1, true);
         meta.addItemFlags(ItemFlag.values());
@@ -63,9 +63,9 @@ public enum ItemButton {
     }
     
     private static ItemStack createDigButton() {
-        ItemStack item = new ItemStack(Material.IRON_SHOVEL, 1);
+        ItemStack item = new ItemStack(Material.DIAMOND_SHOVEL, 1);
         ItemMeta meta = item.getItemMeta();
-        meta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+        meta.addEnchant(Enchantment.DURABILITY, 10, true);
         meta.addItemFlags(ItemFlag.values());
         item.setItemMeta(meta);
         return item;

@@ -117,7 +117,7 @@ public final class SpleefManager implements IGameManager {
         }
         else {
             pl.sendMessage(prefix + "Вы присоединились к арене §7'§b" + arena + "§7'!");
-            pl.sendMessage(prefix + "Чтобы покинуть игру, используйте §bМагма крем §7или команду §b/tr leave§7.");
+            pl.sendMessage(prefix + "Чтобы покинуть игру, используйте §bМагма крем §7или команду §b/spleef leave§7.");
             
             if (tmpArena.getAllPlayers().size() < tmpArena.getMinPlayers()) {
                 pl.sendMessage(prefix + "Ожидание §b" + tmpArena.getMinPlayers() + " §7игроков для начала игры...");

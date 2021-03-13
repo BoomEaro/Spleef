@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.PlayerInventory;
 
 import ru.boomearo.gamecontrol.GameControl;
 import ru.boomearo.spleef.Spleef;
@@ -49,13 +49,15 @@ public class PlayingPlayer implements IPlayerType {
         
         ExpFix.setTotalExperience(player.getPlayer(), 0);
         
-        Inventory inv = pl.getInventory();
+        PlayerInventory inv = pl.getInventory();
         inv.clear();
         
         for (ItemButton ib : ItemButton.values()) {
             inv.setItem(ib.getSlot(), ib.getItem());
         }
 
+        inv.setHeldItemSlot(0);
+        
         SpleefArena arena = player.getArena();
         
         GameControl.getInstance().asyncTeleport(pl, arena.getRandomSpawnLocation());

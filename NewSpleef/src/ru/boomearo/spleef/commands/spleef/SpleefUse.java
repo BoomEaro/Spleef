@@ -90,7 +90,7 @@ public class SpleefUse {
         return true;
     }
     
-    @CmdInfo(name = "clearspawnpoints", description = "Удалить все точки спавна в указанной арене.", usage = "/spleef cleanspawnpoints <арена>", permission = "spleef.admin")
+    @CmdInfo(name = "clearspawnpoints", description = "Удалить все точки спавна в указанной арене.", usage = "/spleef clearspawnpoints <арена>", permission = "spleef.admin")
     public boolean clearspawnpoints(CommandSender cs, String[] args) {
         if (!(cs instanceof Player)) {
             cs.sendMessage("Данная команда только для игроков.");

@@ -31,7 +31,7 @@ public class CmdExecutorSpleef extends AbstractExecutor {
 	public List<String> onTabComplete(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
         if (arg3.length == 1) {
             List<String> ss = new ArrayList<String>(Arrays.asList("join", "leave", "list"));
-            if (arg0.hasPermission("tntrun.admin")) {
+            if (arg0.hasPermission("spleef.admin")) {
                 ss.add("createarena");
                 ss.add("addspawnpoint");
                 ss.add("clearspawnpoints");
@@ -75,6 +75,6 @@ public class CmdExecutorSpleef extends AbstractExecutor {
 
 	@Override
 	public String getSuffix() {
-		return " §8-§c ";
+		return " §8-§b ";
 	}
 }
