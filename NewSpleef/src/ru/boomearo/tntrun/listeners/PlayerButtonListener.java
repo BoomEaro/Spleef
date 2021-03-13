@@ -16,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 
 import ru.boomearo.tntrun.Spleef;
 import ru.boomearo.tntrun.objects.ItemButton;
+import ru.boomearo.tntrun.objects.ItemButton.ButtonClick;
 import ru.boomearo.tntrun.objects.SpleefPlayer;
 
 public class PlayerButtonListener implements Listener {
@@ -33,7 +34,10 @@ public class PlayerButtonListener implements Listener {
                 if (item != null) {
                     ItemButton ib = ItemButton.getButtonByItem(item);
                     if (ib != null) {
-                        ib.getClick().click(tp);
+                        ButtonClick click = ib.getClick();
+                        if (click != null) {
+                            click.click(tp);
+                        }
                     }
                 }
             }

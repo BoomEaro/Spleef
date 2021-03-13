@@ -1,5 +1,7 @@
 package ru.boomearo.tntrun.listeners;
 
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -89,6 +91,13 @@ public class PlayerListener implements Listener {
         Player pl = e.getPlayer();
         SpleefPlayer tp = Spleef.getInstance().getTntRunManager().getGamePlayer(pl.getName());
         if (tp != null) {
+            
+            //Если игрок ломает в арене этот блок то позволяем
+            Block b = e.getBlock();
+            if (b.getType() == Material.SNOW_BLOCK) {
+                return;
+            }
+            
             e.setCancelled(true);
         }
     }

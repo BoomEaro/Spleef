@@ -86,14 +86,14 @@ public class RunningState implements IRunningState, ICountable, SpectatorFirst {
                     
                     if (pp.getKiller() != null) {
                         if (tp.getName().equals(pp.getKiller())) {
-                            this.arena.sendMessages(SpleefManager.prefix + "Игрок §c" + tp.getName() + " §7проиграл, свалившись в свою же яму! " + SpleefManager.getRemainPlayersArena(this.arena));
+                            this.arena.sendMessages(SpleefManager.prefix + "Игрок §b" + tp.getName() + " §7проиграл, свалившись в свою же яму! " + SpleefManager.getRemainPlayersArena(this.arena));
                         }
                         else {
-                            this.arena.sendMessages(SpleefManager.prefix + "Игрок §c" + tp.getName() + " §7проиграл, свалившись в яму игрока §c" + pp.getKiller() + " " + SpleefManager.getRemainPlayersArena(this.arena));
+                            this.arena.sendMessages(SpleefManager.prefix + "Игрок §b" + tp.getName() + " §7проиграл, свалившись в яму игрока §b" + pp.getKiller() + " " + SpleefManager.getRemainPlayersArena(this.arena));
                         }
                     }
                     else {
-                        this.arena.sendMessages(SpleefManager.prefix + "Игрок §c" + tp.getName() + " §7проиграл, зайдя за границы игры. " + SpleefManager.getRemainPlayersArena(this.arena));
+                        this.arena.sendMessages(SpleefManager.prefix + "Игрок §b" + tp.getName() + " §7проиграл, зайдя за границы игры. " + SpleefManager.getRemainPlayersArena(this.arena));
                     }
                     
                     Collection<SpleefPlayer> win = this.arena.getAllPlayersType(PlayingPlayer.class);
@@ -105,7 +105,7 @@ public class RunningState implements IRunningState, ICountable, SpectatorFirst {
                         }
                         if (winner != null) {
                             winner.setPlayerType(new LosePlayer());
-                            this.arena.sendMessages(SpleefManager.prefix + "Игрок §c" + winner.getName() + " §7победил!");
+                            this.arena.sendMessages(SpleefManager.prefix + "Игрок §b" + winner.getName() + " §7победил!");
                             
                             this.arena.sendSounds(Sound.ENTITY_PLAYER_LEVELUP, 999, 2);
                             
@@ -158,7 +158,7 @@ public class RunningState implements IRunningState, ICountable, SpectatorFirst {
             this.cd = 20;
             
             if (this.count <= 0) {
-                arena.sendMessages(SpleefManager.prefix + "Время вышло! §cНичья!");
+                arena.sendMessages(SpleefManager.prefix + "Время вышло! §bНичья!");
                 arena.setState(new EndingState(this.arena));
                 return;
             }
@@ -166,11 +166,11 @@ public class RunningState implements IRunningState, ICountable, SpectatorFirst {
             arena.sendLevels(this.count);
             
             if (this.count <= 10) {
-                arena.sendMessages(SpleefManager.prefix + "Игра закончится через §c" + DateUtil.formatedTime(this.count, false));
+                arena.sendMessages(SpleefManager.prefix + "Игра закончится через §b" + DateUtil.formatedTime(this.count, false));
             }
             else {
                 if ((this.count % 30) == 0){
-                    arena.sendMessages(SpleefManager.prefix + "Игра закончится через §c" + DateUtil.formatedTime(this.count, false));
+                    arena.sendMessages(SpleefManager.prefix + "Игра закончится через §b" + DateUtil.formatedTime(this.count, false));
                 }
             }
             

@@ -43,7 +43,7 @@ public class PlayingPlayer implements IPlayerType {
         pl.setFoodLevel(20);
         pl.setHealth(pl.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
         
-        pl.setGameMode(GameMode.ADVENTURE);
+        pl.setGameMode(GameMode.SURVIVAL);
         pl.setFlying(false);
         pl.setAllowFlight(false);
         

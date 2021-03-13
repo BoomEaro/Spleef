@@ -36,19 +36,18 @@ public final class SpleefManager implements IGameManager {
     
     private final SpleefStatistics stats = new SpleefStatistics();
     
-    public static final String gameNameDys = "§8[§cTNTRun§8]";
+    public static final String gameNameDys = "§8[§bSpleef§8]";
     public static final String prefix = gameNameDys + ": §7";
     
-    public static final double winReward = 4;
+    public static final double winReward = 5;
 
     public SpleefManager() {
-        loadArenas();
-        
+        loadArenas();  
     }
 
     @Override
     public String getGameName() {
-        return "TNTRun";
+        return "Spleef";
     }
 
     @Override
@@ -74,12 +73,12 @@ public final class SpleefManager implements IGameManager {
 
         SpleefArena tmpArena = this.arenas.get(arena);
         if (tmpArena == null) {
-            throw new PlayerGameException("Арена §7'§c" + arena + "§7' не найдена!");
+            throw new PlayerGameException("Арена §7'§b" + arena + "§7' не найдена!");
         }
 
         int count = tmpArena.getAllPlayers().size();
         if (count >= tmpArena.getMaxPlayers()) {
-            throw new PlayerGameException("Арена §7'§c" + arena + "§7' переполнена!");
+            throw new PlayerGameException("Арена §7'§b" + arena + "§7' переполнена!");
         }
         
         IGameState state = tmpArena.getState();
@@ -111,20 +110,20 @@ public final class SpleefManager implements IGameManager {
         type.preparePlayer(newTp);
         
         if (isSpec) {
-            pl.sendMessage(prefix + "Вы присоединились к арене §7'§c" + arena + "§7' как наблюдатель.");
-            pl.sendMessage(prefix + "Чтобы покинуть игру, используйте несколько раз §cкнопку §7'§c1§7' или §cтелепортируйтесь к любому игроку §7используя возможность наблюдателя.");
+            pl.sendMessage(prefix + "Вы присоединились к арене §7'§b" + arena + "§7' как наблюдатель.");
+            pl.sendMessage(prefix + "Чтобы покинуть игру, используйте несколько раз §bкнопку §7'§b1§7' или §bтелепортируйтесь к любому игроку §7используя возможность наблюдателя.");
             
-            tmpArena.sendMessages(prefix + "Игрок §c" + pl.getName() + " §7присоединился к игре как наблюдатель!");
+            tmpArena.sendMessages(prefix + "Игрок §b" + pl.getName() + " §7присоединился к игре как наблюдатель!");
         }
         else {
-            pl.sendMessage(prefix + "Вы присоединились к арене §7'§c" + arena + "§7'!");
-            pl.sendMessage(prefix + "Чтобы покинуть игру, используйте §cМагма крем §7или команду §c/tr leave§7.");
+            pl.sendMessage(prefix + "Вы присоединились к арене §7'§b" + arena + "§7'!");
+            pl.sendMessage(prefix + "Чтобы покинуть игру, используйте §bМагма крем §7или команду §b/tr leave§7.");
             
             if (tmpArena.getAllPlayers().size() < tmpArena.getMinPlayers()) {
-                pl.sendMessage(prefix + "Ожидание §c" + tmpArena.getMinPlayers() + " §7игроков для начала игры...");
+                pl.sendMessage(prefix + "Ожидание §b" + tmpArena.getMinPlayers() + " §7игроков для начала игры...");
             } 
             
-            tmpArena.sendMessages(prefix + "Игрок §c" + pl.getName() + " §7присоединился к игре! " + getRemainPlayersArena(tmpArena), pl.getName());
+            tmpArena.sendMessages(prefix + "Игрок §b" + pl.getName() + " §7присоединился к игре! " + getRemainPlayersArena(tmpArena), pl.getName());
         }
         
         return newTp;
@@ -171,7 +170,7 @@ public final class SpleefManager implements IGameManager {
         
         pl.sendMessage(prefix + "Вы покинули игру!");
         
-        arena.sendMessages(prefix + "Игрок §c" + pl.getName() + " §7покинул игру! " + getRemainPlayersArena(arena), pl.getName());
+        arena.sendMessages(prefix + "Игрок §b" + pl.getName() + " §7покинул игру! " + getRemainPlayersArena(arena), pl.getName());
         
     }
     
@@ -262,6 +261,6 @@ public final class SpleefManager implements IGameManager {
     }
     
     public static String getRemainPlayersArena(SpleefArena arena) {
-        return "§8[§6" + arena.getAllPlayersType(PlayingPlayer.class).size() + "§7/§c" + arena.getMaxPlayers() + "§8]";
+        return "§8[§3" + arena.getAllPlayersType(PlayingPlayer.class).size() + "§7/§b" + arena.getMaxPlayers() + "§8]";
     }
 }

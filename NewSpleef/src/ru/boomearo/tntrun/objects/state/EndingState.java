@@ -75,7 +75,7 @@ public class EndingState implements IGameState, ICountable {
                 return;
             }
             
-            arena.sendMessages(SpleefManager.prefix + "Следующая игра начнется через §c" + DateUtil.formatedTime(this.count, false));
+            arena.sendMessages(SpleefManager.prefix + "Следующая игра начнется через §b" + DateUtil.formatedTime(this.count, false));
             
             this.count--;
             

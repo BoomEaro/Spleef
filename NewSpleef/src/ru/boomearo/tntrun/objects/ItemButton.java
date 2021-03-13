@@ -13,6 +13,8 @@ import ru.boomearo.gamecontrol.exceptions.GameControlException;
 
 public enum ItemButton {
 
+    Dig(createDigButton(), 0, null),
+    
     Leave(createLeaveButton(), 8, new ButtonClick() {
 
         @Override
@@ -57,7 +59,15 @@ public enum ItemButton {
         meta.addEnchant(Enchantment.DIG_SPEED, 1, true);
         meta.addItemFlags(ItemFlag.values());
         item.setItemMeta(meta);
-        
+        return item;
+    }
+    
+    private static ItemStack createDigButton() {
+        ItemStack item = new ItemStack(Material.IRON_SHOVEL, 1);
+        ItemMeta meta = item.getItemMeta();
+        meta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+        meta.addItemFlags(ItemFlag.values());
+        item.setItemMeta(meta);
         return item;
     }
     

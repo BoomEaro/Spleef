@@ -24,7 +24,7 @@ import ru.boomearo.tntrun.objects.region.CuboidRegion;
 public class SpleefUse {
 
 
-    @CmdInfo(name = "createarena", description = "Создать арену с указанным названием.", usage = "/tntrun createarena <название>", permission = "tntrun.admin")
+    @CmdInfo(name = "createarena", description = "Создать арену с указанным названием.", usage = "/spleef createarena <название>", permission = "tntrun.admin")
     public boolean createarena(CommandSender cs, String[] args) {
         if (!(cs instanceof Player)) {
             cs.sendMessage("Данная команда только для игроков.");
@@ -52,7 +52,7 @@ public class SpleefUse {
 
             am.saveArenas();
 
-            pl.sendMessage(SpleefManager.prefix + "Арена '§c" + arena + "§7' успешно создана!");
+            pl.sendMessage(SpleefManager.prefix + "Арена '§b" + arena + "§7' успешно создана!");
         }
         catch (Exception e) {
             pl.sendMessage(e.getMessage());
@@ -61,7 +61,7 @@ public class SpleefUse {
         return true;
     }
     
-    @CmdInfo(name = "addspawnpoint", description = "Добавить указанной арене точку спавна.", usage = "/tntrun addspawnpoint <арена>", permission = "tntrun.admin")
+    @CmdInfo(name = "addspawnpoint", description = "Добавить указанной арене точку спавна.", usage = "/spleef addspawnpoint <арена>", permission = "tntrun.admin")
     public boolean addspawnpoint(CommandSender cs, String[] args) {
         if (!(cs instanceof Player)) {
             cs.sendMessage("Данная команда только для игроков.");
@@ -89,7 +89,7 @@ public class SpleefUse {
         return true;
     }
     
-    @CmdInfo(name = "clearspawnpoints", description = "Удалить все точки спавна в указанной арене.", usage = "/tntrun cleanspawnpoints <арена>", permission = "tntrun.admin")
+    @CmdInfo(name = "clearspawnpoints", description = "Удалить все точки спавна в указанной арене.", usage = "/spleef cleanspawnpoints <арена>", permission = "tntrun.admin")
     public boolean clearspawnpoints(CommandSender cs, String[] args) {
         if (!(cs instanceof Player)) {
             cs.sendMessage("Данная команда только для игроков.");
@@ -103,7 +103,7 @@ public class SpleefUse {
         SpleefManager trm = Spleef.getInstance().getTntRunManager();
         SpleefArena ar = trm.getGameArena(arena);
         if (ar == null) {
-            cs.sendMessage(SpleefManager.prefix + "Арена '§c" + arena + "§7' не найдена!");
+            cs.sendMessage(SpleefManager.prefix + "Арена '§b" + arena + "§7' не найдена!");
             return true;
         }
         
@@ -116,7 +116,7 @@ public class SpleefUse {
         return true;
     }
 
-    @CmdInfo(name = "join", description = "Присоединиться к указанной арене.", usage = "/tntrun join <арена>", permission = "")
+    @CmdInfo(name = "join", description = "Присоединиться к указанной арене.", usage = "/spleef join <арена>", permission = "")
     public boolean join(CommandSender cs, String[] args) {
         if (!(cs instanceof Player)) {
             cs.sendMessage("Данная команда только для игроков.");
@@ -132,7 +132,7 @@ public class SpleefUse {
             GameControl.getInstance().getGameManager().joinGame(pl, Spleef.class, arena);
         } 
         catch (PlayerGameException e) {
-            pl.sendMessage(SpleefManager.prefix + "§cОшибка: §7" + e.getMessage());
+            pl.sendMessage(SpleefManager.prefix + "§bОшибка: §7" + e.getMessage());
         }
         catch (ConsoleGameException e) {
             e.printStackTrace();
@@ -141,7 +141,7 @@ public class SpleefUse {
         return true;
     }
         
-    @CmdInfo(name = "leave", description = "Покинуть игру.", usage = "/tntrun leave", permission = "")
+    @CmdInfo(name = "leave", description = "Покинуть игру.", usage = "/spleef leave", permission = "")
     public boolean leave(CommandSender cs, String[] args) {
         if (!(cs instanceof Player)) {
             cs.sendMessage("Данная команда только для игроков.");
@@ -156,7 +156,7 @@ public class SpleefUse {
             GameControl.getInstance().getGameManager().leaveGame(pl);
         } 
         catch (PlayerGameException e) {
-            pl.sendMessage(SpleefManager.prefix + "§cОшибка: §7" + e.getMessage());
+            pl.sendMessage(SpleefManager.prefix + "§bОшибка: §7" + e.getMessage());
         }
         catch (ConsoleGameException e) {
             e.printStackTrace();
@@ -165,7 +165,7 @@ public class SpleefUse {
         return true;
     }
     
-    @CmdInfo(name = "list", description = "Показать список всех доступных арен.", usage = "/tntrun list", permission = "")
+    @CmdInfo(name = "list", description = "Показать список всех доступных арен.", usage = "/spleef list", permission = "")
     public boolean list(CommandSender cs, String[] args) {
         if (args.length < 0 || args.length > 0) {
             return false;
@@ -174,7 +174,7 @@ public class SpleefUse {
         final String sep = SpleefManager.prefix + "§8============================";
         cs.sendMessage(sep);
         for (SpleefArena arena : Spleef.getInstance().getTntRunManager().getAllArenas()) {
-            cs.sendMessage(SpleefManager.prefix + "Арена: '§c" + arena.getName() + "§7'. Статус: " + arena.getState().getName() + "§7. Игроков: " + SpleefManager.getRemainPlayersArena(arena));
+            cs.sendMessage(SpleefManager.prefix + "Арена: '§b" + arena.getName() + "§7'. Статус: " + arena.getState().getName() + "§7. Игроков: " + SpleefManager.getRemainPlayersArena(arena));
         }
         cs.sendMessage(sep);
         
