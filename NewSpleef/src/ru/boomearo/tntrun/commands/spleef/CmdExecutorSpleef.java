@@ -1,0 +1,80 @@
+package ru.boomearo.tntrun.commands.spleef;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+
+import ru.boomearo.tntrun.Spleef;
+import ru.boomearo.tntrun.commands.AbstractExecutor;
+import ru.boomearo.tntrun.commands.CmdList;
+import ru.boomearo.tntrun.managers.SpleefManager;
+import ru.boomearo.tntrun.objects.SpleefArena;
+
+public class CmdExecutorSpleef extends AbstractExecutor {
+
+	public CmdExecutorSpleef() {
+		super(new SpleefUse());
+	}
+
+	@Override
+	public boolean zeroArgument(CommandSender sender, CmdList cmds) {
+		cmds.sendUsageCmds(sender);
+		return true;
+	}
+
+	private static final List<String> empty = new ArrayList<>();
+
+	@Override
+	public List<String> onTabComplete(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
+        if (arg3.length == 1) {
+            List<String> ss = new ArrayList<String>(Arrays.asList("join", "leave", "list"));
+            if (arg0.hasPermission("tntrun.admin")) {
+                ss.add("createarena");
+                ss.add("addspawnpoint");
+                ss.add("clearspawnpoints");
+            }
+            List<String> matches = new ArrayList<>();
+            String search = arg3[0].toLowerCase();
+            for (String se : ss)
+            {
+                if (se.toLowerCase().startsWith(search))
+                {
+                    matches.add(se);
+                }
+            }
+            return matches;
+        }
+        if (arg3.length == 2) {
+            if (arg3[0].equalsIgnoreCase("join")) {
+                List<String> ss = new ArrayList<String>();
+                for (SpleefArena arena : Spleef.getInstance().getTntRunManager().getAllArenas()) {
+                    ss.add(arena.getName());
+                }
+                List<String> matches = new ArrayList<>();
+                String search = arg3[1].toLowerCase();
+                for (String se : ss)
+                {
+                    if (se.toLowerCase().startsWith(search))
+                    {
+                        matches.add(se);
+                    }
+                }
+                return matches;
+            }
+        }
+        return empty;
+	}
+
+	@Override
+	public String getPrefix() {
+		return SpleefManager.prefix;
+	}
+
+	@Override
+	public String getSuffix() {
+		return " §8-§c ";
+	}
+}
