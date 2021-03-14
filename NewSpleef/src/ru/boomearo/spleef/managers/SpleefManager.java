@@ -22,6 +22,7 @@ import ru.boomearo.gamecontrol.objects.states.IGameState;
 import ru.boomearo.spleef.Spleef;
 import ru.boomearo.spleef.objects.SpleefArena;
 import ru.boomearo.spleef.objects.SpleefPlayer;
+import ru.boomearo.spleef.objects.SpleefTeam;
 import ru.boomearo.spleef.objects.playertype.IPlayerType;
 import ru.boomearo.spleef.objects.playertype.LosePlayer;
 import ru.boomearo.spleef.objects.playertype.PlayingPlayer;
@@ -81,6 +82,11 @@ public final class SpleefManager implements IGameManager {
             throw new PlayerGameException("Арена §7'§b" + arena + "§7' переполнена!");
         }
         
+        SpleefTeam team = tmpArena.getFreeTeam();
+        if (team == null) {
+            throw new ConsoleGameException("Не найдено свободных команд!");
+        }
+        
         IGameState state = tmpArena.getState();
 
         IPlayerType type;
@@ -98,8 +104,11 @@ public final class SpleefManager implements IGameManager {
         }
 
         //Создаем игрока
-        SpleefPlayer newTp = new SpleefPlayer(pl.getName(), pl, type, tmpArena);
+        SpleefPlayer newTp = new SpleefPlayer(pl.getName(), pl, type, tmpArena, team);
 
+        //Добавляем в команду
+        team.setPlayer(newTp);
+        
         //Добавляем в арену
         tmpArena.addPlayer(newTp);
 
@@ -140,6 +149,11 @@ public final class SpleefManager implements IGameManager {
             throw new ConsoleGameException("Игрок не в игре!");
         }
 
+        SpleefTeam team = tmpPlayer.getTeam();
+        
+        //Удаляем у тимы игрока
+        team.setPlayer(null);
+        
         SpleefArena arena = tmpPlayer.getArena();
         
         arena.removePlayer(pl.getName());

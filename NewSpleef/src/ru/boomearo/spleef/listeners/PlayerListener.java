@@ -1,5 +1,6 @@
 package ru.boomearo.spleef.listeners;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -21,6 +22,7 @@ import ru.boomearo.gamecontrol.objects.states.IGameState;
 import ru.boomearo.spleef.Spleef;
 import ru.boomearo.spleef.managers.SpleefManager;
 import ru.boomearo.spleef.objects.SpleefPlayer;
+import ru.boomearo.spleef.objects.SpleefTeam;
 import ru.boomearo.spleef.objects.playertype.LosePlayer;
 import ru.boomearo.spleef.objects.state.RunningState;
 import ru.boomearo.spleef.objects.state.RunningState.BlockOwner;
@@ -47,7 +49,11 @@ public class PlayerListener implements Listener {
         
         SpleefPlayer tp = Spleef.getInstance().getSpleefManager().getGamePlayer(pl.getName());
         if (tp != null) {
-            e.setRespawnLocation(tp.getArena().getRandomSpawnLocation());
+            SpleefTeam team = tp.getTeam();
+            Location loc = team.getSpawnPoint();
+            if (loc != null) {
+                e.setRespawnLocation(loc);
+            }
             tp.getPlayerType().preparePlayer(tp);
         }
     }

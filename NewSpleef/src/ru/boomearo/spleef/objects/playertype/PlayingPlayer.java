@@ -2,6 +2,7 @@ package ru.boomearo.spleef.objects.playertype;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
@@ -9,8 +10,8 @@ import org.bukkit.inventory.PlayerInventory;
 import ru.boomearo.gamecontrol.GameControl;
 import ru.boomearo.spleef.Spleef;
 import ru.boomearo.spleef.objects.ItemButton;
-import ru.boomearo.spleef.objects.SpleefArena;
 import ru.boomearo.spleef.objects.SpleefPlayer;
+import ru.boomearo.spleef.objects.SpleefTeam;
 import ru.boomearo.spleef.utils.ExpFix;
 
 public class PlayingPlayer implements IPlayerType {
@@ -58,9 +59,11 @@ public class PlayingPlayer implements IPlayerType {
 
         inv.setHeldItemSlot(0);
         
-        SpleefArena arena = player.getArena();
-        
-        GameControl.getInstance().asyncTeleport(pl, arena.getRandomSpawnLocation());
+        SpleefTeam team = player.getTeam();
+        Location loc = team.getSpawnPoint();
+        if (loc != null) {
+            GameControl.getInstance().asyncTeleport(pl, loc);
+        }
     }
     
 }

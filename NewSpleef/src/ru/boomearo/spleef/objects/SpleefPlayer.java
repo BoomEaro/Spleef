@@ -13,12 +13,14 @@ public class SpleefPlayer implements IGamePlayer {
     private IPlayerType playerType;
    
     private SpleefArena where;
+    private SpleefTeam team;
     
-    public SpleefPlayer(String name, Player player, IPlayerType playerType, SpleefArena where) {
+    public SpleefPlayer(String name, Player player, IPlayerType playerType, SpleefArena where, SpleefTeam team) {
         this.name = name;
         this.player = player;
         this.playerType = playerType;
         this.where = where;
+        this.team = team;
     }
     
     @Override
@@ -34,6 +36,10 @@ public class SpleefPlayer implements IGamePlayer {
     @Override
     public SpleefArena getArena() {
         return this.where;
+    }
+    
+    public SpleefTeam getTeam() {
+        return this.team;
     }
     
     public IPlayerType getPlayerType() {

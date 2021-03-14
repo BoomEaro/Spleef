@@ -22,6 +22,7 @@ import ru.boomearo.spleef.listeners.PlayerListener;
 import ru.boomearo.spleef.listeners.SpectatorListener;
 import ru.boomearo.spleef.managers.SpleefManager;
 import ru.boomearo.spleef.objects.SpleefArena;
+import ru.boomearo.spleef.objects.SpleefTeam;
 import ru.boomearo.spleef.objects.region.CuboidRegion;
 import ru.boomearo.spleef.objects.state.RegenState;
 import ru.boomearo.spleef.objects.statistics.SpleefStatsData;
@@ -45,6 +46,7 @@ public class Spleef extends JavaPlugin {
         
         ConfigurationSerialization.registerClass(CuboidRegion.class);
         ConfigurationSerialization.registerClass(SpleefArena.class);
+        ConfigurationSerialization.registerClass(SpleefTeam.class);
         
         File configFile = new File(getDataFolder() + File.separator + "config.yml");
         if(!configFile.exists()) {
@@ -112,6 +114,7 @@ public class Spleef extends JavaPlugin {
         
         ConfigurationSerialization.unregisterClass(CuboidRegion.class);
         ConfigurationSerialization.unregisterClass(SpleefArena.class);
+        ConfigurationSerialization.unregisterClass(SpleefTeam.class);
         
         getLogger().info("Плагин успешно выключен.");
     }

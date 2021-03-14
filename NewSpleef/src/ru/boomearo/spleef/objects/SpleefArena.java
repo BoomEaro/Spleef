@@ -1,6 +1,7 @@
 package ru.boomearo.spleef.objects;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -30,7 +31,6 @@ import ru.boomearo.spleef.Spleef;
 import ru.boomearo.spleef.managers.SpleefManager;
 import ru.boomearo.spleef.objects.playertype.IPlayerType;
 import ru.boomearo.spleef.objects.state.WaitingState;
-import ru.boomearo.spleef.utils.RandomUtil;
 
 public class SpleefArena implements IGameArena, ConfigurationSerializable {
 
@@ -42,7 +42,7 @@ public class SpleefArena implements IGameArena, ConfigurationSerializable {
     
     private final World world;
     private final IRegion arenaRegion;
-    private final List<Location> spawnPoints;
+    private final ConcurrentMap<Integer, SpleefTeam> teams;
     
     private final Location arenaCenter;
     
@@ -52,14 +52,14 @@ public class SpleefArena implements IGameArena, ConfigurationSerializable {
     
     private final ConcurrentMap<String, SpleefPlayer> players = new ConcurrentHashMap<String, SpleefPlayer>();
     
-    public SpleefArena(String name, int minPlayers, int maxPlayers, int timeLimit, World world, IRegion arenaRegion, List<Location> spawnPoints, Location arenaCenter, Clipboard clipboard) {
+    public SpleefArena(String name, int minPlayers, int maxPlayers, int timeLimit, World world, IRegion arenaRegion, ConcurrentMap<Integer, SpleefTeam> teams, Location arenaCenter, Clipboard clipboard) {
         this.name = name;
         this.minPlayers = minPlayers;
         this.maxPlayers = maxPlayers;
         this.timelimit = timeLimit;
         this.world = world;
         this.arenaRegion = arenaRegion;
-        this.spawnPoints = spawnPoints;
+        this.teams = teams;
         this.arenaCenter = arenaCenter;
         this.clipboard = clipboard;
     }
@@ -128,8 +128,21 @@ public class SpleefArena implements IGameArena, ConfigurationSerializable {
         return this.arenaRegion;
     }
     
-    public List<Location> getSpawnPoints() {
-        return this.spawnPoints;
+    public SpleefTeam getTeamById(int id) {
+        return this.teams.get(id);
+    }
+    
+    public Collection<SpleefTeam> getAllTeams() {
+        return this.teams.values();
+    }
+    
+    public SpleefTeam getFreeTeam() {
+        for (SpleefTeam team : this.teams.values()) {
+            if (team.getPlayer() == null) {
+                return team;
+            }
+        }
+        return null;
     }
     
     public Location getArenaCenter() {
@@ -216,13 +229,7 @@ public class SpleefArena implements IGameArena, ConfigurationSerializable {
         }
         return tmp;
     }
-    
-    public Location getRandomSpawnLocation() {
-        List<Location> spawns = getSpawnPoints();
-        
-        return spawns.get(RandomUtil.getRandomNumberRange(0, spawns.size() - 1));
-    }
-    
+
     @Override
     public Map<String, Object> serialize() {
         Map<String, Object> result = new LinkedHashMap<String, Object>();
@@ -234,7 +241,9 @@ public class SpleefArena implements IGameArena, ConfigurationSerializable {
         
         result.put("world", this.world.getName());
         result.put("region", this.arenaRegion);
-        result.put("spawnPoints", this.spawnPoints);
+        
+        List<SpleefTeam> t = new ArrayList<SpleefTeam>(this.teams.values());
+        result.put("teams", t);
         result.put("arenaCenter", this.arenaCenter);
         
         return result;
@@ -248,7 +257,7 @@ public class SpleefArena implements IGameArena, ConfigurationSerializable {
         int timeLimit = 300;
         World world = null;
         IRegion region = null;
-        List<Location> spawnPoints = null;
+        List<SpleefTeam> teams = new ArrayList<SpleefTeam>();
         Location arenaCenter = null;
 
         Object na = args.get("name");
@@ -281,9 +290,9 @@ public class SpleefArena implements IGameArena, ConfigurationSerializable {
             region = (IRegion) re;
         }
 
-        Object sp = args.get("spawnPoints");
+        Object sp = args.get("teams");
         if (sp != null) {
-            spawnPoints = (List<Location>) sp;
+            teams = (List<SpleefTeam>) sp;
         }
 
         Object ac = args.get("arenaCenter");
@@ -303,7 +312,12 @@ public class SpleefArena implements IGameArena, ConfigurationSerializable {
             e.printStackTrace();
         }
         
-        return new SpleefArena(name, minPlayers, maxPlayers, timeLimit, world, region, spawnPoints, arenaCenter, cb);
+        ConcurrentMap<Integer, SpleefTeam> nTeams = new ConcurrentHashMap<Integer, SpleefTeam>();
+        for (SpleefTeam team : teams) {
+            nTeams.put(team.getId(), team);
+        }
+        
+        return new SpleefArena(name, minPlayers, maxPlayers, timeLimit, world, region, nTeams, arenaCenter, cb);
     }
 
 

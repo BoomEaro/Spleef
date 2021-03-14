@@ -1,9 +1,9 @@
 package ru.boomearo.spleef.commands.spleef;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
-import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -20,6 +20,7 @@ import ru.boomearo.spleef.Spleef;
 import ru.boomearo.spleef.commands.CmdInfo;
 import ru.boomearo.spleef.managers.SpleefManager;
 import ru.boomearo.spleef.objects.SpleefArena;
+import ru.boomearo.spleef.objects.SpleefTeam;
 import ru.boomearo.spleef.objects.region.CuboidRegion;
 
 public class SpleefUse {
@@ -45,8 +46,16 @@ public class SpleefUse {
             return true;
         }
 
+        ConcurrentMap<Integer, SpleefTeam> teams = new ConcurrentHashMap<Integer, SpleefTeam>();
+        
+        int maxPlayers = 15;
+        
+        for (int i = 1; i <= maxPlayers; i++) {
+            teams.put(i, new SpleefTeam(i, null));
+        }
+        
         try {
-            SpleefArena newArena = new SpleefArena(arena, 2, 15, 300, pl.getWorld(), new CuboidRegion(re.getMaximumPoint(), re.getMinimumPoint(), pl.getWorld()), new ArrayList<Location>(), pl.getLocation(), null);
+            SpleefArena newArena = new SpleefArena(arena, 2, maxPlayers, 300, pl.getWorld(), new CuboidRegion(re.getMaximumPoint(), re.getMinimumPoint(), pl.getWorld()), teams, pl.getLocation(), null);
             
             SpleefManager am = Spleef.getInstance().getSpleefManager();
             am.addArena(newArena);
@@ -62,13 +71,13 @@ public class SpleefUse {
         return true;
     }
     
-    @CmdInfo(name = "addspawnpoint", description = "Добавить указанной арене точку спавна.", usage = "/spleef addspawnpoint <арена>", permission = "spleef.admin")
-    public boolean addspawnpoint(CommandSender cs, String[] args) {
+    @CmdInfo(name = "setspawnpoint", description = "Установить точку спавна в указанной арене указанной команде.", usage = "/spleef setspawnpoint <арена> <ид>", permission = "spleef.admin")
+    public boolean setspawnpoint(CommandSender cs, String[] args) {
         if (!(cs instanceof Player)) {
             cs.sendMessage("Данная команда только для игроков.");
             return true;
         }
-        if (args.length < 1 || args.length > 1) {
+        if (args.length < 2 || args.length > 2) {
             return false;
         }
         String arena = args[0];
@@ -77,42 +86,31 @@ public class SpleefUse {
         SpleefManager trm = Spleef.getInstance().getSpleefManager();
         SpleefArena ar = trm.getGameArena(arena);
         if (ar == null) {
-            cs.sendMessage(SpleefManager.prefix + "Арена '§c" + arena + "§7' не найдена!");
-            return true;
-        }
-        
-        ar.getSpawnPoints().add(pl.getLocation().clone());
-        
-        trm.saveArenas();
-        
-        cs.sendMessage(SpleefManager.prefix + "Спавн поинт успешно добавлен!");
-        
-        return true;
-    }
-    
-    @CmdInfo(name = "clearspawnpoints", description = "Удалить все точки спавна в указанной арене.", usage = "/spleef clearspawnpoints <арена>", permission = "spleef.admin")
-    public boolean clearspawnpoints(CommandSender cs, String[] args) {
-        if (!(cs instanceof Player)) {
-            cs.sendMessage("Данная команда только для игроков.");
-            return true;
-        }
-        if (args.length < 1 || args.length > 1) {
-            return false;
-        }
-        String arena = args[0];
-
-        SpleefManager trm = Spleef.getInstance().getSpleefManager();
-        SpleefArena ar = trm.getGameArena(arena);
-        if (ar == null) {
             cs.sendMessage(SpleefManager.prefix + "Арена '§b" + arena + "§7' не найдена!");
             return true;
         }
         
-        ar.getSpawnPoints().clear();
+        Integer id = null;
+        try {
+            id = Integer.parseInt(args[1]);
+        }
+        catch (Exception e) {}
+        if (id == null) {
+            cs.sendMessage(SpleefManager.prefix + "Аргумент должен быть цифрой!");
+            return true;
+        }
+        
+        SpleefTeam team = ar.getTeamById(id);
+        if (team == null) {
+            cs.sendMessage(SpleefManager.prefix + "Команда §b" + id + " §7не найдена!");
+            return true;
+        }
+        
+        team.setSpawnPoint(pl.getLocation().clone());
         
         trm.saveArenas();
         
-        cs.sendMessage(SpleefManager.prefix + "Все точки были сброшены!");
+        cs.sendMessage(SpleefManager.prefix + "Спавн поинт §b" + id + " §7успешно добавлен!");
         
         return true;
     }

@@ -33,8 +33,7 @@ public class CmdExecutorSpleef extends AbstractExecutor {
             List<String> ss = new ArrayList<String>(Arrays.asList("join", "leave", "list"));
             if (arg0.hasPermission("spleef.admin")) {
                 ss.add("createarena");
-                ss.add("addspawnpoint");
-                ss.add("clearspawnpoints");
+                ss.add("setspawnpoint");
             }
             List<String> matches = new ArrayList<>();
             String search = arg3[0].toLowerCase();
