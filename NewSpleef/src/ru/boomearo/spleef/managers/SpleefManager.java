@@ -128,8 +128,9 @@ public final class SpleefManager implements IGameManager {
             pl.sendMessage(prefix + "Вы присоединились к арене §7'§b" + arena + "§7'!");
             pl.sendMessage(prefix + "Чтобы покинуть игру, используйте §bМагма крем §7или команду §b/spleef leave§7.");
             
-            if (tmpArena.getAllPlayers().size() < tmpArena.getMinPlayers()) {
-                pl.sendMessage(prefix + "Ожидание §b" + tmpArena.getMinPlayers() + " §7игроков для начала игры...");
+            int currCount = tmpArena.getAllPlayersType(PlayingPlayer.class).size();
+            if (currCount < tmpArena.getMinPlayers()) {
+                pl.sendMessage(prefix + "Ожидание §b" + (tmpArena.getMinPlayers() - currCount) + " §7игроков для начала игры...");
             } 
             
             tmpArena.sendMessages(prefix + "Игрок §b" + pl.getName() + " §7присоединился к игре! " + getRemainPlayersArena(tmpArena), pl.getName());
