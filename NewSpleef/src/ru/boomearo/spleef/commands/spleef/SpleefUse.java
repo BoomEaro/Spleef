@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
@@ -40,7 +41,11 @@ public class SpleefUse {
         
         BukkitPlayer bPlayer = BukkitAdapter.adapt(pl);
         LocalSession ls = WorldEdit.getInstance().getSessionManager().get(bPlayer);
-        Region re = ls.getSelection(ls.getSelectionWorld());
+        Region re = null;
+        try {
+            re = ls.getSelection(ls.getSelectionWorld());   
+        }
+        catch (IncompleteRegionException e) {}
         if (re == null) {
             pl.sendMessage(SpleefManager.prefix + "Выделите регион!");
             return true;

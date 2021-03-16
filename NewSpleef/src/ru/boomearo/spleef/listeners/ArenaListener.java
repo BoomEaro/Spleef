@@ -1,9 +1,7 @@
 package ru.boomearo.spleef.listeners;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.FallingBlock;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -27,15 +25,12 @@ public class ArenaListener implements Listener {
         if (e.isCancelled()) {
             return;
         }
-        if (e.getEntity() instanceof FallingBlock) {
-            if (e.getTo() == Material.SAND) {
-                Location loc = e.getBlock().getLocation();
-                
-                SpleefArena arena = Spleef.getInstance().getSpleefManager().getArenaByLocation(loc);
-                if (arena != null) {
-                    e.setCancelled(true);
-                }
-            }
+        
+        Location loc = e.getBlock().getLocation();
+        
+        SpleefArena arena = Spleef.getInstance().getSpleefManager().getArenaByLocation(loc);
+        if (arena != null) {
+            e.setCancelled(true);
         }
     }
     
