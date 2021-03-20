@@ -21,7 +21,8 @@ import ru.boomearo.spleef.managers.SpleefManager;
 import ru.boomearo.spleef.objects.SpleefArena;
 import ru.boomearo.spleef.objects.SpleefTeam;
 import ru.boomearo.spleef.objects.region.CuboidRegion;
-import ru.boomearo.spleef.objects.state.RegenState;
+import ru.boomearo.spleef.objects.state.EndingState;
+import ru.boomearo.spleef.objects.state.RunningState;
 import ru.boomearo.spleef.objects.statistics.SpleefStatsData;
 import ru.boomearo.spleef.objects.statistics.SpleefStatsType;
 import ru.boomearo.spleef.runnable.ArenasRunnable;
@@ -98,11 +99,11 @@ public class Spleef extends JavaPlugin {
 
         for (SpleefArena ar : this.arenaManager.getAllArenas()) {
             IGameState state = ar.getState();
-            //Если выключение сервера застал в момент регенерации, то ничего не делаем
-            if (state instanceof RegenState) {
-                continue;
+            //Если сервер выключается в момент игры то делаем регенерацию в этом потоке
+            //Мы не делаем регенерацию когда регенерация уже идет или когда арена ожидает игроков.
+            if (state instanceof EndingState || state instanceof RunningState) {
+                ar.regen();
             }
-            ar.regen();
         }
         
         ConfigurationSerialization.unregisterClass(CuboidRegion.class);
