@@ -19,6 +19,7 @@ import ru.boomearo.gamecontrol.exceptions.GameControlException;
 import ru.boomearo.gamecontrol.exceptions.PlayerGameException;
 import ru.boomearo.gamecontrol.objects.IGameManager;
 import ru.boomearo.gamecontrol.objects.states.IGameState;
+import ru.boomearo.gamecontrol.utils.ExpFix;
 import ru.boomearo.spleef.Spleef;
 import ru.boomearo.spleef.objects.SpleefArena;
 import ru.boomearo.spleef.objects.SpleefPlayer;
@@ -27,7 +28,6 @@ import ru.boomearo.spleef.objects.playertype.IPlayerType;
 import ru.boomearo.spleef.objects.playertype.LosePlayer;
 import ru.boomearo.spleef.objects.playertype.PlayingPlayer;
 import ru.boomearo.spleef.objects.state.SpectatorFirst;
-import ru.boomearo.spleef.utils.ExpFix;
 
 public final class SpleefManager implements IGameManager {
 

@@ -7,11 +7,11 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 
+import ru.boomearo.gamecontrol.utils.ExpFix;
 import ru.boomearo.spleef.Spleef;
 import ru.boomearo.spleef.objects.ItemButton;
 import ru.boomearo.spleef.objects.SpleefPlayer;
 import ru.boomearo.spleef.objects.SpleefTeam;
-import ru.boomearo.spleef.utils.ExpFix;
 
 public class PlayingPlayer implements IPlayerType {
     

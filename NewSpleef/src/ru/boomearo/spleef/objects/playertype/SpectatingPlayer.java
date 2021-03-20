@@ -6,10 +6,10 @@ import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 
+import ru.boomearo.gamecontrol.utils.ExpFix;
 import ru.boomearo.spleef.Spleef;
 import ru.boomearo.spleef.objects.SpleefPlayer;
 import ru.boomearo.spleef.objects.SpleefTeam;
-import ru.boomearo.spleef.utils.ExpFix;
 
 public class SpectatingPlayer implements IPlayerType {
 
