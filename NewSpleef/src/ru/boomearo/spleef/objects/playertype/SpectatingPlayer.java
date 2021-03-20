@@ -6,7 +6,6 @@ import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 
-import ru.boomearo.gamecontrol.GameControl;
 import ru.boomearo.spleef.Spleef;
 import ru.boomearo.spleef.objects.SpleefPlayer;
 import ru.boomearo.spleef.objects.SpleefTeam;
@@ -41,7 +40,7 @@ public class SpectatingPlayer implements IPlayerType {
         SpleefTeam team = player.getTeam();
         Location loc = team.getSpawnPoint();
         if (loc != null) {
-            GameControl.getInstance().asyncTeleport(pl, loc);
+            pl.teleport(loc);
         }
     }
 }

@@ -7,7 +7,6 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 
-import ru.boomearo.gamecontrol.GameControl;
 import ru.boomearo.spleef.Spleef;
 import ru.boomearo.spleef.objects.ItemButton;
 import ru.boomearo.spleef.objects.SpleefPlayer;
@@ -62,7 +61,7 @@ public class PlayingPlayer implements IPlayerType {
         SpleefTeam team = player.getTeam();
         Location loc = team.getSpawnPoint();
         if (loc != null) {
-            GameControl.getInstance().asyncTeleport(pl, loc);
+            pl.teleport(loc);
         }
     }
     

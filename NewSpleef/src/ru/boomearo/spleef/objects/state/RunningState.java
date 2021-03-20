@@ -86,14 +86,14 @@ public class RunningState implements IRunningState, ICountable, SpectatorFirst {
                     
                     if (pp.getKiller() != null) {
                         if (tp.getName().equals(pp.getKiller())) {
-                            this.arena.sendMessages(SpleefManager.prefix + "Игрок §b" + tp.getName() + " §7проиграл, свалившись в свою же яму! " + SpleefManager.getRemainPlayersArena(this.arena));
+                            this.arena.sendMessages(SpleefManager.prefix + "Игрок §b" + tp.getName() + " §7проиграл, свалившись в свою же яму! " + SpleefManager.getRemainPlayersArena(this.arena, PlayingPlayer.class));
                         }
                         else {
-                            this.arena.sendMessages(SpleefManager.prefix + "Игрок §b" + tp.getName() + " §7проиграл, свалившись в яму игрока §b" + pp.getKiller() + " " + SpleefManager.getRemainPlayersArena(this.arena));
+                            this.arena.sendMessages(SpleefManager.prefix + "Игрок §b" + tp.getName() + " §7проиграл, свалившись в яму игрока §b" + pp.getKiller() + " " + SpleefManager.getRemainPlayersArena(this.arena, PlayingPlayer.class));
                         }
                     }
                     else {
-                        this.arena.sendMessages(SpleefManager.prefix + "Игрок §b" + tp.getName() + " §7проиграл, зайдя за границы игры. " + SpleefManager.getRemainPlayersArena(this.arena));
+                        this.arena.sendMessages(SpleefManager.prefix + "Игрок §b" + tp.getName() + " §7проиграл, зайдя за границы игры. " + SpleefManager.getRemainPlayersArena(this.arena, PlayingPlayer.class));
                     }
                     
                     Collection<SpleefPlayer> win = this.arena.getAllPlayersType(PlayingPlayer.class);

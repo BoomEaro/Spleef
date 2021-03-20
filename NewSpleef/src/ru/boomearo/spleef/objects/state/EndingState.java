@@ -9,7 +9,7 @@ import ru.boomearo.spleef.objects.SpleefPlayer;
 import ru.boomearo.spleef.objects.playertype.LosePlayer;
 import ru.boomearo.spleef.objects.playertype.PlayingPlayer;
 
-public class EndingState implements IGameState, ICountable {
+public class EndingState implements IGameState, ICountable, SpectatorFirst {
 
     private final SpleefArena arena;
     

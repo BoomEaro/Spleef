@@ -133,7 +133,7 @@ public final class SpleefManager implements IGameManager {
                 pl.sendMessage(prefix + "Ожидание §b" + (tmpArena.getMinPlayers() - currCount) + " §7игроков для начала игры...");
             } 
             
-            tmpArena.sendMessages(prefix + "Игрок §b" + pl.getName() + " §7присоединился к игре! " + getRemainPlayersArena(tmpArena), pl.getName());
+            tmpArena.sendMessages(prefix + "Игрок §b" + pl.getName() + " §7присоединился к игре! " + getRemainPlayersArena(tmpArena, PlayingPlayer.class), pl.getName());
         }
         
         return newTp;
@@ -162,19 +162,19 @@ public final class SpleefManager implements IGameManager {
         this.players.remove(pl.getName());
 
         if (Bukkit.isPrimaryThread()) {
-            handlePlayerLeave(pl, arena);
+            handlePlayerLeave(pl, tmpPlayer, arena);
         }
         else {
             Bukkit.getScheduler().runTask(Spleef.getInstance(), () -> {
-                handlePlayerLeave(pl, arena);
+                handlePlayerLeave(pl, tmpPlayer, arena);
             });
         }
     }
 
-    private static void handlePlayerLeave(Player pl, SpleefArena arena) {
-        Location loc = Spleef.getInstance().getEssentialsSpawn().getSpawn("default");
+    private static void handlePlayerLeave(Player pl, SpleefPlayer player, SpleefArena arena) {
+        Location loc = GameControl.getSpawnLocation();
         if (loc != null) {
-            GameControl.getInstance().asyncTeleport(pl, loc);
+            pl.teleport(loc);
         }
 
         pl.setGameMode(GameMode.ADVENTURE);
@@ -185,8 +185,13 @@ public final class SpleefManager implements IGameManager {
         
         pl.sendMessage(prefix + "Вы покинули игру!");
         
-        arena.sendMessages(prefix + "Игрок §b" + pl.getName() + " §7покинул игру! " + getRemainPlayersArena(arena), pl.getName());
-        
+        IPlayerType type = player.getPlayerType();
+        if (type instanceof PlayingPlayer) {
+            arena.sendMessages(prefix + "Игрок §b" + pl.getName() + " §7покинул игру! " + getRemainPlayersArena(arena, PlayingPlayer.class), pl.getName());
+        }
+        else {
+            arena.sendMessages(prefix + "Наблюдатель §b" + pl.getName() + " §7покинул игру!", pl.getName());
+        }
     }
     
     @Override
@@ -275,7 +280,7 @@ public final class SpleefManager implements IGameManager {
         this.arenas.remove(name);
     }
     
-    public static String getRemainPlayersArena(SpleefArena arena) {
-        return "§8[§3" + arena.getAllPlayersType(PlayingPlayer.class).size() + "§7/§b" + arena.getMaxPlayers() + "§8]";
+    public static String getRemainPlayersArena(SpleefArena arena, Class<? extends IPlayerType> clazz) {
+        return "§8[§3" + (clazz != null ? arena.getAllPlayersType(clazz).size() : arena.getAllPlayers().size()) + "§7/§b" + arena.getMaxPlayers() + "§8]";
     }
 }

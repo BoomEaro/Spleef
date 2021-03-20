@@ -3,11 +3,8 @@ package ru.boomearo.spleef;
 import java.io.File;
 import java.sql.SQLException;
 
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import com.earth2me.essentials.spawn.EssentialsSpawn;
 
 import ru.boomearo.gamecontrol.GameControl;
 import ru.boomearo.gamecontrol.exceptions.ConsoleGameException;
@@ -34,15 +31,11 @@ public class Spleef extends JavaPlugin {
     private SpleefManager arenaManager = null;
     
     private ArenasRunnable pmr = null;
-
-    private EssentialsSpawn essSpawn = null;
     
     private static Spleef instance = null;
 
     public void onEnable() {
         instance = this;
-        
-        this.essSpawn = (EssentialsSpawn) Bukkit.getPluginManager().getPlugin("EssentialsSpawn");
         
         ConfigurationSerialization.registerClass(CuboidRegion.class);
         ConfigurationSerialization.registerClass(SpleefArena.class);
@@ -121,10 +114,6 @@ public class Spleef extends JavaPlugin {
     
     public SpleefManager getSpleefManager() {
         return this.arenaManager;
-    }
-    
-    public EssentialsSpawn getEssentialsSpawn() {
-        return this.essSpawn;
     }
     
     public File getSchematicDir() {

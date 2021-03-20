@@ -41,6 +41,10 @@ public class SpleefUse {
         
         BukkitPlayer bPlayer = BukkitAdapter.adapt(pl);
         LocalSession ls = WorldEdit.getInstance().getSessionManager().get(bPlayer);
+        if (ls == null) {
+            pl.sendMessage(SpleefManager.prefix + "Выделите регион!");
+            return true;
+        }
         Region re = null;
         try {
             re = ls.getSelection(ls.getSelectionWorld());   
@@ -60,7 +64,7 @@ public class SpleefUse {
         }
         
         try {
-            SpleefArena newArena = new SpleefArena(arena, 2, maxPlayers, 300, pl.getWorld(), new CuboidRegion(re.getMaximumPoint(), re.getMinimumPoint(), pl.getWorld()), teams, pl.getLocation(), null);
+            SpleefArena newArena = new SpleefArena(arena, 2, maxPlayers, 300, pl.getWorld(), new CuboidRegion(re.getMaximumPoint(), re.getMinimumPoint(), pl.getWorld()), teams, GameControl.normalizeLocation(pl.getLocation()), null);
             
             SpleefManager am = Spleef.getInstance().getSpleefManager();
             am.addArena(newArena);
@@ -111,7 +115,7 @@ public class SpleefUse {
             return true;
         }
         
-        team.setSpawnPoint(pl.getLocation().clone());
+        team.setSpawnPoint(GameControl.normalizeRotation(pl.getLocation()));
         
         trm.saveArenas();
         
@@ -183,7 +187,7 @@ public class SpleefUse {
         final String sep = SpleefManager.prefix + "§8============================";
         cs.sendMessage(sep);
         for (SpleefArena arena : arenas) {
-            cs.sendMessage(SpleefManager.prefix + "Арена: '§b" + arena.getName() + "§7'. Статус: " + arena.getState().getName() + "§7. Игроков: " + SpleefManager.getRemainPlayersArena(arena));
+            cs.sendMessage(SpleefManager.prefix + "Арена: '§b" + arena.getName() + "§7'. Статус: " + arena.getState().getName() + "§7. Игроков: " + SpleefManager.getRemainPlayersArena(arena, null));
         }
         cs.sendMessage(sep);
         
