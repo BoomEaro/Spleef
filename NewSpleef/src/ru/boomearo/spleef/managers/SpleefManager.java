@@ -119,12 +119,16 @@ public final class SpleefManager implements IGameManager {
         type.preparePlayer(newTp);
         
         if (isSpec) {
+            newTp.sendBoard(1);
+            
             pl.sendMessage(prefix + "Вы присоединились к арене §7'§b" + arena + "§7' как наблюдатель.");
             pl.sendMessage(prefix + "Чтобы покинуть игру, используйте несколько раз §bкнопку §7'§b1§7' или §bтелепортируйтесь к любому игроку §7используя возможность наблюдателя.");
             
-            tmpArena.sendMessages(prefix + "Игрок §b" + pl.getName() + " §7присоединился к игре как наблюдатель!");
+            tmpArena.sendMessages(prefix + "§b" + pl.getDisplayName() + " §7присоединился к игре как наблюдатель!");
         }
         else {
+            newTp.sendBoard(0);
+            
             pl.sendMessage(prefix + "Вы присоединились к арене §7'§b" + arena + "§7'!");
             pl.sendMessage(prefix + "Чтобы покинуть игру, используйте §bМагма крем §7или команду §b/spleef leave§7.");
             
@@ -133,7 +137,7 @@ public final class SpleefManager implements IGameManager {
                 pl.sendMessage(prefix + "Ожидание §b" + (tmpArena.getMinPlayers() - currCount) + " §7игроков для начала игры...");
             } 
             
-            tmpArena.sendMessages(prefix + "Игрок §b" + pl.getName() + " §7присоединился к игре! " + getRemainPlayersArena(tmpArena, PlayingPlayer.class), pl.getName());
+            tmpArena.sendMessages(prefix + "§b" + pl.getDisplayName() + " §7присоединился к игре! " + getRemainPlayersArena(tmpArena, PlayingPlayer.class), pl.getName());
         }
         
         return newTp;
@@ -172,6 +176,8 @@ public final class SpleefManager implements IGameManager {
     }
 
     private static void handlePlayerLeave(Player pl, SpleefPlayer player, SpleefArena arena) {
+        player.sendBoard(null);
+        
         Location loc = GameControl.getSpawnLocation();
         if (loc != null) {
             pl.teleport(loc);
@@ -187,10 +193,10 @@ public final class SpleefManager implements IGameManager {
         
         IPlayerType type = player.getPlayerType();
         if (type instanceof PlayingPlayer) {
-            arena.sendMessages(prefix + "Игрок §b" + pl.getName() + " §7покинул игру! " + getRemainPlayersArena(arena, PlayingPlayer.class), pl.getName());
+            arena.sendMessages(prefix + "§b" + pl.getDisplayName() + " §7покинул игру! " + getRemainPlayersArena(arena, PlayingPlayer.class), pl.getName());
         }
         else {
-            arena.sendMessages(prefix + "Наблюдатель §b" + pl.getName() + " §7покинул игру!", pl.getName());
+            arena.sendMessages(prefix + "§b" + pl.getDisplayName() + " §7покинул игру!", pl.getName());
         }
     }
     

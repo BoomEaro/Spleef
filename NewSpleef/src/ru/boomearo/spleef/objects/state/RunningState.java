@@ -53,6 +53,8 @@ public class RunningState implements IRunningState, ICountable, SpectatorFirst {
         //Подготавливаем всех игроков (например тп на точку возрождения)
         for (SpleefPlayer tp : this.arena.getAllPlayers()) {
             tp.getPlayerType().preparePlayer(tp);
+            
+            tp.sendBoard(1);
         }
         
         this.arena.sendMessages(SpleefManager.prefix + "Игра началась. Удачи!");
@@ -84,16 +86,18 @@ public class RunningState implements IRunningState, ICountable, SpectatorFirst {
                     
                     this.arena.sendSounds(Sound.ENTITY_WITHER_HURT, 999, 2);
                     
-                    if (pp.getKiller() != null) {
-                        if (tp.getName().equals(pp.getKiller())) {
-                            this.arena.sendMessages(SpleefManager.prefix + "Игрок §b" + tp.getName() + " §7проиграл, свалившись в свою же яму! " + SpleefManager.getRemainPlayersArena(this.arena, PlayingPlayer.class));
+                    SpleefPlayer killer = pp.getKiller();
+                    
+                    if (killer != null) {
+                        if (tp.getName().equals(killer.getName())) {
+                            this.arena.sendMessages(SpleefManager.prefix + "§b" + tp.getPlayer().getDisplayName() + " §7проиграл, свалившись в свою же яму! " + SpleefManager.getRemainPlayersArena(this.arena, PlayingPlayer.class));
                         }
                         else {
-                            this.arena.sendMessages(SpleefManager.prefix + "Игрок §b" + tp.getName() + " §7проиграл, свалившись в яму игрока §b" + pp.getKiller() + " " + SpleefManager.getRemainPlayersArena(this.arena, PlayingPlayer.class));
+                            this.arena.sendMessages(SpleefManager.prefix + "§b" + tp.getPlayer().getDisplayName() + " §7проиграл, свалившись в яму игрока §b" + killer.getPlayer().getDisplayName() + " " + SpleefManager.getRemainPlayersArena(this.arena, PlayingPlayer.class));
                         }
                     }
                     else {
-                        this.arena.sendMessages(SpleefManager.prefix + "Игрок §b" + tp.getName() + " §7проиграл, зайдя за границы игры. " + SpleefManager.getRemainPlayersArena(this.arena, PlayingPlayer.class));
+                        this.arena.sendMessages(SpleefManager.prefix + "§b" + tp.getPlayer().getDisplayName() + " §7проиграл, зайдя за границы игры. " + SpleefManager.getRemainPlayersArena(this.arena, PlayingPlayer.class));
                     }
                     
                     Collection<SpleefPlayer> win = this.arena.getAllPlayersType(PlayingPlayer.class);
@@ -105,7 +109,10 @@ public class RunningState implements IRunningState, ICountable, SpectatorFirst {
                         }
                         if (winner != null) {
                             winner.setPlayerType(new LosePlayer());
-                            this.arena.sendMessages(SpleefManager.prefix + "Игрок §b" + winner.getName() + " §7победил!");
+                            
+                            this.arena.sendTitle("", "§b" + winner.getPlayer().getDisplayName() + " §7победил!", 20, 20*15, 20);
+                            
+                            this.arena.sendMessages(SpleefManager.prefix + "§b" + winner.getPlayer().getDisplayName() + " §7победил!");
                             
                             this.arena.sendSounds(Sound.ENTITY_PLAYER_LEVELUP, 999, 2);
                             
@@ -186,7 +193,7 @@ public class RunningState implements IRunningState, ICountable, SpectatorFirst {
         return this.removedBlocks.get(convertLocToString(loc));
     }
     
-    public void addBlock(Block block, String owner) {
+    public void addBlock(Block block, SpleefPlayer owner) {
         this.removedBlocks.put(convertLocToString(block.getLocation()), new BlockOwner(block.getType(), owner));
     }
     
@@ -196,9 +203,9 @@ public class RunningState implements IRunningState, ICountable, SpectatorFirst {
 
     public static class BlockOwner {
         private final Material mat;
-        private final String owner;
+        private final SpleefPlayer owner;
         
-        public BlockOwner(Material mat, String owner) {
+        public BlockOwner(Material mat, SpleefPlayer owner) {
             this.mat = mat;
             this.owner = owner;
         }
@@ -207,7 +214,7 @@ public class RunningState implements IRunningState, ICountable, SpectatorFirst {
             return this.mat;
         }
         
-        public String getName() {
+        public SpleefPlayer getName() {
             return this.owner;
         }
     }

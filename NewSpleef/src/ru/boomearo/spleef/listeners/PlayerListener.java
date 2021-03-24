@@ -114,7 +114,7 @@ public class PlayerListener implements Listener {
                     
                     BlockOwner bo = rs.getBlockByLocation(b.getLocation());
                     if (bo == null) {
-                        rs.addBlock(b, pl.getName());
+                        rs.addBlock(b, tp);
                     }
                     
                     e.setExpToDrop(0);

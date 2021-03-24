@@ -15,7 +15,7 @@ import ru.boomearo.spleef.objects.SpleefTeam;
 
 public class PlayingPlayer implements IPlayerType {
     
-    private String killer;
+    private SpleefPlayer killer;
     
     @Override
     public void preparePlayer(SpleefPlayer player) {
@@ -29,11 +29,11 @@ public class PlayingPlayer implements IPlayerType {
         }
     }
     
-    public String getKiller() {
+    public SpleefPlayer getKiller() {
         return this.killer;
     }
     
-    public void setKiller(String killer) {
+    public void setKiller(SpleefPlayer killer) {
         this.killer = killer;
     }
     

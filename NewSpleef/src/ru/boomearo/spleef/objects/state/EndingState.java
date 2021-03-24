@@ -13,7 +13,7 @@ public class EndingState implements IGameState, ICountable, SpectatorFirst {
 
     private final SpleefArena arena;
     
-    private int count = 5;
+    private int count = 15;
     
     private int cd = 20;
     
@@ -75,7 +75,9 @@ public class EndingState implements IGameState, ICountable, SpectatorFirst {
                 return;
             }
             
-            arena.sendMessages(SpleefManager.prefix + "Следующая игра начнется через §b" + DateUtil.formatedTime(this.count, false));
+            if ((this.count % 5) == 0) {
+                arena.sendMessages(SpleefManager.prefix + "Следующая игра начнется через §b" + DateUtil.formatedTime(this.count, false));
+            }
             
             this.count--;
             

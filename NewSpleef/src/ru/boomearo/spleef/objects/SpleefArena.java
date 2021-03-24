@@ -10,8 +10,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.Consumer;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.World;
@@ -33,6 +35,8 @@ import ru.boomearo.gamecontrol.objects.states.IGameState;
 import ru.boomearo.spleef.Spleef;
 import ru.boomearo.spleef.managers.SpleefManager;
 import ru.boomearo.spleef.objects.playertype.IPlayerType;
+import ru.boomearo.spleef.objects.region.CuboidRegion;
+import ru.boomearo.spleef.objects.region.CuboidRegion.ChunkCords;
 import ru.boomearo.spleef.objects.state.WaitingState;
 
 public class SpleefArena implements IGameArena, ConfigurationSerializable {
@@ -44,7 +48,7 @@ public class SpleefArena implements IGameArena, ConfigurationSerializable {
     private final int timelimit;
     
     private final World world;
-    private final IRegion arenaRegion;
+    private final CuboidRegion arenaRegion;
     private final ConcurrentMap<Integer, SpleefTeam> teams;
     
     private final Location arenaCenter;
@@ -55,7 +59,7 @@ public class SpleefArena implements IGameArena, ConfigurationSerializable {
     
     private final ConcurrentMap<String, SpleefPlayer> players = new ConcurrentHashMap<String, SpleefPlayer>();
     
-    public SpleefArena(String name, int minPlayers, int maxPlayers, int timeLimit, World world, IRegion arenaRegion, ConcurrentMap<Integer, SpleefTeam> teams, Location arenaCenter, Clipboard clipboard) {
+    public SpleefArena(String name, int minPlayers, int maxPlayers, int timeLimit, World world, CuboidRegion arenaRegion, ConcurrentMap<Integer, SpleefTeam> teams, Location arenaCenter, Clipboard clipboard) {
         this.name = name;
         this.minPlayers = minPlayers;
         this.maxPlayers = maxPlayers;
@@ -217,6 +221,22 @@ public class SpleefArena implements IGameArena, ConfigurationSerializable {
         }
     }
     
+    //Подгружает чанки в память навсегда
+    public void forceLoadChunksToMemory() {
+        if (this.arenaRegion != null) {
+            for (ChunkCords cc : this.arenaRegion.getAllChunks()) {
+                Consumer<Chunk> c = new Consumer<Chunk>() {
+                    @Override
+                    public void accept(Chunk t) {
+                        t.setForceLoaded(true);
+                    }
+
+                };
+                this.world.getChunkAtAsync(cc.getX(), cc.getZ(), c);
+            }
+        }
+    }
+    
     public void sendSounds(Sound sound, float volume, float pitch, Location loc) {
         for (SpleefPlayer tp : this.players.values()) {
             Player pl = tp.getPlayer();
@@ -249,6 +269,15 @@ public class SpleefArena implements IGameArena, ConfigurationSerializable {
         return tmp;
     }
 
+    public void sendTitle(String first, String second, int in, int stay, int out) {
+        for (SpleefPlayer sp : this.players.values()) {
+            Player pl = sp.getPlayer();
+            if (pl.isOnline()) {
+                pl.sendTitle(first, second, in, stay, out);
+            }
+        }
+    }
+    
     @Override
     public Map<String, Object> serialize() {
         Map<String, Object> result = new LinkedHashMap<String, Object>();
@@ -275,7 +304,7 @@ public class SpleefArena implements IGameArena, ConfigurationSerializable {
         int maxPlayers = 15;
         int timeLimit = 300;
         World world = null;
-        IRegion region = null;
+        CuboidRegion region = null;
         List<SpleefTeam> teams = new ArrayList<SpleefTeam>();
         Location arenaCenter = null;
 
@@ -306,7 +335,7 @@ public class SpleefArena implements IGameArena, ConfigurationSerializable {
 
         Object re = args.get("region");
         if (re != null) {
-            region = (IRegion) re;
+            region = (CuboidRegion) re;
         }
 
         Object sp = args.get("teams");
