@@ -132,10 +132,10 @@ public class SpleefLobbyPage extends AbstractPage {
         SpleefStatsData data = Spleef.getInstance().getSpleefManager().getStatisticManager().getStatsData(type);
         StatsPlayer sp = data.getStatsPlayer(name);
         if (sp == null) {
-            return "§7" + type.getName() + ": §60";
+            return "§7" + type.getName() + ": §b0";
         }
         
-        return "§7" + type.getName() + ": §6" + (long) sp.getValue();
+        return "§7" + type.getName() + ": §b" + (long) sp.getValue();
     }
     
 }
