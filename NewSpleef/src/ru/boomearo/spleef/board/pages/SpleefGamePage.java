@@ -7,7 +7,6 @@ import ru.boomearo.board.objects.boards.AbstractHolder;
 import ru.boomearo.board.objects.boards.AbstractPage;
 import ru.boomearo.board.objects.boards.AbstractPageList;
 import ru.boomearo.gamecontrol.objects.states.IGameState;
-import ru.boomearo.gamecontrol.utils.DateUtil;
 import ru.boomearo.spleef.managers.SpleefManager;
 import ru.boomearo.spleef.objects.SpleefPlayer;
 import ru.boomearo.spleef.objects.playertype.LosePlayer;
@@ -83,11 +82,11 @@ public class SpleefGamePage extends AbstractPage {
                 if (state instanceof RunningState) {
                     RunningState rs = (RunningState) state;
                     
-                    return "§7Игра закончится через: §b" + DateUtil.formatedTime(rs.getCount(), false, true);
+                    return "§7До конца: §b" + getFormattedTimeLeft(rs.getCount());
                 }
                 else if (state instanceof EndingState) {
                     EndingState es = (EndingState) state;
-                    return "§7Новая игра через: §b" + DateUtil.formatedTime(es.getCount(), false, true);
+                    return "§7Новая игра: §b" + getFormattedTimeLeft(es.getCount());
                 }
                 return " ";
             }
@@ -130,4 +129,18 @@ public class SpleefGamePage extends AbstractPage {
         return holders;
     }
 
+    private static String getFormattedTimeLeft(int time) {
+        int min = 0;
+        int sec = 0;
+        String minStr = "";
+        String secStr = "";
+
+        min = (int) Math.floor(time / 60);
+        sec = time % 60;
+
+        minStr = (min < 10) ? "0" + String.valueOf(min) : String.valueOf(min);
+        secStr = (sec < 10) ? "0" + String.valueOf(sec) : String.valueOf(sec);
+
+        return minStr + ":" + secStr;
+    }
 }
