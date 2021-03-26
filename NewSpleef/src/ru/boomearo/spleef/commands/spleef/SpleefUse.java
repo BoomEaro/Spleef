@@ -17,12 +17,12 @@ import com.sk89q.worldedit.regions.Region;
 import ru.boomearo.gamecontrol.GameControl;
 import ru.boomearo.gamecontrol.exceptions.ConsoleGameException;
 import ru.boomearo.gamecontrol.exceptions.PlayerGameException;
+import ru.boomearo.gamecontrol.objects.region.CuboidRegion;
 import ru.boomearo.spleef.Spleef;
 import ru.boomearo.spleef.commands.CmdInfo;
 import ru.boomearo.spleef.managers.SpleefManager;
 import ru.boomearo.spleef.objects.SpleefArena;
 import ru.boomearo.spleef.objects.SpleefTeam;
-import ru.boomearo.spleef.objects.region.CuboidRegion;
 
 public class SpleefUse {
 
@@ -64,7 +64,7 @@ public class SpleefUse {
         }
         
         try {
-            SpleefArena newArena = new SpleefArena(arena, 2, maxPlayers, 300, pl.getWorld(), new CuboidRegion(re.getMaximumPoint(), re.getMinimumPoint(), pl.getWorld()), teams, GameControl.normalizeLocation(pl.getLocation()), null);
+            SpleefArena newArena = new SpleefArena(arena, pl.getWorld(), null, GameControl.normalizeLocation(pl.getLocation()), 2, maxPlayers, 300, new CuboidRegion(re.getMaximumPoint(), re.getMinimumPoint(), pl.getWorld()), teams);
             
             SpleefManager am = Spleef.getInstance().getSpleefManager();
             am.addArena(newArena);

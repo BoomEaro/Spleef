@@ -9,7 +9,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import ru.boomearo.gamecontrol.GameControl;
 import ru.boomearo.gamecontrol.exceptions.ConsoleGameException;
-import ru.boomearo.gamecontrol.objects.states.IGameState;
 import ru.boomearo.gamecontrol.objects.statistics.StatsPlayer;
 import ru.boomearo.spleef.commands.spleef.CmdExecutorSpleef;
 import ru.boomearo.spleef.database.Sql;
@@ -21,9 +20,6 @@ import ru.boomearo.spleef.listeners.SpectatorListener;
 import ru.boomearo.spleef.managers.SpleefManager;
 import ru.boomearo.spleef.objects.SpleefArena;
 import ru.boomearo.spleef.objects.SpleefTeam;
-import ru.boomearo.spleef.objects.region.CuboidRegion;
-import ru.boomearo.spleef.objects.state.EndingState;
-import ru.boomearo.spleef.objects.state.RunningState;
 import ru.boomearo.spleef.objects.statistics.SpleefStatsData;
 import ru.boomearo.spleef.objects.statistics.SpleefStatsType;
 import ru.boomearo.spleef.runnable.ArenasRunnable;
@@ -39,7 +35,6 @@ public class Spleef extends JavaPlugin {
     public void onEnable() {
         instance = this;
         
-        ConfigurationSerialization.registerClass(CuboidRegion.class);
         ConfigurationSerialization.registerClass(SpleefArena.class);
         ConfigurationSerialization.registerClass(SpleefTeam.class);
         
@@ -105,16 +100,6 @@ public class Spleef extends JavaPlugin {
             e.printStackTrace();
         }
 
-        for (SpleefArena ar : this.arenaManager.getAllArenas()) {
-            IGameState state = ar.getState();
-            //Если сервер выключается в момент игры то делаем регенерацию в этом потоке
-            //Мы не делаем регенерацию когда регенерация уже идет или когда арена ожидает игроков.
-            if (state instanceof EndingState || state instanceof RunningState) {
-                ar.regen();
-            }
-        }
-        
-        ConfigurationSerialization.unregisterClass(CuboidRegion.class);
         ConfigurationSerialization.unregisterClass(SpleefArena.class);
         ConfigurationSerialization.unregisterClass(SpleefTeam.class);
         
