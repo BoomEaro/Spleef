@@ -1,6 +1,5 @@
 package ru.boomearo.spleef.objects.playertype;
 
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
@@ -8,7 +7,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 
 import ru.boomearo.gamecontrol.utils.ExpFix;
-import ru.boomearo.spleef.Spleef;
 import ru.boomearo.spleef.objects.ItemButton;
 import ru.boomearo.spleef.objects.SpleefPlayer;
 import ru.boomearo.spleef.objects.SpleefTeam;
@@ -19,25 +17,6 @@ public class PlayingPlayer implements IPlayerType {
     
     @Override
     public void preparePlayer(SpleefPlayer player) {
-        if (Bukkit.isPrimaryThread()) {
-            task(player);
-        }
-        else {
-            Bukkit.getScheduler().runTask(Spleef.getInstance(), () -> {
-                task(player);
-            });
-        }
-    }
-    
-    public SpleefPlayer getKiller() {
-        return this.killer;
-    }
-    
-    public void setKiller(SpleefPlayer killer) {
-        this.killer = killer;
-    }
-    
-    private void task(SpleefPlayer player) {
         Player pl = player.getPlayer();
         
         pl.setFoodLevel(20);
@@ -63,6 +42,14 @@ public class PlayingPlayer implements IPlayerType {
         if (loc != null) {
             pl.teleport(loc);
         }
+    }
+    
+    public SpleefPlayer getKiller() {
+        return this.killer;
+    }
+    
+    public void setKiller(SpleefPlayer killer) {
+        this.killer = killer;
     }
     
 }
