@@ -13,7 +13,6 @@ import ru.boomearo.gamecontrol.objects.statistics.StatsPlayer;
 import ru.boomearo.spleef.commands.spleef.CmdExecutorSpleef;
 import ru.boomearo.spleef.database.Sql;
 import ru.boomearo.spleef.database.sections.SectionStats;
-import ru.boomearo.spleef.listeners.ArenaListener;
 import ru.boomearo.spleef.listeners.PlayerButtonListener;
 import ru.boomearo.spleef.listeners.PlayerListener;
 import ru.boomearo.spleef.listeners.SpectatorListener;
@@ -66,8 +65,6 @@ public class Spleef extends JavaPlugin {
         }
         
         getCommand("spleef").setExecutor(new CmdExecutorSpleef());
-        
-        getServer().getPluginManager().registerEvents(new ArenaListener(), this);
         
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerButtonListener(), this);

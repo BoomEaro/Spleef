@@ -3,19 +3,15 @@ package ru.boomearo.spleef.listeners;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 import ru.boomearo.gamecontrol.objects.states.IGameState;
@@ -77,27 +73,8 @@ public class PlayerListener implements Listener {
         }
     }
     
-    @EventHandler
-    public void onEntityDamageEvent(EntityDamageEvent e) {
-        if (e.isCancelled()) {
-            return;
-        }
-        Entity en = e.getEntity();
-        if (en instanceof Player) {
-            Player pl = (Player) en;
-            
-            SpleefPlayer tp = Spleef.getInstance().getSpleefManager().getGamePlayer(pl.getName());
-            if (tp != null) {
-                e.setCancelled(true);
-            }
-        }
-    }
-    
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onBlockBreakEvent(BlockBreakEvent e) {
-        if (e.isCancelled()) {
-            return;
-        }
         Player pl = e.getPlayer();
         
         SpleefPlayer tp = Spleef.getInstance().getSpleefManager().getGamePlayer(pl.getName());
@@ -119,7 +96,7 @@ public class PlayerListener implements Listener {
                     
                     e.setExpToDrop(0);
                     e.setDropItems(false);
-                    
+                    e.setCancelled(false);
                     return;
                 }
             }
@@ -128,30 +105,7 @@ public class PlayerListener implements Listener {
         }
     }
     
-    @EventHandler
-    public void onPlayerItemDamageEvent(PlayerItemDamageEvent e) {
-        if (e.isCancelled()) {
-            return;
-        }
-        Player pl = e.getPlayer();
-        SpleefPlayer tp = Spleef.getInstance().getSpleefManager().getGamePlayer(pl.getName());
-        if (tp != null) {
-            e.setCancelled(true);
-        }
-    }
-    
-    @EventHandler
-    public void onBlockPlaceEvent(BlockPlaceEvent e) {
-        if (e.isCancelled()) {
-            return;
-        }
-        Player pl = e.getPlayer();
-        SpleefPlayer tp = Spleef.getInstance().getSpleefManager().getGamePlayer(pl.getName());
-        if (tp != null) {
-            e.setCancelled(true);
-        }
-    }
-    
+    //TODO
     @EventHandler
     public void onPlayerInteractEvent(PlayerInteractEvent e) {
         if (e.getAction() != Action.PHYSICAL) {
@@ -162,21 +116,6 @@ public class PlayerListener implements Listener {
         SpleefPlayer tp = Spleef.getInstance().getSpleefManager().getGamePlayer(pl.getName());
         if (tp != null) {
             e.setCancelled(true);
-        }
-    }
-    
-    @EventHandler
-    public void onFoodLevelChangeEvent(FoodLevelChangeEvent e) {
-        if (e.isCancelled()) {
-            return;
-        }
-        Entity en = e.getEntity();
-        if (en instanceof Player) {
-            Player pl = (Player) en;
-            SpleefPlayer tp = Spleef.getInstance().getSpleefManager().getGamePlayer(pl.getName());
-            if (tp != null) {
-                e.setCancelled(true);
-            }
         }
     }
 }
