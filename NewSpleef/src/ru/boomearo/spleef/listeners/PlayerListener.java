@@ -105,17 +105,21 @@ public class PlayerListener implements Listener {
         }
     }
     
-    //TODO
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteractEvent(PlayerInteractEvent e) {
-        if (e.getAction() != Action.PHYSICAL) {
-            return;
-        }
-        
-        Player pl = e.getPlayer();
-        SpleefPlayer tp = Spleef.getInstance().getSpleefManager().getGamePlayer(pl.getName());
-        if (tp != null) {
-            e.setCancelled(true);
+        if (e.getAction() == Action.LEFT_CLICK_BLOCK) {
+            Player pl = e.getPlayer();
+            SpleefPlayer tp = Spleef.getInstance().getSpleefManager().getGamePlayer(pl.getName());
+            if (tp != null) {
+                
+                IGameState state = tp.getArena().getState();
+                if (state instanceof RunningState) {
+                    e.setCancelled(false);
+                    return;
+                }
+                
+                e.setCancelled(true);
+            }
         }
     }
 }
