@@ -1,6 +1,5 @@
 package ru.boomearo.spleef.objects;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -10,22 +9,16 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.function.Consumer;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
 
-import com.boydti.fawe.FaweAPI;
-import com.sk89q.worldedit.extent.clipboard.Clipboard;
-
 import ru.boomearo.gamecontrol.objects.arena.ClipboardRegenableGameArena;
 import ru.boomearo.gamecontrol.objects.region.IRegion;
-import ru.boomearo.gamecontrol.objects.region.IRegion.ChunkCords;
 import ru.boomearo.gamecontrol.objects.states.IGameState;
 import ru.boomearo.spleef.Spleef;
 import ru.boomearo.spleef.managers.SpleefManager;
@@ -45,8 +38,8 @@ public class SpleefArena extends ClipboardRegenableGameArena implements Configur
     
     private final ConcurrentMap<String, SpleefPlayer> players = new ConcurrentHashMap<String, SpleefPlayer>();
     
-    public SpleefArena(String name, World world, Clipboard clipboard, Location originCenter, int minPlayers, int maxPlayers, int timeLimit, IRegion arenaRegion, ConcurrentMap<Integer, SpleefTeam> teams) {
-        super(name, world, clipboard, originCenter);
+    public SpleefArena(String name, World world, Location originCenter, int minPlayers, int maxPlayers, int timeLimit, IRegion arenaRegion, ConcurrentMap<Integer, SpleefTeam> teams) {
+        super(name, world, originCenter);
         this.minPlayers = minPlayers;
         this.maxPlayers = maxPlayers;
         this.timelimit = timeLimit;
@@ -151,23 +144,7 @@ public class SpleefArena extends ClipboardRegenableGameArena implements Configur
             });
         }
     }
-    
-    //Подгружает чанки в память навсегда
-    public void forceLoadChunksToMemory() {
-        if (this.arenaRegion != null) {
-            for (ChunkCords cc : this.arenaRegion.getAllChunks()) {
-                Consumer<Chunk> c = new Consumer<Chunk>() {
-                    @Override
-                    public void accept(Chunk t) {
-                        t.setForceLoaded(true);
-                    }
 
-                };
-                getWorld().getChunkAtAsync(cc.getX(), cc.getZ(), c);
-            }
-        }
-    }
-    
     public void sendSounds(Sound sound, float volume, float pitch, Location loc) {
         for (SpleefPlayer tp : this.players.values()) {
             Player pl = tp.getPlayer();
@@ -279,24 +256,12 @@ public class SpleefArena extends ClipboardRegenableGameArena implements Configur
             arenaCenter = (Location) ac;
         }
 
-
-        Clipboard cb = null;
-        try {
-            File schem = new File(Spleef.getInstance().getSchematicDir(), name + ".schem");
-            if (schem.exists() && schem.isFile()) {
-                cb = FaweAPI.load(schem);
-            }
-        } 
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        
         ConcurrentMap<Integer, SpleefTeam> nTeams = new ConcurrentHashMap<Integer, SpleefTeam>();
         for (SpleefTeam team : teams) {
             nTeams.put(team.getId(), team);
         }
         
-        return new SpleefArena(name, world, cb, arenaCenter, minPlayers, maxPlayers, timeLimit, region, nTeams);
+        return new SpleefArena(name, world, arenaCenter, minPlayers, maxPlayers, timeLimit, region, nTeams);
     }
 
 

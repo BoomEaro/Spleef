@@ -64,7 +64,7 @@ public class SpleefUse {
         }
         
         try {
-            SpleefArena newArena = new SpleefArena(arena, pl.getWorld(), null, GameControl.normalizeLocation(pl.getLocation()), 2, maxPlayers, 300, new CuboidRegion(re.getMaximumPoint(), re.getMinimumPoint(), pl.getWorld()), teams);
+            SpleefArena newArena = new SpleefArena(arena, pl.getWorld(), GameControl.normalizeLocation(pl.getLocation()), 2, maxPlayers, 300, new CuboidRegion(re.getMaximumPoint(), re.getMinimumPoint(), pl.getWorld()), teams);
             
             SpleefManager am = Spleef.getInstance().getSpleefManager();
             am.addArena(newArena);

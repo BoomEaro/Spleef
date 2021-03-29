@@ -3,7 +3,6 @@ package ru.boomearo.spleef;
 import java.io.File;
 import java.sql.SQLException;
 
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -45,13 +44,6 @@ public class Spleef extends JavaPlugin {
         
         if (this.arenaManager == null) {
             this.arenaManager = new SpleefManager();
-            
-            //После загрузки сервера запускаем задачу на перманентную подгрузку чанков
-            Bukkit.getScheduler().runTask(this, () -> {
-                for (SpleefArena arena : this.arenaManager.getAllArenas()) {
-                    arena.forceLoadChunksToMemory();
-                }
-            });
         }
         
         loadDataBase();
@@ -105,10 +97,6 @@ public class Spleef extends JavaPlugin {
     
     public SpleefManager getSpleefManager() {
         return this.arenaManager;
-    }
-    
-    public File getSchematicDir() {
-        return new File(this.getDataFolder(), File.separator + "schematics" + File.separator);
     }
     
     private void loadDataBase() {
