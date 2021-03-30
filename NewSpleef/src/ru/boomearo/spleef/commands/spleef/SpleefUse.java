@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -64,7 +65,7 @@ public class SpleefUse {
         }
         
         try {
-            SpleefArena newArena = new SpleefArena(arena, pl.getWorld(), GameControl.normalizeLocation(pl.getLocation()), 2, maxPlayers, 300, new CuboidRegion(re.getMaximumPoint(), re.getMinimumPoint(), pl.getWorld()), teams);
+            SpleefArena newArena = new SpleefArena(arena, pl.getWorld(), Material.STONE, GameControl.normalizeLocation(pl.getLocation()), 2, maxPlayers, 300, new CuboidRegion(re.getMaximumPoint(), re.getMinimumPoint(), pl.getWorld()), teams);
             
             SpleefManager am = Spleef.getInstance().getSpleefManager();
             am.addArena(newArena);

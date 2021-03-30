@@ -12,6 +12,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
@@ -38,8 +39,8 @@ public class SpleefArena extends ClipboardRegenableGameArena implements Configur
     
     private final ConcurrentMap<String, SpleefPlayer> players = new ConcurrentHashMap<String, SpleefPlayer>();
     
-    public SpleefArena(String name, World world, Location originCenter, int minPlayers, int maxPlayers, int timeLimit, IRegion arenaRegion, ConcurrentMap<Integer, SpleefTeam> teams) {
-        super(name, world, originCenter);
+    public SpleefArena(String name, World world, Material icon, Location originCenter, int minPlayers, int maxPlayers, int timeLimit, IRegion arenaRegion, ConcurrentMap<Integer, SpleefTeam> teams) {
+        super(name, world, icon, originCenter);
         this.minPlayers = minPlayers;
         this.maxPlayers = maxPlayers;
         this.timelimit = timeLimit;
@@ -193,6 +194,7 @@ public class SpleefArena extends ClipboardRegenableGameArena implements Configur
         Map<String, Object> result = new LinkedHashMap<String, Object>();
 
         result.put("name", getName());
+        result.put("icon", getIcon().name());
         result.put("minPlayers", this.minPlayers);
         result.put("maxPlayers", this.maxPlayers);
         result.put("timeLimit", this.timelimit);
@@ -210,6 +212,7 @@ public class SpleefArena extends ClipboardRegenableGameArena implements Configur
     @SuppressWarnings("unchecked")
     public static SpleefArena deserialize(Map<String, Object> args) {
         String name = null;
+        Material icon = Material.STONE;
         int minPlayers = 2;
         int maxPlayers = 15;
         int timeLimit = 300;
@@ -223,6 +226,14 @@ public class SpleefArena extends ClipboardRegenableGameArena implements Configur
             name = (String) na;
         }
 
+        Object ic = args.get("icon");
+        if (ic != null) {
+            try {
+                icon = Material.valueOf((String) ic);
+            }
+            catch (Exception e) {}
+        }
+        
         Object minp = args.get("minPlayers");
         if (minp != null) {
             minPlayers = ((Number) minp).intValue();
@@ -263,7 +274,7 @@ public class SpleefArena extends ClipboardRegenableGameArena implements Configur
             nTeams.put(team.getId(), team);
         }
         
-        return new SpleefArena(name, world, arenaCenter, minPlayers, maxPlayers, timeLimit, region, nTeams);
+        return new SpleefArena(name, world, icon, arenaCenter, minPlayers, maxPlayers, timeLimit, region, nTeams);
     }
 
 

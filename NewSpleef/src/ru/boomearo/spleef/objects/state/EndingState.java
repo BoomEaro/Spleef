@@ -1,7 +1,7 @@
 package ru.boomearo.spleef.objects.state;
 
 import ru.boomearo.gamecontrol.objects.states.ICountable;
-import ru.boomearo.gamecontrol.objects.states.IGameState;
+import ru.boomearo.gamecontrol.objects.states.IEndingState;
 import ru.boomearo.gamecontrol.utils.DateUtil;
 import ru.boomearo.spleef.managers.SpleefManager;
 import ru.boomearo.spleef.objects.SpleefArena;
@@ -9,7 +9,7 @@ import ru.boomearo.spleef.objects.SpleefPlayer;
 import ru.boomearo.spleef.objects.playertype.LosePlayer;
 import ru.boomearo.spleef.objects.playertype.PlayingPlayer;
 
-public class EndingState implements IGameState, ICountable, SpectatorFirst {
+public class EndingState implements IEndingState, ICountable, SpectatorFirst {
 
     private final SpleefArena arena;
     

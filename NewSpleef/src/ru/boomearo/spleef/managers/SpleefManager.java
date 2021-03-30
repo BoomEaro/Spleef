@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -54,6 +55,21 @@ public final class SpleefManager implements IGameManager {
         return gameNameDys;
     }
 
+    @Override
+    public ChatColor getMainColor() {
+        return ChatColor.GRAY;
+    }
+
+    @Override
+    public ChatColor getVariableColor() {
+        return ChatColor.AQUA;
+    }
+
+    @Override
+    public ChatColor getOtherColor() {
+        return ChatColor.AQUA;
+    }
+    
     @Override
     public JavaPlugin getPlugin() {
         return Spleef.getInstance();
@@ -276,4 +292,5 @@ public final class SpleefManager implements IGameManager {
     public static String getRemainPlayersArena(SpleefArena arena, Class<? extends IPlayerType> clazz) {
         return "§8[§3" + (clazz != null ? arena.getAllPlayersType(clazz).size() : arena.getAllPlayers().size()) + "§7/§b" + arena.getMaxPlayers() + "§8]";
     }
+
 }
