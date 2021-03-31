@@ -62,7 +62,7 @@ public class PlayerListener implements Listener {
         Player pl = e.getPlayer();
         
         String msg = e.getMessage();
-        if (msg.equalsIgnoreCase("/spleef leave")) {
+        if (msg.equalsIgnoreCase("/spleef leave") || msg.equalsIgnoreCase("/lobby") || msg.equalsIgnoreCase("/spawn")) {
             return;
         }
         

@@ -88,12 +88,12 @@ public final class SpleefManager implements IGameManager {
 
         SpleefArena tmpArena = this.arenas.get(arena);
         if (tmpArena == null) {
-            throw new PlayerGameException("Арена §7'§b" + arena + "§7' не найдена!");
+            throw new PlayerGameException("Карта §7'§b" + arena + "§7' не найдена!");
         }
 
         int count = tmpArena.getAllPlayers().size();
         if (count >= tmpArena.getMaxPlayers()) {
-            throw new PlayerGameException("Арена §7'§b" + arena + "§7' переполнена!");
+            throw new PlayerGameException("Карта §7'§b" + arena + "§7' переполнена!");
         }
         
         SpleefTeam team = tmpArena.getFreeTeam();
@@ -135,7 +135,7 @@ public final class SpleefManager implements IGameManager {
         if (isSpec) {
             newTp.sendBoard(1);
             
-            pl.sendMessage(prefix + "Вы присоединились к арене §7'§b" + arena + "§7' как наблюдатель.");
+            pl.sendMessage(prefix + "Вы присоединились к карте §7'§b" + arena + "§7' как наблюдатель.");
             pl.sendMessage(prefix + "Чтобы покинуть игру, используйте несколько раз §bкнопку §7'§b1§7' или §bтелепортируйтесь к любому игроку §7используя возможность наблюдателя.");
             
             tmpArena.sendMessages(prefix + "§b" + pl.getDisplayName() + " §7присоединился к игре как наблюдатель!");
@@ -143,8 +143,8 @@ public final class SpleefManager implements IGameManager {
         else {
             newTp.sendBoard(0);
             
-            pl.sendMessage(prefix + "Вы присоединились к арене §7'§b" + arena + "§7'!");
-            pl.sendMessage(prefix + "Чтобы покинуть игру, используйте §bМагма крем §7или команду §b/spleef leave§7.");
+            pl.sendMessage(prefix + "Вы присоединились к карте §7'§b" + arena + "§7'!");
+            pl.sendMessage(prefix + "Чтобы покинуть игру, используйте §bМагма крем §7или команду §b/lobby§7.");
             
             int currCount = tmpArena.getAllPlayersType(PlayingPlayer.class).size();
             if (currCount < tmpArena.getMinPlayers()) {
