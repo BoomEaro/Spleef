@@ -39,7 +39,7 @@ public final class SpleefManager implements IGameManager {
     public static final String gameNameDys = "§8[§bSpleef§8]";
     public static final String prefix = gameNameDys + ": §7";
     
-    public static final double winReward = 5;
+    public static final double winReward = 10;
 
     public SpleefManager() {
         loadArenas();  
