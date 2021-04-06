@@ -83,7 +83,7 @@ public class SpleefLobbyPage extends AbstractPage {
 
             @Override
             protected String getText() {
-                return SpleefManager.mainColor + "Игроков: " + SpleefManager.mainColor + spPlayer.getArena().getAllPlayers().size() + "§8/" + SpleefManager.otherColor + spPlayer.getArena().getMaxPlayers();
+                return SpleefManager.mainColor + "Игроков: " + SpleefManager.variableColor + spPlayer.getArena().getAllPlayers().size() + "§8/" + SpleefManager.otherColor + spPlayer.getArena().getMaxPlayers();
             }
             
             @Override
