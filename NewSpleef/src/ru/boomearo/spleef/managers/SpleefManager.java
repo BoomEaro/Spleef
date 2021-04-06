@@ -1,5 +1,6 @@
 package ru.boomearo.spleef.managers;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -7,15 +8,16 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import net.md_5.bungee.api.ChatColor;
 import ru.boomearo.gamecontrol.exceptions.ConsoleGameException;
 import ru.boomearo.gamecontrol.exceptions.GameControlException;
 import ru.boomearo.gamecontrol.exceptions.PlayerGameException;
+import ru.boomearo.gamecontrol.managers.GameManager;
 import ru.boomearo.gamecontrol.objects.IGameManager;
 import ru.boomearo.gamecontrol.objects.states.IGameState;
 
@@ -36,8 +38,12 @@ public final class SpleefManager implements IGameManager {
     
     private final SpleefStatistics stats = new SpleefStatistics();
     
-    public static final String gameNameDys = "§8[§bSpleef§8]";
-    public static final String prefix = gameNameDys + ": §7";
+    public static final ChatColor mainColor = GameManager.backgroundTextColor;
+    public static final ChatColor variableColor = ChatColor.of(new Color(196, 255, 254));
+    public static final ChatColor otherColor = ChatColor.of(new Color(145, 255, 254));
+    
+    public static final String gameNameDys = "§8[" + variableColor + "Spleef§8]";
+    public static final String prefix = gameNameDys + ": " + mainColor;
     
     public static final double winReward = 10;
 
@@ -57,17 +63,17 @@ public final class SpleefManager implements IGameManager {
 
     @Override
     public ChatColor getMainColor() {
-        return ChatColor.GRAY;
+        return mainColor;
     }
 
     @Override
     public ChatColor getVariableColor() {
-        return ChatColor.AQUA;
+        return variableColor;
     }
 
     @Override
     public ChatColor getOtherColor() {
-        return ChatColor.AQUA;
+        return otherColor;
     }
     
     @Override
@@ -88,12 +94,12 @@ public final class SpleefManager implements IGameManager {
 
         SpleefArena tmpArena = this.arenas.get(arena);
         if (tmpArena == null) {
-            throw new PlayerGameException("Карта §7'§b" + arena + "§7' не найдена!");
+            throw new PlayerGameException("Карта " + mainColor + "'" + variableColor + arena + mainColor + "' не найдена!");
         }
 
         int count = tmpArena.getAllPlayers().size();
         if (count >= tmpArena.getMaxPlayers()) {
-            throw new PlayerGameException("Карта §7'§b" + arena + "§7' переполнена!");
+            throw new PlayerGameException("Карта " + mainColor + "'" + variableColor + arena + mainColor + "' переполнена!");
         }
         
         SpleefTeam team = tmpArena.getFreeTeam();
@@ -135,23 +141,23 @@ public final class SpleefManager implements IGameManager {
         if (isSpec) {
             newTp.sendBoard(1);
             
-            pl.sendMessage(prefix + "Вы присоединились к карте §7'§b" + arena + "§7' как наблюдатель.");
-            pl.sendMessage(prefix + "Чтобы покинуть игру, используйте несколько раз §bкнопку §7'§b1§7' или §bтелепортируйтесь к любому игроку §7используя возможность наблюдателя.");
+            pl.sendMessage(prefix + "Вы присоединились к карте " + mainColor + "'" + variableColor + arena + mainColor + "' как наблюдатель.");
+            pl.sendMessage(prefix + "Чтобы покинуть игру, используйте несколько раз " + variableColor + "кнопку " + mainColor + "'" + variableColor + "1" + mainColor + "' или " + variableColor + "телепортируйтесь к любому игроку " + mainColor + "используя возможность наблюдателя.");
             
-            tmpArena.sendMessages(prefix + "§b" + pl.getDisplayName() + " §7присоединился к игре как наблюдатель!");
+            tmpArena.sendMessages(prefix + pl.getDisplayName() + mainColor + " присоединился к игре как наблюдатель!");
         }
         else {
             newTp.sendBoard(0);
             
-            pl.sendMessage(prefix + "Вы присоединились к карте §7'§b" + arena + "§7'!");
-            pl.sendMessage(prefix + "Чтобы покинуть игру, используйте §bМагма крем §7или команду §b/lobby§7.");
+            pl.sendMessage(prefix + "Вы присоединились к карте " + mainColor + "'" + variableColor + arena + mainColor + "'!");
+            pl.sendMessage(prefix + "Чтобы покинуть игру, используйте " + variableColor + "Магма крем " + mainColor + "или команду " + variableColor + "/lobby" + variableColor + ".");
             
             int currCount = tmpArena.getAllPlayersType(PlayingPlayer.class).size();
             if (currCount < tmpArena.getMinPlayers()) {
-                pl.sendMessage(prefix + "Ожидание §b" + (tmpArena.getMinPlayers() - currCount) + " §7игроков для начала игры...");
+                pl.sendMessage(prefix + "Ожидание " + variableColor + (tmpArena.getMinPlayers() - currCount) + mainColor + " игроков для начала игры...");
             } 
             
-            tmpArena.sendMessages(prefix + "§b" + pl.getDisplayName() + " §7присоединился к игре! " + getRemainPlayersArena(tmpArena, PlayingPlayer.class), pl.getName());
+            tmpArena.sendMessages(prefix + pl.getDisplayName() + mainColor + " присоединился к игре! " + getRemainPlayersArena(tmpArena, PlayingPlayer.class), pl.getName());
         }
         
         return newTp;
@@ -196,10 +202,10 @@ public final class SpleefManager implements IGameManager {
         
         IPlayerType type = player.getPlayerType();
         if (type instanceof PlayingPlayer) {
-            arena.sendMessages(prefix + "§b" + pl.getDisplayName() + " §7покинул игру! " + getRemainPlayersArena(arena, PlayingPlayer.class), pl.getName());
+            arena.sendMessages(prefix + pl.getDisplayName() + mainColor + " покинул игру! " + getRemainPlayersArena(arena, PlayingPlayer.class), pl.getName());
         }
         else {
-            arena.sendMessages(prefix + "§b" + pl.getDisplayName() + " §7покинул игру!", pl.getName());
+            arena.sendMessages(prefix + pl.getDisplayName() + mainColor + " покинул игру!", pl.getName());
         }
     }
     
@@ -289,8 +295,9 @@ public final class SpleefManager implements IGameManager {
         this.arenas.remove(name);
     }
     
+
     public static String getRemainPlayersArena(SpleefArena arena, Class<? extends IPlayerType> clazz) {
-        return "§8[§3" + (clazz != null ? arena.getAllPlayersType(clazz).size() : arena.getAllPlayers().size()) + "§7/§b" + arena.getMaxPlayers() + "§8]";
+        return "§8[" + variableColor + (clazz != null ? arena.getAllPlayersType(clazz).size() : arena.getAllPlayers().size()) + mainColor + "/" + otherColor + arena.getMaxPlayers() + "§8]";
     }
 
 }

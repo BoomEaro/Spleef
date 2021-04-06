@@ -47,7 +47,7 @@ public class SpleefLobbyPage extends AbstractPage {
 
             @Override
             public String getText() {
-                return "§7" + new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis()));
+                return SpleefManager.mainColor + new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis()));
             }
 
         });
@@ -65,7 +65,7 @@ public class SpleefLobbyPage extends AbstractPage {
 
             @Override
             protected String getText() {
-                return "§7Карта: §7'§b" + spPlayer.getArena().getName() + "§7'";
+                return SpleefManager.mainColor + "Карта: '" + SpleefManager.variableColor + spPlayer.getArena().getName() + SpleefManager.mainColor + "'";
             }
             
         });
@@ -83,7 +83,7 @@ public class SpleefLobbyPage extends AbstractPage {
 
             @Override
             protected String getText() {
-                return "§7Игроков: §3" + spPlayer.getArena().getAllPlayers().size() + "§7/§b" + spPlayer.getArena().getMaxPlayers();
+                return SpleefManager.mainColor + "Игроков: " + SpleefManager.mainColor + spPlayer.getArena().getAllPlayers().size() + "§8/" + SpleefManager.otherColor + spPlayer.getArena().getMaxPlayers();
             }
             
             @Override
@@ -97,7 +97,7 @@ public class SpleefLobbyPage extends AbstractPage {
 
             @Override
             protected String getText() {
-                return "§7Статус: " + spPlayer.getArena().getState().getName();
+                return SpleefManager.mainColor + "Статус: " + spPlayer.getArena().getState().getName();
             }
             
             @Override
@@ -120,7 +120,7 @@ public class SpleefLobbyPage extends AbstractPage {
 
             @Override
             protected String getText() {
-                return "§7Статистика: ";
+                return SpleefManager.mainColor + "Статистика: ";
             }
             
         });
@@ -152,10 +152,10 @@ public class SpleefLobbyPage extends AbstractPage {
         SpleefStatsData data = Spleef.getInstance().getSpleefManager().getStatisticManager().getStatsData(type);
         StatsPlayer sp = data.getStatsPlayer(name);
         if (sp == null) {
-            return "§7" + type.getName() + ": §b0";
+            return SpleefManager.mainColor + type.getName() + ": " + SpleefManager.variableColor + "0";
         }
         
-        return "§7" + type.getName() + ": §b" + (long) sp.getValue();
+        return SpleefManager.mainColor + type.getName() + ": " + SpleefManager.variableColor + (long) sp.getValue();
     }
     
 }

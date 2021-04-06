@@ -141,7 +141,7 @@ public class SpleefUse {
             GameControl.getInstance().getGameManager().joinGame(pl, Spleef.class, arena);
         } 
         catch (PlayerGameException e) {
-            pl.sendMessage(SpleefManager.prefix + "§bОшибка: §7" + e.getMessage());
+            pl.sendMessage(SpleefManager.prefix + "§cОшибка: " + SpleefManager.mainColor + e.getMessage());
         }
         catch (ConsoleGameException e) {
             e.printStackTrace();
@@ -165,7 +165,7 @@ public class SpleefUse {
             GameControl.getInstance().getGameManager().leaveGame(pl);
         } 
         catch (PlayerGameException e) {
-            pl.sendMessage(SpleefManager.prefix + "§bОшибка: §7" + e.getMessage());
+            pl.sendMessage(SpleefManager.prefix + "§cОшибка: " + SpleefManager.mainColor + e.getMessage());
         }
         catch (ConsoleGameException e) {
             e.printStackTrace();
@@ -188,7 +188,7 @@ public class SpleefUse {
         final String sep = SpleefManager.prefix + "§8============================";
         cs.sendMessage(sep);
         for (SpleefArena arena : arenas) {
-            cs.sendMessage(SpleefManager.prefix + "Арена: '§b" + arena.getName() + "§7'. Статус: " + arena.getState().getName() + "§7. Игроков: " + SpleefManager.getRemainPlayersArena(arena, null));
+            cs.sendMessage(SpleefManager.prefix + "Арена: '" + SpleefManager.variableColor + arena.getName() + SpleefManager.mainColor + "'. Статус: " + arena.getState().getName() + SpleefManager.mainColor + ". Игроков: " + SpleefManager.getRemainPlayersArena(arena, null));
         }
         cs.sendMessage(sep);
         

@@ -48,7 +48,7 @@ public class SpleefGamePage extends AbstractPage {
 
             @Override
             public String getText() {
-                return "§7" + new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis()));
+                return SpleefManager.mainColor + new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis()));
             }
 
         });
@@ -66,7 +66,7 @@ public class SpleefGamePage extends AbstractPage {
 
             @Override
             protected String getText() {
-                return "§7Карта: §7'§b" + spPlayer.getArena().getName() + "§7'";
+                return SpleefManager.mainColor + "Карта: '" + SpleefManager.variableColor + spPlayer.getArena().getName() + SpleefManager.mainColor + "'";
             }
             
         });
@@ -84,7 +84,7 @@ public class SpleefGamePage extends AbstractPage {
 
             @Override
             protected String getText() {
-                return "§7Статус: " + spPlayer.getArena().getState().getName();
+                return SpleefManager.mainColor + "Статус: " + spPlayer.getArena().getState().getName();
             }
             
             @Override
@@ -102,11 +102,11 @@ public class SpleefGamePage extends AbstractPage {
                 if (state instanceof RunningState) {
                     RunningState rs = (RunningState) state;
                     
-                    return "§7До конца: §b" + getFormattedTimeLeft(rs.getCount());
+                    return SpleefManager.mainColor + "До конца: " + SpleefManager.variableColor + getFormattedTimeLeft(rs.getCount());
                 }
                 else if (state instanceof EndingState) {
                     EndingState es = (EndingState) state;
-                    return "§7Новая игра: §b" + getFormattedTimeLeft(es.getCount());
+                    return SpleefManager.mainColor + "Новая игра: " + SpleefManager.variableColor + getFormattedTimeLeft(es.getCount());
                 }
                 return " ";
             }
@@ -122,7 +122,7 @@ public class SpleefGamePage extends AbstractPage {
 
             @Override
             protected String getText() {
-                return "§7Наблюдателей: §b" + spPlayer.getArena().getAllPlayersType(LosePlayer.class).size();
+                return SpleefManager.mainColor + "Наблюдателей: " + SpleefManager.variableColor + spPlayer.getArena().getAllPlayersType(LosePlayer.class).size();
             }
 
         });
@@ -141,7 +141,7 @@ public class SpleefGamePage extends AbstractPage {
 
             @Override
             protected String getText() {
-                return "§7Игроков: §b" + spPlayer.getArena().getAllPlayersType(PlayingPlayer.class).size();
+                return SpleefManager.mainColor + "Игроков: " + SpleefManager.variableColor + spPlayer.getArena().getAllPlayersType(PlayingPlayer.class).size();
             }
 
         });

@@ -89,12 +89,12 @@ public class StartingState implements IStartingState, ICountable {
             
             arena.sendLevels(this.count);
             if (this.count <= 5) {
-                arena.sendMessages(SpleefManager.prefix + "Игра начнется через §b" + DateUtil.formatedTime(this.count, false));
+                arena.sendMessages(SpleefManager.prefix + "Игра начнется через " + SpleefManager.variableColor + DateUtil.formatedTime(this.count, false));
                 arena.sendSounds(Sound.BLOCK_NOTE_BLOCK_PLING, 999, 2);
             }
             else {
                 if ((this.count % 5) == 0){
-                    arena.sendMessages(SpleefManager.prefix + "Игра начнется через §b" + DateUtil.formatedTime(this.count, false));
+                    arena.sendMessages(SpleefManager.prefix + "Игра начнется через " + SpleefManager.variableColor + DateUtil.formatedTime(this.count, false));
                     arena.sendSounds(Sound.BLOCK_NOTE_BLOCK_PLING, 999, 2);
                 }
             }

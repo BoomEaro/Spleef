@@ -98,14 +98,14 @@ public class RunningState implements IRunningState, ICountable, SpectatorFirst {
                     
                     if (killer != null) {
                         if (tp.getName().equals(killer.getName())) {
-                            this.arena.sendMessages(SpleefManager.prefix + "§b" + tp.getPlayer().getDisplayName() + " §7проиграл, свалившись в свою же яму! " + SpleefManager.getRemainPlayersArena(this.arena, PlayingPlayer.class));
+                            this.arena.sendMessages(SpleefManager.prefix + tp.getPlayer().getDisplayName() + SpleefManager.mainColor + " проиграл, свалившись в свою же яму! " + SpleefManager.getRemainPlayersArena(this.arena, PlayingPlayer.class));
                         }
                         else {
-                            this.arena.sendMessages(SpleefManager.prefix + "§b" + tp.getPlayer().getDisplayName() + " §7проиграл, свалившись в яму игрока §b" + killer.getPlayer().getDisplayName() + " " + SpleefManager.getRemainPlayersArena(this.arena, PlayingPlayer.class));
+                            this.arena.sendMessages(SpleefManager.prefix + tp.getPlayer().getDisplayName() + SpleefManager.mainColor +" проиграл, свалившись в яму игрока " + killer.getPlayer().getDisplayName() + " " + SpleefManager.getRemainPlayersArena(this.arena, PlayingPlayer.class));
                         }
                     }
                     else {
-                        this.arena.sendMessages(SpleefManager.prefix + "§b" + tp.getPlayer().getDisplayName() + " §7проиграл, зайдя за границы игры. " + SpleefManager.getRemainPlayersArena(this.arena, PlayingPlayer.class));
+                        this.arena.sendMessages(SpleefManager.prefix + tp.getPlayer().getDisplayName() + SpleefManager.mainColor + " проиграл, зайдя за границы игры. " + SpleefManager.getRemainPlayersArena(this.arena, PlayingPlayer.class));
                     }
                     
                     Collection<SpleefPlayer> win = this.arena.getAllPlayersType(PlayingPlayer.class);
@@ -118,9 +118,9 @@ public class RunningState implements IRunningState, ICountable, SpectatorFirst {
                         if (winner != null) {
                             winner.setPlayerType(new LosePlayer());
                             
-                            this.arena.sendTitle("", "§b" + winner.getPlayer().getDisplayName() + " §7победил!", 20, 20*15, 20);
+                            this.arena.sendTitle("", winner.getPlayer().getDisplayName() + SpleefManager.mainColor + " победил!", 20, 20*15, 20);
                             
-                            this.arena.sendMessages(SpleefManager.prefix + "§b" + winner.getPlayer().getDisplayName() + " §7победил!");
+                            this.arena.sendMessages(SpleefManager.prefix + winner.getPlayer().getDisplayName() + SpleefManager.mainColor + " победил!");
                             
                             this.arena.sendSounds(Sound.ENTITY_PLAYER_LEVELUP, 999, 2);
                             
@@ -173,7 +173,7 @@ public class RunningState implements IRunningState, ICountable, SpectatorFirst {
             this.cd = 20;
             
             if (this.count <= 0) {
-                arena.sendMessages(SpleefManager.prefix + "Время вышло! §bНичья!");
+                arena.sendMessages(SpleefManager.prefix + "Время вышло! " + SpleefManager.variableColor + "Ничья!");
                 arena.setState(new EndingState(this.arena));
                 return;
             }
@@ -181,11 +181,11 @@ public class RunningState implements IRunningState, ICountable, SpectatorFirst {
             arena.sendLevels(this.count);
             
             if (this.count <= 10) {
-                arena.sendMessages(SpleefManager.prefix + "Игра закончится через §b" + DateUtil.formatedTime(this.count, false));
+                arena.sendMessages(SpleefManager.prefix + "Игра закончится через " + SpleefManager.variableColor + DateUtil.formatedTime(this.count, false));
             }
             else {
                 if ((this.count % 30) == 0){
-                    arena.sendMessages(SpleefManager.prefix + "Игра закончится через §b" + DateUtil.formatedTime(this.count, false));
+                    arena.sendMessages(SpleefManager.prefix + "Игра закончится через " + SpleefManager.variableColor + DateUtil.formatedTime(this.count, false));
                 }
             }
             

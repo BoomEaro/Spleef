@@ -76,7 +76,7 @@ public class EndingState implements IEndingState, ICountable, SpectatorFirst {
             }
             
             if ((this.count % 5) == 0) {
-                arena.sendMessages(SpleefManager.prefix + "Следующая игра начнется через §b" + DateUtil.formatedTime(this.count, false));
+                arena.sendMessages(SpleefManager.prefix + "Следующая игра начнется через " + SpleefManager.variableColor + DateUtil.formatedTime(this.count, false));
             }
             
             this.count--;
