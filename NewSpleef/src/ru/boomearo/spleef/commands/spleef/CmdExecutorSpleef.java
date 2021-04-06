@@ -74,6 +74,6 @@ public class CmdExecutorSpleef extends AbstractExecutor {
 
 	@Override
 	public String getSuffix() {
-		return " §8-§b ";
+		return " §8-" + SpleefManager.variableColor + " ";
 	}
 }
