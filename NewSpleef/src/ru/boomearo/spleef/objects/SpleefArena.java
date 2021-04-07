@@ -18,6 +18,7 @@ import org.bukkit.World;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
 
+import ru.boomearo.gamecontrol.objects.IForceStartable;
 import ru.boomearo.gamecontrol.objects.arena.ClipboardRegenableGameArena;
 import ru.boomearo.gamecontrol.objects.region.IRegion;
 import ru.boomearo.gamecontrol.objects.states.IGameState;
@@ -26,7 +27,7 @@ import ru.boomearo.spleef.managers.SpleefManager;
 import ru.boomearo.spleef.objects.playertype.IPlayerType;
 import ru.boomearo.spleef.objects.state.WaitingState;
 
-public class SpleefArena extends ClipboardRegenableGameArena implements ConfigurationSerializable {
+public class SpleefArena extends ClipboardRegenableGameArena implements IForceStartable, ConfigurationSerializable {
     
     private final int minPlayers;
     private final int maxPlayers;
@@ -39,6 +40,8 @@ public class SpleefArena extends ClipboardRegenableGameArena implements Configur
     
     private final ConcurrentMap<String, SpleefPlayer> players = new ConcurrentHashMap<String, SpleefPlayer>();
     
+    private boolean forceStarted = false;
+    
     public SpleefArena(String name, World world, Material icon, Location originCenter, int minPlayers, int maxPlayers, int timeLimit, IRegion arenaRegion, ConcurrentMap<Integer, SpleefTeam> teams) {
         super(name, world, icon, originCenter);
         this.minPlayers = minPlayers;
@@ -48,6 +51,17 @@ public class SpleefArena extends ClipboardRegenableGameArena implements Configur
         this.teams = teams;
     }
 
+
+    @Override
+    public boolean isForceStarted() {
+        return this.forceStarted;
+    }
+
+    @Override
+    public void setForceStarted(boolean force) {
+        this.forceStarted = force;
+    }
+    
     @Override
     public SpleefPlayer getGamePlayer(String name) {
         return this.players.get(name);
