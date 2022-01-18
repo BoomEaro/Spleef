@@ -13,8 +13,8 @@ import ru.boomearo.gamecontrol.GameControl;
 import ru.boomearo.gamecontrol.exceptions.ConsoleGameException;
 import ru.boomearo.gamecontrol.objects.states.ICountable;
 import ru.boomearo.gamecontrol.objects.states.IRunningState;
-import ru.boomearo.gamecontrol.utils.DateUtil;
 import ru.boomearo.gamecontrol.utils.Vault;
+import ru.boomearo.serverutils.utils.other.DateUtil;
 import ru.boomearo.spleef.Spleef;
 import ru.boomearo.spleef.managers.SpleefManager;
 import ru.boomearo.spleef.managers.SpleefStatistics;
@@ -32,7 +32,7 @@ public class RunningState implements IRunningState, ICountable, SpectatorFirst {
 
     private int cd = 20;
 
-    private final Map<String, BlockOwner> removedBlocks = new HashMap<String, BlockOwner>();
+    private final Map<String, BlockOwner> removedBlocks = new HashMap<>();
 
     public RunningState(SpleefArena arena, int count) {
         this.arena = arena;
@@ -82,8 +82,7 @@ public class RunningState implements IRunningState, ICountable, SpectatorFirst {
             tp.getPlayer().spigot().respawn();
 
             if (!this.arena.getArenaRegion().isInRegionPoint(tp.getPlayer().getLocation())) {
-                if (tp.getPlayerType() instanceof PlayingPlayer) {
-                    PlayingPlayer pp = (PlayingPlayer) tp.getPlayerType();
+                if (tp.getPlayerType() instanceof PlayingPlayer pp) {
                     tp.setPlayerType(new LosePlayer());
 
                     this.deathPlayers++;
@@ -144,8 +143,7 @@ public class RunningState implements IRunningState, ICountable, SpectatorFirst {
             }
 
 
-            if (tp.getPlayerType() instanceof PlayingPlayer) {
-                PlayingPlayer pp = (PlayingPlayer) tp.getPlayerType();
+            if (tp.getPlayerType() instanceof PlayingPlayer pp) {
 
                 BlockOwner bo = this.removedBlocks.get(convertLocToString(tp.getPlayer().getLocation()));
                 if (bo != null) {

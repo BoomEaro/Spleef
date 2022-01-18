@@ -30,6 +30,7 @@ public class Spleef extends JavaPlugin {
 
     private static Spleef instance = null;
 
+    @Override
     public void onEnable() {
         instance = this;
 
@@ -70,14 +71,14 @@ public class Spleef extends JavaPlugin {
         getLogger().info("Плагин успешно запущен.");
     }
 
-
+    @Override
     public void onDisable() {
         try {
             getLogger().info("Отключаюсь от базы данных");
-            Sql.getInstance().Disconnect();
+            Sql.getInstance().disconnect();
             getLogger().info("Успешно отключился от базы данных");
         }
-        catch (SQLException e) {
+        catch (Exception e) {
             e.printStackTrace();
             getLogger().info("Не удалось отключиться от базы данных...");
         }
@@ -105,9 +106,7 @@ public class Spleef extends JavaPlugin {
 
         }
         try {
-            for (SpleefStatsType type : SpleefStatsType.values()) {
-                Sql.getInstance().createNewDatabaseStatsData(type);
-            }
+            Sql.initSql();
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -118,12 +117,12 @@ public class Spleef extends JavaPlugin {
         try {
             for (SpleefStatsType type : SpleefStatsType.values()) {
                 SpleefStatsData data = this.arenaManager.getStatisticManager().getStatsData(type);
-                for (SectionStats stats : Sql.getInstance().getAllStatsData(type)) {
+                for (SectionStats stats : Sql.getInstance().getAllStatsData(type).get()) {
                     data.addStatsPlayer(new StatsPlayer(stats.name, stats.value));
                 }
             }
         }
-        catch (SQLException e) {
+        catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -19,26 +19,26 @@ import ru.boomearo.gamecontrol.GameControl;
 import ru.boomearo.gamecontrol.exceptions.ConsoleGameException;
 import ru.boomearo.gamecontrol.exceptions.PlayerGameException;
 import ru.boomearo.gamecontrol.objects.region.CuboidRegion;
+import ru.boomearo.serverutils.utils.other.commands.CmdInfo;
+import ru.boomearo.serverutils.utils.other.commands.Commands;
 import ru.boomearo.spleef.Spleef;
-import ru.boomearo.spleef.commands.CmdInfo;
 import ru.boomearo.spleef.managers.SpleefManager;
 import ru.boomearo.spleef.objects.SpleefArena;
 import ru.boomearo.spleef.objects.SpleefTeam;
 
-public class SpleefUse {
+public class SpleefUse implements Commands {
 
 
     @CmdInfo(name = "createarena", description = "Создать арену с указанным названием.", usage = "/spleef createarena <название>", permission = "spleef.admin")
     public boolean createarena(CommandSender cs, String[] args) {
-        if (!(cs instanceof Player)) {
+        if (!(cs instanceof Player pl)) {
             cs.sendMessage("Данная команда только для игроков.");
             return true;
         }
-        if (args.length < 1 || args.length > 1) {
+        if (args.length != 1) {
             return false;
         }
         String arena = args[0];
-        Player pl = (Player) cs;
 
         BukkitPlayer bPlayer = BukkitAdapter.adapt(pl);
         LocalSession ls = WorldEdit.getInstance().getSessionManager().get(bPlayer);
@@ -50,14 +50,14 @@ public class SpleefUse {
         try {
             re = ls.getSelection(ls.getSelectionWorld());
         }
-        catch (IncompleteRegionException e) {
+        catch (IncompleteRegionException ignored) {
         }
         if (re == null) {
             pl.sendMessage(SpleefManager.prefix + "Выделите регион!");
             return true;
         }
 
-        ConcurrentMap<Integer, SpleefTeam> teams = new ConcurrentHashMap<Integer, SpleefTeam>();
+        ConcurrentMap<Integer, SpleefTeam> teams = new ConcurrentHashMap<>();
 
         int maxPlayers = 15;
 
@@ -84,15 +84,14 @@ public class SpleefUse {
 
     @CmdInfo(name = "setspawnpoint", description = "Установить точку спавна в указанной арене указанной команде.", usage = "/spleef setspawnpoint <арена> <ид>", permission = "spleef.admin")
     public boolean setspawnpoint(CommandSender cs, String[] args) {
-        if (!(cs instanceof Player)) {
+        if (!(cs instanceof Player pl)) {
             cs.sendMessage("Данная команда только для игроков.");
             return true;
         }
-        if (args.length < 2 || args.length > 2) {
+        if (args.length != 2) {
             return false;
         }
         String arena = args[0];
-        Player pl = (Player) cs;
 
         SpleefManager trm = Spleef.getInstance().getSpleefManager();
         SpleefArena ar = trm.getGameArena(arena);
@@ -105,7 +104,7 @@ public class SpleefUse {
         try {
             id = Integer.parseInt(args[1]);
         }
-        catch (Exception e) {
+        catch (Exception ignored) {
         }
         if (id == null) {
             cs.sendMessage(SpleefManager.prefix + "Аргумент должен быть цифрой!");
@@ -129,15 +128,14 @@ public class SpleefUse {
 
     @CmdInfo(name = "join", description = "Присоединиться к указанной арене.", usage = "/spleef join <арена>", permission = "")
     public boolean join(CommandSender cs, String[] args) {
-        if (!(cs instanceof Player)) {
+        if (!(cs instanceof Player pl)) {
             cs.sendMessage("Данная команда только для игроков.");
             return true;
         }
-        if (args.length < 1 || args.length > 1) {
+        if (args.length != 1) {
             return false;
         }
         String arena = args[0];
-        Player pl = (Player) cs;
 
         try {
             GameControl.getInstance().getGameManager().joinGame(pl, Spleef.class, arena);
@@ -154,14 +152,13 @@ public class SpleefUse {
 
     @CmdInfo(name = "leave", description = "Покинуть игру.", usage = "/spleef leave", permission = "")
     public boolean leave(CommandSender cs, String[] args) {
-        if (!(cs instanceof Player)) {
+        if (!(cs instanceof Player pl)) {
             cs.sendMessage("Данная команда только для игроков.");
             return true;
         }
-        if (args.length < 0 || args.length > 0) {
+        if (args.length != 0) {
             return false;
         }
-        Player pl = (Player) cs;
 
         try {
             GameControl.getInstance().getGameManager().leaveGame(pl);
@@ -178,7 +175,7 @@ public class SpleefUse {
 
     @CmdInfo(name = "list", description = "Показать список всех доступных арен.", usage = "/spleef list", permission = "")
     public boolean list(CommandSender cs, String[] args) {
-        if (args.length < 0 || args.length > 0) {
+        if (args.length != 0) {
             return false;
         }
 

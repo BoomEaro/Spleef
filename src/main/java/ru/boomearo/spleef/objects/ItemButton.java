@@ -13,64 +13,61 @@ import ru.boomearo.gamecontrol.exceptions.GameControlException;
 
 public enum ItemButton {
 
-    Dig(createDigButton(), 0, null),
-    
-    Leave(createLeaveButton(), 8, new ButtonClick() {
+    Dig(0) {
 
         @Override
-        public void click(SpleefPlayer player) {
+        public ItemStack getItem() {
+            ItemStack item = new ItemStack(Material.DIAMOND_SHOVEL, 1);
+            ItemMeta meta = item.getItemMeta();
+            meta.addEnchant(Enchantment.DURABILITY, 10, true);
+            meta.addItemFlags(ItemFlag.values());
+            item.setItemMeta(meta);
+            return item;
+        }
+
+        @Override
+        public void handleClick(SpleefPlayer player) {
+
+        }
+
+    },
+
+    Leave(8) {
+
+        @Override
+        public ItemStack getItem() {
+            ItemStack item = new ItemStack(Material.MAGMA_CREAM, 1);
+            ItemMeta meta = item.getItemMeta();
+            meta.setDisplayName("§cПокинуть игру §8[§cПКМ§8]");
+            meta.setLore(Arrays.asList("§fКликните чтобы покинуть игру."));
+            meta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+            meta.addItemFlags(ItemFlag.values());
+            item.setItemMeta(meta);
+            return item;
+        }
+
+        @Override
+        public void handleClick(SpleefPlayer player) {
             try {
                 GameControl.getInstance().getGameManager().leaveGame(player.getPlayer());
-            } 
+            }
             catch (GameControlException e) {
                 e.printStackTrace();
             }
         }
-        
-    });
-    
-    private final ItemStack item;
+
+    };
+
     private final int slot;
-    private final ButtonClick click;
-    
-    ItemButton(ItemStack item, int slot, ButtonClick click) {
-        this.item = item;
+
+    ItemButton(int slot) {
         this.slot = slot;
-        this.click = click;
     }
-    
-    public ItemStack getItem() {
-        return this.item.clone();
-    }
-    
+
     public int getSlot() {
         return this.slot;
     }
-    
-    public ButtonClick getClick() {
-        return this.click;
-    }
-    
-    private static ItemStack createLeaveButton() {
-        ItemStack item = new ItemStack(Material.MAGMA_CREAM, 1);
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName("§cПокинуть игру §8[§cПКМ§8]");
-        meta.setLore(Arrays.asList("§fКликните чтобы покинуть игру."));
-        meta.addEnchant(Enchantment.DIG_SPEED, 1, true);
-        meta.addItemFlags(ItemFlag.values());
-        item.setItemMeta(meta);
-        return item;
-    }
-    
-    private static ItemStack createDigButton() {
-        ItemStack item = new ItemStack(Material.DIAMOND_SHOVEL, 1);
-        ItemMeta meta = item.getItemMeta();
-        meta.addEnchant(Enchantment.DURABILITY, 10, true);
-        meta.addItemFlags(ItemFlag.values());
-        item.setItemMeta(meta);
-        return item;
-    }
-    
+
     public static ItemButton getButtonByItem(ItemStack item) {
         for (ItemButton ib : values()) {
             if (ib.getItem().isSimilar(item)) {
@@ -79,8 +76,9 @@ public enum ItemButton {
         }
         return null;
     }
-    
-    public static interface ButtonClick {
-        public void click(SpleefPlayer player);
-    }
+
+    public abstract ItemStack getItem();
+
+    public abstract void handleClick(SpleefPlayer player);
+
 }

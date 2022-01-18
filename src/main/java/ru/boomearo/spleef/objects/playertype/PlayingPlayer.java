@@ -6,7 +6,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 
-import ru.boomearo.gamecontrol.utils.ExpFix;
+import ru.boomearo.serverutils.utils.other.ExpFix;
 import ru.boomearo.spleef.objects.ItemButton;
 import ru.boomearo.spleef.objects.SpleefPlayer;
 import ru.boomearo.spleef.objects.SpleefTeam;

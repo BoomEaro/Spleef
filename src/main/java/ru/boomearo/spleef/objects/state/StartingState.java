@@ -4,7 +4,7 @@ import org.bukkit.Sound;
 
 import ru.boomearo.gamecontrol.objects.states.ICountable;
 import ru.boomearo.gamecontrol.objects.states.IStartingState;
-import ru.boomearo.gamecontrol.utils.DateUtil;
+import ru.boomearo.serverutils.utils.other.DateUtil;
 import ru.boomearo.spleef.managers.SpleefManager;
 import ru.boomearo.spleef.objects.SpleefArena;
 import ru.boomearo.spleef.objects.SpleefPlayer;

@@ -7,36 +7,36 @@ import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
+import org.bukkit.command.TabCompleter;
+import ru.boomearo.serverutils.utils.other.commands.AbstractExecutor;
 import ru.boomearo.spleef.Spleef;
-import ru.boomearo.spleef.commands.AbstractExecutor;
-import ru.boomearo.spleef.commands.CmdList;
 import ru.boomearo.spleef.managers.SpleefManager;
 import ru.boomearo.spleef.objects.SpleefArena;
 
-public class CmdExecutorSpleef extends AbstractExecutor {
+public class CmdExecutorSpleef extends AbstractExecutor implements TabCompleter {
+
+    private static final List<String> empty = new ArrayList<>();
 
     public CmdExecutorSpleef() {
         super(new SpleefUse());
     }
 
     @Override
-    public boolean zeroArgument(CommandSender sender, CmdList cmds) {
-        cmds.sendUsageCmds(sender);
+    public boolean zeroArgument(CommandSender sender) {
+        sendUsageCommands(sender);
         return true;
     }
 
-    private static final List<String> empty = new ArrayList<>();
-
     @Override
-    public List<String> onTabComplete(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
-        if (arg3.length == 1) {
-            List<String> ss = new ArrayList<String>(Arrays.asList("join", "leave", "list"));
-            if (arg0.hasPermission("spleef.admin")) {
+    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+        if (args.length == 1) {
+            List<String> ss = new ArrayList<>(Arrays.asList("join", "leave", "list"));
+            if (sender.hasPermission("spleef.admin")) {
                 ss.add("createarena");
                 ss.add("setspawnpoint");
             }
             List<String> matches = new ArrayList<>();
-            String search = arg3[0].toLowerCase();
+            String search = args[0].toLowerCase();
             for (String se : ss) {
                 if (se.toLowerCase().startsWith(search)) {
                     matches.add(se);
@@ -44,17 +44,13 @@ public class CmdExecutorSpleef extends AbstractExecutor {
             }
             return matches;
         }
-        if (arg3.length == 2) {
-            if (arg3[0].equalsIgnoreCase("join")) {
-                List<String> ss = new ArrayList<String>();
-                for (SpleefArena arena : Spleef.getInstance().getSpleefManager().getAllArenas()) {
-                    ss.add(arena.getName());
-                }
+        if (args.length == 2) {
+            if (args[0].equalsIgnoreCase("join")) {
                 List<String> matches = new ArrayList<>();
-                String search = arg3[1].toLowerCase();
-                for (String se : ss) {
-                    if (se.toLowerCase().startsWith(search)) {
-                        matches.add(se);
+                String search = args[1].toLowerCase();
+                for (SpleefArena arena : Spleef.getInstance().getSpleefManager().getAllArenas()) {
+                    if (arena.getName().toLowerCase().startsWith(search)) {
+                        matches.add(arena.getName());
                     }
                 }
                 return matches;
