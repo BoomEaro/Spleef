@@ -13,7 +13,7 @@ import ru.boomearo.spleef.objects.SpleefPlayer;
 public class SpleefPageList extends AbstractPageList {
 
     private final SpleefPlayer spPlayer;
-    
+
     public SpleefPageList(PlayerBoard player, SpleefPlayer spPlayer) {
         super(player);
         this.spPlayer = spPlayer;
@@ -21,11 +21,11 @@ public class SpleefPageList extends AbstractPageList {
 
     @Override
     protected List<AbstractPage> createPages() {
-        List<AbstractPage> pages = new ArrayList<AbstractPage>();
-        
+        List<AbstractPage> pages = new ArrayList<>();
+
         pages.add(new SpleefLobbyPage(this, this.spPlayer));
         pages.add(new SpleefGamePage(this, this.spPlayer));
-        
+
         return pages;
     }
 

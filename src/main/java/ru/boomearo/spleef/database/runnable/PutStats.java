@@ -12,26 +12,26 @@ import ru.boomearo.spleef.objects.statistics.SpleefStatsType;
 public class PutStats extends BukkitRunnable {
 
     private final SpleefStatsType type;
-	private final StatsPlayer player;
-	
-	public PutStats(SpleefStatsType type, StatsPlayer player) {
-		this.player = player;
-		this.type = type;
-		runnable();
-	}
-	
-	private void runnable() {
-		this.runTaskAsynchronously(Spleef.getInstance());
-	}
-	
-	@Override
-	public void run() {
-		try {
-			Sql.getInstance().putStatsData(this.type, this.player.getName(), this.player.getValue());
-		} 
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
+    private final StatsPlayer player;
+
+    public PutStats(SpleefStatsType type, StatsPlayer player) {
+        this.player = player;
+        this.type = type;
+        runnable();
+    }
+
+    private void runnable() {
+        this.runTaskAsynchronously(Spleef.getInstance());
+    }
+
+    @Override
+    public void run() {
+        try {
+            Sql.getInstance().putStatsData(this.type, this.player.getName(), this.player.getValue());
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

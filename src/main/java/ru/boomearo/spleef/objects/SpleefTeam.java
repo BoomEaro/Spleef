@@ -9,43 +9,43 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable;
 public class SpleefTeam implements ConfigurationSerializable {
 
     private final int id;
-    
+
     private Location loc = null;
-    
+
     private SpleefPlayer player = null;
-    
+
     public SpleefTeam(int id, Location loc) {
         this.id = id;
         this.loc = loc;
     }
-    
+
     public int getId() {
         return this.id;
     }
-    
+
     public Location getSpawnPoint() {
         return this.loc;
     }
-    
+
     public void setSpawnPoint(Location loc) {
         this.loc = loc;
     }
-    
+
     public SpleefPlayer getPlayer() {
         return this.player;
     }
-    
+
     public void setPlayer(SpleefPlayer player) {
         this.player = player;
     }
-    
+
     @Override
     public Map<String, Object> serialize() {
-        Map<String, Object> result = new LinkedHashMap<String, Object>();
+        Map<String, Object> result = new LinkedHashMap<>();
 
         result.put("id", this.id);
         result.put("spawnPoint", this.loc);
-        
+
         return result;
     }
 

@@ -10,13 +10,13 @@ import ru.boomearo.gamecontrol.objects.statistics.StatsPlayer;
 public class SpleefStatsData implements IStatsData {
 
     private final SpleefStatsType type;
-    
-    private final ConcurrentMap<String, StatsPlayer> players = new ConcurrentHashMap<String, StatsPlayer>();
-    
+
+    private final ConcurrentMap<String, StatsPlayer> players = new ConcurrentHashMap<>();
+
     public SpleefStatsData(SpleefStatsType type) {
         this.type = type;
     }
-    
+
     @Override
     public String getName() {
         return this.type.name();
@@ -35,7 +35,7 @@ public class SpleefStatsData implements IStatsData {
     public SpleefStatsType getType() {
         return this.type;
     }
-    
+
     public void addStatsPlayer(StatsPlayer data) {
         this.players.put(data.getName(), data);
     }

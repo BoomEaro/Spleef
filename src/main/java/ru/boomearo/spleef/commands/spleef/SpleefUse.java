@@ -39,7 +39,7 @@ public class SpleefUse {
         }
         String arena = args[0];
         Player pl = (Player) cs;
-        
+
         BukkitPlayer bPlayer = BukkitAdapter.adapt(pl);
         LocalSession ls = WorldEdit.getInstance().getSessionManager().get(bPlayer);
         if (ls == null) {
@@ -48,25 +48,26 @@ public class SpleefUse {
         }
         Region re = null;
         try {
-            re = ls.getSelection(ls.getSelectionWorld());   
+            re = ls.getSelection(ls.getSelectionWorld());
         }
-        catch (IncompleteRegionException e) {}
+        catch (IncompleteRegionException e) {
+        }
         if (re == null) {
             pl.sendMessage(SpleefManager.prefix + "Выделите регион!");
             return true;
         }
 
         ConcurrentMap<Integer, SpleefTeam> teams = new ConcurrentHashMap<Integer, SpleefTeam>();
-        
+
         int maxPlayers = 15;
-        
+
         for (int i = 1; i <= maxPlayers; i++) {
             teams.put(i, new SpleefTeam(i, null));
         }
-        
+
         try {
             SpleefArena newArena = new SpleefArena(arena, pl.getWorld(), Material.STONE, GameControl.normalizeLocation(pl.getLocation()), 2, maxPlayers, 300, new CuboidRegion(re.getMaximumPoint(), re.getMinimumPoint(), pl.getWorld()), teams);
-            
+
             SpleefManager am = Spleef.getInstance().getSpleefManager();
             am.addArena(newArena);
 
@@ -77,10 +78,10 @@ public class SpleefUse {
         catch (Exception e) {
             pl.sendMessage(e.getMessage());
         }
-        
+
         return true;
     }
-    
+
     @CmdInfo(name = "setspawnpoint", description = "Установить точку спавна в указанной арене указанной команде.", usage = "/spleef setspawnpoint <арена> <ид>", permission = "spleef.admin")
     public boolean setspawnpoint(CommandSender cs, String[] args) {
         if (!(cs instanceof Player)) {
@@ -99,29 +100,30 @@ public class SpleefUse {
             cs.sendMessage(SpleefManager.prefix + "Арена '§b" + arena + "§7' не найдена!");
             return true;
         }
-        
+
         Integer id = null;
         try {
             id = Integer.parseInt(args[1]);
         }
-        catch (Exception e) {}
+        catch (Exception e) {
+        }
         if (id == null) {
             cs.sendMessage(SpleefManager.prefix + "Аргумент должен быть цифрой!");
             return true;
         }
-        
+
         SpleefTeam team = ar.getTeamById(id);
         if (team == null) {
             cs.sendMessage(SpleefManager.prefix + "Команда §b" + id + " §7не найдена!");
             return true;
         }
-        
+
         team.setSpawnPoint(GameControl.normalizeRotation(pl.getLocation()));
-        
+
         trm.saveArenas();
-        
+
         cs.sendMessage(SpleefManager.prefix + "Спавн поинт §b" + id + " §7успешно добавлен!");
-        
+
         return true;
     }
 
@@ -139,7 +141,7 @@ public class SpleefUse {
 
         try {
             GameControl.getInstance().getGameManager().joinGame(pl, Spleef.class, arena);
-        } 
+        }
         catch (PlayerGameException e) {
             pl.sendMessage(SpleefManager.prefix + "§cОшибка: " + SpleefManager.mainColor + e.getMessage());
         }
@@ -149,7 +151,7 @@ public class SpleefUse {
         }
         return true;
     }
-        
+
     @CmdInfo(name = "leave", description = "Покинуть игру.", usage = "/spleef leave", permission = "")
     public boolean leave(CommandSender cs, String[] args) {
         if (!(cs instanceof Player)) {
@@ -163,7 +165,7 @@ public class SpleefUse {
 
         try {
             GameControl.getInstance().getGameManager().leaveGame(pl);
-        } 
+        }
         catch (PlayerGameException e) {
             pl.sendMessage(SpleefManager.prefix + "§cОшибка: " + SpleefManager.mainColor + e.getMessage());
         }
@@ -173,13 +175,13 @@ public class SpleefUse {
         }
         return true;
     }
-    
+
     @CmdInfo(name = "list", description = "Показать список всех доступных арен.", usage = "/spleef list", permission = "")
     public boolean list(CommandSender cs, String[] args) {
         if (args.length < 0 || args.length > 0) {
             return false;
         }
-        
+
         Collection<SpleefArena> arenas = Spleef.getInstance().getSpleefManager().getAllArenas();
         if (arenas.isEmpty()) {
             cs.sendMessage(SpleefManager.prefix + "Арены еще не созданы!");
@@ -191,7 +193,7 @@ public class SpleefUse {
             cs.sendMessage(SpleefManager.prefix + "Арена: '" + SpleefManager.variableColor + arena.getName() + SpleefManager.mainColor + "'. Статус: " + arena.getState().getName() + SpleefManager.mainColor + ". Игроков: " + SpleefManager.getRemainPlayersArena(arena, null));
         }
         cs.sendMessage(sep);
-        
+
         return true;
     }
 }

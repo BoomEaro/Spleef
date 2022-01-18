@@ -23,16 +23,17 @@ public class SpectatorListener implements Listener {
             Player pl = e.getPlayer();
             SpleefPlayer tp = Spleef.getInstance().getSpleefManager().getGamePlayer(pl.getName());
             if (tp != null) {
-                
+
                 try {
                     GameControl.getInstance().getGameManager().leaveGame(pl);
                 }
-                catch (GameControlException e1) {}
-                
+                catch (GameControlException ignored) {
+                }
+
                 e.setCancelled(true);
             }
         }
-        
+
     }
-    
+
 }

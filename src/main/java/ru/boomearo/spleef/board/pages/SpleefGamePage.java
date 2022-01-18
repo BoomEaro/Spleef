@@ -19,7 +19,7 @@ import ru.boomearo.spleef.objects.state.RunningState;
 public class SpleefGamePage extends AbstractPage {
 
     private final SpleefPlayer spPlayer;
-    
+
     public SpleefGamePage(AbstractPageList pageList, SpleefPlayer spPlayer) {
         super(pageList);
         this.spPlayer = spPlayer;
@@ -52,7 +52,7 @@ public class SpleefGamePage extends AbstractPage {
             }
 
         });
-        
+
         holders.add(new AbstractHolder(this) {
 
             @Override
@@ -61,16 +61,16 @@ public class SpleefGamePage extends AbstractPage {
             }
 
         });
-        
+
         holders.add(new AbstractHolder(this) {
 
             @Override
             protected String getText() {
                 return SpleefManager.mainColor + "Карта: '" + SpleefManager.variableColor + spPlayer.getArena().getName() + SpleefManager.mainColor + "'";
             }
-            
+
         });
-        
+
         holders.add(new AbstractHolder(this) {
 
             @Override
@@ -86,14 +86,14 @@ public class SpleefGamePage extends AbstractPage {
             protected String getText() {
                 return SpleefManager.mainColor + "Статус: " + spPlayer.getArena().getState().getName();
             }
-            
+
             @Override
             public long getMaxCacheTime() {
                 return 0;
             }
-            
+
         });
-        
+
         holders.add(new AbstractHolder(this) {
 
             @Override
@@ -101,7 +101,7 @@ public class SpleefGamePage extends AbstractPage {
                 IGameState state = spPlayer.getArena().getState();
                 if (state instanceof RunningState) {
                     RunningState rs = (RunningState) state;
-                    
+
                     return SpleefManager.mainColor + "До конца: " + SpleefManager.variableColor + getFormattedTimeLeft(rs.getCount());
                 }
                 else if (state instanceof EndingState) {
@@ -110,14 +110,14 @@ public class SpleefGamePage extends AbstractPage {
                 }
                 return " ";
             }
-            
+
             @Override
             public long getMaxCacheTime() {
                 return 0;
             }
 
         });
-        
+
         holders.add(new AbstractHolder(this) {
 
             @Override
@@ -126,7 +126,7 @@ public class SpleefGamePage extends AbstractPage {
             }
 
         });
-        
+
         holders.add(new AbstractHolder(this) {
 
             @Override
@@ -135,8 +135,8 @@ public class SpleefGamePage extends AbstractPage {
             }
 
         });
-        
-        
+
+
         holders.add(new AbstractHolder(this) {
 
             @Override
@@ -145,7 +145,7 @@ public class SpleefGamePage extends AbstractPage {
             }
 
         });
-        
+
         return holders;
     }
 

@@ -18,7 +18,7 @@ import ru.boomearo.spleef.objects.statistics.SpleefStatsType;
 public class SpleefLobbyPage extends AbstractPage {
 
     private final SpleefPlayer spPlayer;
-    
+
     public SpleefLobbyPage(AbstractPageList pageList, SpleefPlayer spPlayer) {
         super(pageList);
         this.spPlayer = spPlayer;
@@ -41,8 +41,8 @@ public class SpleefLobbyPage extends AbstractPage {
 
     @Override
     protected List<AbstractHolder> createHolders() {
-        List<AbstractHolder> holders = new ArrayList<AbstractHolder>();
-        
+        List<AbstractHolder> holders = new ArrayList<>();
+
         holders.add(new AbstractHolder(this) {
 
             @Override
@@ -51,7 +51,7 @@ public class SpleefLobbyPage extends AbstractPage {
             }
 
         });
-        
+
         holders.add(new AbstractHolder(this) {
 
             @Override
@@ -60,91 +60,91 @@ public class SpleefLobbyPage extends AbstractPage {
             }
 
         });
-        
+
         holders.add(new AbstractHolder(this) {
 
             @Override
             protected String getText() {
                 return SpleefManager.mainColor + "Карта: '" + SpleefManager.variableColor + spPlayer.getArena().getName() + SpleefManager.mainColor + "'";
             }
-            
+
         });
-        
+
         holders.add(new AbstractHolder(this) {
 
             @Override
             protected String getText() {
                 return " ";
             }
-            
+
         });
-        
+
         holders.add(new AbstractHolder(this) {
 
             @Override
             protected String getText() {
                 return SpleefManager.mainColor + "Игроков: " + SpleefManager.variableColor + spPlayer.getArena().getAllPlayers().size() + "§8/" + SpleefManager.otherColor + spPlayer.getArena().getMaxPlayers();
             }
-            
+
             @Override
             public long getMaxCacheTime() {
                 return 0;
             }
-            
+
         });
-        
+
         holders.add(new AbstractHolder(this) {
 
             @Override
             protected String getText() {
                 return SpleefManager.mainColor + "Статус: " + spPlayer.getArena().getState().getName();
             }
-            
+
             @Override
             public long getMaxCacheTime() {
                 return 0;
             }
-            
+
         });
-        
+
         holders.add(new AbstractHolder(this) {
 
             @Override
             protected String getText() {
                 return " ";
             }
-            
+
         });
-        
+
         holders.add(new AbstractHolder(this) {
 
             @Override
             protected String getText() {
                 return SpleefManager.mainColor + "Статистика: ";
             }
-            
+
         });
-        
+
         holders.add(new AbstractHolder(this) {
 
             @Override
             protected String getText() {
                 return getStatisticData(SpleefStatsType.Wins, spPlayer.getName());
             }
-            
-            
+
+
         });
-        
+
         holders.add(new AbstractHolder(this) {
 
             @Override
             protected String getText() {
                 return getStatisticData(SpleefStatsType.Defeat, spPlayer.getName());
             }
-            
-            
+
+
         });
-        
+
         return holders;
     }
 
@@ -154,8 +154,8 @@ public class SpleefLobbyPage extends AbstractPage {
         if (sp == null) {
             return SpleefManager.mainColor + type.getName() + ": " + SpleefManager.variableColor + "0";
         }
-        
+
         return SpleefManager.mainColor + type.getName() + ": " + SpleefManager.variableColor + (long) sp.getValue();
     }
-    
+
 }

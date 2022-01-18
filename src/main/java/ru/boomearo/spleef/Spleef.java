@@ -23,92 +23,92 @@ import ru.boomearo.spleef.objects.statistics.SpleefStatsType;
 import ru.boomearo.spleef.runnable.ArenasRunnable;
 
 public class Spleef extends JavaPlugin {
-    
+
     private SpleefManager arenaManager = null;
-    
+
     private ArenasRunnable pmr = null;
-    
+
     private static Spleef instance = null;
 
     public void onEnable() {
         instance = this;
-        
+
         ConfigurationSerialization.registerClass(SpleefArena.class);
         ConfigurationSerialization.registerClass(SpleefTeam.class);
-        
+
         File configFile = new File(getDataFolder() + File.separator + "config.yml");
-        if(!configFile.exists()) {
+        if (!configFile.exists()) {
             getLogger().info("Конфиг не найден, создаю новый...");
             saveDefaultConfig();
         }
-        
+
         if (this.arenaManager == null) {
             this.arenaManager = new SpleefManager();
         }
-        
+
         loadDataBase();
         loadDataFromDatabase();
-        
+
         try {
             GameControl.getInstance().getGameManager().registerGame(this.getClass(), this.arenaManager);
-        } 
+        }
         catch (ConsoleGameException e) {
             e.printStackTrace();
         }
-        
+
         getCommand("spleef").setExecutor(new CmdExecutorSpleef());
-        
+
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerButtonListener(), this);
-        
+
         getServer().getPluginManager().registerEvents(new SpectatorListener(), this);
-        
+
         if (this.pmr == null) {
             this.pmr = new ArenasRunnable();
         }
-        
+
         getLogger().info("Плагин успешно запущен.");
     }
-    
-    
+
+
     public void onDisable() {
         try {
             getLogger().info("Отключаюсь от базы данных");
             Sql.getInstance().Disconnect();
             getLogger().info("Успешно отключился от базы данных");
-        } 
+        }
         catch (SQLException e) {
             e.printStackTrace();
             getLogger().info("Не удалось отключиться от базы данных...");
         }
-        
+
         try {
             GameControl.getInstance().getGameManager().unregisterGame(this.getClass());
-        } 
+        }
         catch (ConsoleGameException e) {
             e.printStackTrace();
         }
 
         ConfigurationSerialization.unregisterClass(SpleefArena.class);
         ConfigurationSerialization.unregisterClass(SpleefTeam.class);
-        
+
         getLogger().info("Плагин успешно выключен.");
     }
-    
+
     public SpleefManager getSpleefManager() {
         return this.arenaManager;
     }
-    
+
     private void loadDataBase() {
         if (!getDataFolder().exists()) {
-            getDataFolder().mkdir(); 
+            getDataFolder().mkdir();
 
         }
         try {
             for (SpleefStatsType type : SpleefStatsType.values()) {
                 Sql.getInstance().createNewDatabaseStatsData(type);
             }
-        } 
+        }
         catch (SQLException e) {
             e.printStackTrace();
         }
@@ -122,13 +122,13 @@ public class Spleef extends JavaPlugin {
                     data.addStatsPlayer(new StatsPlayer(stats.name, stats.value));
                 }
             }
-        } 
+        }
         catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    
-    public static Spleef getInstance() { 
+
+    public static Spleef getInstance() {
         return instance;
     }
 

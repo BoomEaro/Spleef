@@ -13,7 +13,7 @@ import ru.boomearo.spleef.objects.statistics.SpleefStatsType;
 
 public class SpleefStatistics implements IStatisticsManager {
 
-    private final ConcurrentMap<SpleefStatsType, SpleefStatsData> stats = new ConcurrentHashMap<SpleefStatsType, SpleefStatsData>();
+    private final ConcurrentMap<SpleefStatsType, SpleefStatsData> stats = new ConcurrentHashMap<>();
     
     public SpleefStatistics() {
         for (SpleefStatsType type : SpleefStatsType.values()) {
@@ -27,7 +27,7 @@ public class SpleefStatistics implements IStatisticsManager {
         try {
             type = SpleefStatsType.valueOf(name);
         }
-        catch (Exception e) {}
+        catch (Exception ignored) {}
         if (type == null) {
             return null;
         }

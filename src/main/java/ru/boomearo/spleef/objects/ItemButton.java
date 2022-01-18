@@ -29,9 +29,9 @@ public enum ItemButton {
         
     });
     
-    private ItemStack item;
-    private int slot;
-    private ButtonClick click;
+    private final ItemStack item;
+    private final int slot;
+    private final ButtonClick click;
     
     ItemButton(ItemStack item, int slot, ButtonClick click) {
         this.item = item;

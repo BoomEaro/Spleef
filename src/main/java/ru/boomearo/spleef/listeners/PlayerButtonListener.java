@@ -19,7 +19,7 @@ public class PlayerButtonListener implements Listener {
         Player pl = e.getPlayer();
         SpleefPlayer tp = Spleef.getInstance().getSpleefManager().getGamePlayer(pl.getName());
         if (tp != null) {
-            
+
             Action ac = e.getAction();
             if (ac == Action.RIGHT_CLICK_AIR || ac == Action.RIGHT_CLICK_BLOCK) {
                 ItemStack item = e.getItem();
@@ -37,5 +37,5 @@ public class PlayerButtonListener implements Listener {
         }
     }
 
-    
+
 }

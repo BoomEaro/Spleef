@@ -14,12 +14,12 @@ public class SpleefPlayer implements IGamePlayer {
 
     private final String name;
     private final Player player;
-    
+
     private IPlayerType playerType;
-   
-    private SpleefArena where;
-    private SpleefTeam team;
-    
+
+    private final SpleefArena where;
+    private final SpleefTeam team;
+
     public SpleefPlayer(String name, Player player, IPlayerType playerType, SpleefArena where, SpleefTeam team) {
         this.name = name;
         this.player = player;
@@ -27,34 +27,34 @@ public class SpleefPlayer implements IGamePlayer {
         this.where = where;
         this.team = team;
     }
-    
+
     @Override
     public String getName() {
         return this.name;
     }
-    
+
     @Override
     public Player getPlayer() {
         return this.player;
     }
-    
+
     @Override
     public SpleefArena getArena() {
         return this.where;
     }
-    
+
     public SpleefTeam getTeam() {
         return this.team;
     }
-    
+
     public IPlayerType getPlayerType() {
         return this.playerType;
     }
-    
+
     public void setPlayerType(IPlayerType playerType) {
         this.playerType = playerType;
     }
-    
+
     public void sendBoard(Integer index) {
         PlayerBoard pb = Board.getInstance().getBoardManager().getPlayerBoard(this.name);
         if (pb != null) {
@@ -66,18 +66,18 @@ public class SpleefPlayer implements IGamePlayer {
                 else {
                     apl = new SpleefPageList(pb, this);
                 }
-                
+
                 pb.setNewPageList(apl);
-                
+
                 if (index != null) {
                     pb.toPage(index, pb.getPageByIndex(index));
                 }
-            } 
+            }
             catch (BoardException e) {
                 e.printStackTrace();
             }
         }
     }
-    
-    
+
+
 }

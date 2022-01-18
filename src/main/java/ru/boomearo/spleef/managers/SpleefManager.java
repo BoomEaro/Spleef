@@ -32,23 +32,23 @@ import ru.boomearo.spleef.objects.state.SpectatorFirst;
 
 public final class SpleefManager implements IGameManager {
 
-    private final ConcurrentMap<String, SpleefArena> arenas = new ConcurrentHashMap<String, SpleefArena>();
+    private final ConcurrentMap<String, SpleefArena> arenas = new ConcurrentHashMap<>();
 
-    private final ConcurrentMap<String, SpleefPlayer> players = new ConcurrentHashMap<String, SpleefPlayer>();
-    
+    private final ConcurrentMap<String, SpleefPlayer> players = new ConcurrentHashMap<>();
+
     private final SpleefStatistics stats = new SpleefStatistics();
-    
+
     public static final ChatColor mainColor = GameManager.backgroundTextColor;
     public static final ChatColor variableColor = ChatColor.of(new Color(196, 255, 254));
     public static final ChatColor otherColor = ChatColor.of(new Color(145, 255, 254));
-    
+
     public static final String gameNameDys = "§8[" + variableColor + "Spleef§8]";
     public static final String prefix = gameNameDys + ": " + mainColor;
-    
+
     public static final double winReward = 10;
 
     public SpleefManager() {
-        loadArenas();  
+        loadArenas();
     }
 
     @Override
@@ -75,7 +75,7 @@ public final class SpleefManager implements IGameManager {
     public ChatColor getOtherColor() {
         return otherColor;
     }
-    
+
     @Override
     public JavaPlugin getPlugin() {
         return Spleef.getInstance();
@@ -101,18 +101,18 @@ public final class SpleefManager implements IGameManager {
         if (count >= tmpArena.getMaxPlayers()) {
             throw new PlayerGameException("Карта " + mainColor + "'" + variableColor + arena + mainColor + "' переполнена!");
         }
-        
+
         SpleefTeam team = tmpArena.getFreeTeam();
         if (team == null) {
             throw new ConsoleGameException("Не найдено свободных команд!");
         }
-        
+
         IGameState state = tmpArena.getState();
 
         IPlayerType type;
-        
+
         boolean isSpec;
-        
+
         //Если статус игры реализует это, значит добавляем игрока в наблюдатели сначала
         if (state instanceof SpectatorFirst) {
             type = new LosePlayer();
@@ -128,7 +128,7 @@ public final class SpleefManager implements IGameManager {
 
         //Добавляем в команду
         team.setPlayer(newTp);
-        
+
         //Добавляем в арену
         tmpArena.addPlayer(newTp);
 
@@ -137,29 +137,29 @@ public final class SpleefManager implements IGameManager {
 
         //Обрабатываем игрока
         type.preparePlayer(newTp);
-        
+
         if (isSpec) {
             newTp.sendBoard(1);
-            
+
             pl.sendMessage(prefix + "Вы присоединились к карте " + mainColor + "'" + variableColor + arena + mainColor + "' как наблюдатель.");
             pl.sendMessage(prefix + "Чтобы покинуть игру, используйте несколько раз " + variableColor + "кнопку " + mainColor + "'" + variableColor + "1" + mainColor + "' или " + variableColor + "телепортируйтесь к любому игроку " + mainColor + "используя возможность наблюдателя.");
-            
+
             tmpArena.sendMessages(prefix + pl.getDisplayName() + mainColor + " присоединился к игре как наблюдатель!");
         }
         else {
             newTp.sendBoard(0);
-            
+
             pl.sendMessage(prefix + "Вы присоединились к карте " + mainColor + "'" + variableColor + arena + mainColor + "'!");
             pl.sendMessage(prefix + "Чтобы покинуть игру, используйте " + variableColor + "Магма крем " + mainColor + "или команду " + variableColor + "/lobby" + variableColor + ".");
-            
+
             int currCount = tmpArena.getAllPlayersType(PlayingPlayer.class).size();
             if (currCount < tmpArena.getMinPlayers()) {
                 pl.sendMessage(prefix + "Ожидание " + variableColor + (tmpArena.getMinPlayers() - currCount) + mainColor + " игроков для начала игры...");
-            } 
-            
+            }
+
             tmpArena.sendMessages(prefix + pl.getDisplayName() + mainColor + " присоединился к игре! " + getRemainPlayersArena(tmpArena, PlayingPlayer.class), pl.getName());
         }
-        
+
         return newTp;
     }
 
@@ -175,12 +175,12 @@ public final class SpleefManager implements IGameManager {
         }
 
         SpleefTeam team = tmpPlayer.getTeam();
-        
+
         //Удаляем у тимы игрока
         team.setPlayer(null);
-        
+
         SpleefArena arena = tmpPlayer.getArena();
-        
+
         arena.removePlayer(pl.getName());
 
         this.players.remove(pl.getName());
@@ -197,9 +197,9 @@ public final class SpleefManager implements IGameManager {
 
     private static void handlePlayerLeave(Player pl, SpleefPlayer player, SpleefArena arena) {
         player.sendBoard(null);
-        
+
         pl.sendMessage(prefix + "Вы покинули игру!");
-        
+
         IPlayerType type = player.getPlayerType();
         if (type instanceof PlayingPlayer) {
             arena.sendMessages(prefix + pl.getDisplayName() + mainColor + " покинул игру! " + getRemainPlayersArena(arena, PlayingPlayer.class), pl.getName());
@@ -208,7 +208,7 @@ public final class SpleefManager implements IGameManager {
             arena.sendMessages(prefix + pl.getDisplayName() + mainColor + " покинул игру!", pl.getName());
         }
     }
-    
+
     @Override
     public SpleefPlayer getGamePlayer(String name) {
         return this.players.get(name);
@@ -218,17 +218,17 @@ public final class SpleefManager implements IGameManager {
     public SpleefArena getGameArena(String name) {
         return this.arenas.get(name);
     }
-    
+
     @Override
     public Collection<SpleefArena> getAllArenas() {
         return this.arenas.values();
     }
-    
+
     @Override
     public Collection<SpleefPlayer> getAllPlayers() {
         return this.players.values();
     }
-    
+
     @Override
     public SpleefStatistics getStatisticManager() {
         return this.stats;
@@ -242,8 +242,7 @@ public final class SpleefManager implements IGameManager {
         }
         return null;
     }
-    
-    @SuppressWarnings("unchecked")
+
     public void loadArenas() {
 
         FileConfiguration fc = Spleef.getInstance().getConfig();
@@ -252,7 +251,7 @@ public final class SpleefManager implements IGameManager {
             for (SpleefArena ar : arenas) {
                 try {
                     addArena(ar);
-                } 
+                }
                 catch (GameControlException e) {
                     e.printStackTrace();
                 }
@@ -263,7 +262,7 @@ public final class SpleefManager implements IGameManager {
     public void saveArenas() {
         FileConfiguration fc = Spleef.getInstance().getConfig();
 
-        List<SpleefArena> tmp = new ArrayList<SpleefArena>(this.arenas.values());
+        List<SpleefArena> tmp = new ArrayList<>(this.arenas.values());
         fc.set("arenas", tmp);
 
         Spleef.getInstance().saveConfig();
@@ -294,7 +293,7 @@ public final class SpleefManager implements IGameManager {
 
         this.arenas.remove(name);
     }
-    
+
 
     public static String getRemainPlayersArena(SpleefArena arena, Class<? extends IPlayerType> clazz) {
         return "§8[" + variableColor + (clazz != null ? arena.getAllPlayersType(clazz).size() : arena.getAllPlayers().size()) + mainColor + "/" + otherColor + arena.getMaxPlayers() + "§8]";
