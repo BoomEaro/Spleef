@@ -4,7 +4,7 @@ version: 0.1
 author: BoomEaro
 description: spleef
 api-version: 1.13
-depend: [FastAsyncWorldEdit, GameControl, Board, ServerUtils]
+depend: [FastAsyncWorldEdit, GameControl, Board, ServerUtils, AdvEco]
 commands:
   spleef:
     usage: /spleef

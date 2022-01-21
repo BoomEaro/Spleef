@@ -9,11 +9,14 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 
+import ru.boomearo.adveco.AdvEco;
+import ru.boomearo.adveco.exceptions.EcoException;
+import ru.boomearo.adveco.managers.EcoManager;
+import ru.boomearo.adveco.objects.EcoType;
 import ru.boomearo.gamecontrol.GameControl;
 import ru.boomearo.gamecontrol.exceptions.ConsoleGameException;
 import ru.boomearo.gamecontrol.objects.states.ICountable;
 import ru.boomearo.gamecontrol.objects.states.IRunningState;
-import ru.boomearo.gamecontrol.utils.Vault;
 import ru.boomearo.serverutils.utils.other.DateUtil;
 import ru.boomearo.spleef.Spleef;
 import ru.boomearo.spleef.managers.SpleefManager;
@@ -129,9 +132,14 @@ public class RunningState implements IRunningState, ICountable, SpectatorFirst {
                             //В зависимости от того сколько игроков ПРОИГРАЛО мы получим награду.
                             double reward = SpleefManager.winReward + (this.deathPlayers * SpleefManager.winReward);
 
-                            Vault.addMoney(winner.getName(), reward);
+                            try {
+                                AdvEco.getInstance().getEcoManager().addPlayerEco(winner.getName(), winner.getPlayer(), EcoType.Credit, reward);
+                            }
+                            catch (EcoException e) {
+                                e.printStackTrace();
+                            }
 
-                            winner.getPlayer().sendMessage(SpleefManager.prefix + "Ваша награда за победу: " + GameControl.getFormatedEco(reward));
+                            winner.getPlayer().sendMessage(SpleefManager.prefix + "Ваша награда за победу: " + EcoManager.getFormatedEco(reward, EcoType.Credit));
 
                             this.arena.setState(new EndingState(this.arena));
                             return;
