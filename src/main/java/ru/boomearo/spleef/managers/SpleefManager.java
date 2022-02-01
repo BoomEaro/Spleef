@@ -19,6 +19,7 @@ import ru.boomearo.gamecontrol.exceptions.GameControlException;
 import ru.boomearo.gamecontrol.exceptions.PlayerGameException;
 import ru.boomearo.gamecontrol.managers.GameManager;
 import ru.boomearo.gamecontrol.objects.IGameManager;
+import ru.boomearo.gamecontrol.objects.defactions.IDefaultAction;
 import ru.boomearo.gamecontrol.objects.states.IGameState;
 
 import ru.boomearo.spleef.Spleef;
@@ -82,7 +83,7 @@ public final class SpleefManager implements IGameManager {
     }
 
     @Override
-    public SpleefPlayer join(Player pl, String arena) throws ConsoleGameException, PlayerGameException {
+    public SpleefPlayer join(Player pl, String arena, IDefaultAction action) throws ConsoleGameException, PlayerGameException {
         if (pl == null || arena == null) {
             throw new ConsoleGameException("Аргументы не должны быть нулем!");
         }
@@ -106,6 +107,8 @@ public final class SpleefManager implements IGameManager {
         if (team == null) {
             throw new ConsoleGameException("Не найдено свободных команд!");
         }
+
+        action.performDefaultJoinAction(pl);
 
         IGameState state = tmpArena.getState();
 
@@ -164,7 +167,7 @@ public final class SpleefManager implements IGameManager {
     }
 
     @Override
-    public void leave(Player pl) throws ConsoleGameException, PlayerGameException {
+    public void leave(Player pl, IDefaultAction action) throws ConsoleGameException, PlayerGameException {
         if (pl == null) {
             throw new ConsoleGameException("Аргументы не должны быть нулем!");
         }
@@ -185,28 +188,19 @@ public final class SpleefManager implements IGameManager {
 
         this.players.remove(pl.getName());
 
-        if (Bukkit.isPrimaryThread()) {
-            handlePlayerLeave(pl, tmpPlayer, arena);
-        }
-        else {
-            Bukkit.getScheduler().runTask(Spleef.getInstance(), () -> {
-                handlePlayerLeave(pl, tmpPlayer, arena);
-            });
-        }
-    }
-
-    private static void handlePlayerLeave(Player pl, SpleefPlayer player, SpleefArena arena) {
-        player.sendBoard(null);
+        tmpPlayer.sendBoard(null);
 
         pl.sendMessage(prefix + "Вы покинули игру!");
 
-        IPlayerType type = player.getPlayerType();
+        IPlayerType type = tmpPlayer.getPlayerType();
         if (type instanceof PlayingPlayer) {
             arena.sendMessages(prefix + pl.getDisplayName() + mainColor + " покинул игру! " + getRemainPlayersArena(arena, PlayingPlayer.class), pl.getName());
         }
         else {
             arena.sendMessages(prefix + pl.getDisplayName() + mainColor + " покинул игру!", pl.getName());
         }
+
+        action.performDefaultLeaveAction(pl);
     }
 
     @Override

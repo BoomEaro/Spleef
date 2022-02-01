@@ -20,13 +20,10 @@ import ru.boomearo.spleef.objects.SpleefArena;
 import ru.boomearo.spleef.objects.SpleefTeam;
 import ru.boomearo.spleef.objects.statistics.SpleefStatsData;
 import ru.boomearo.spleef.objects.statistics.SpleefStatsType;
-import ru.boomearo.spleef.runnable.ArenasRunnable;
 
 public class Spleef extends JavaPlugin {
 
     private SpleefManager arenaManager = null;
-
-    private ArenasRunnable pmr = null;
 
     private static Spleef instance = null;
 
@@ -63,10 +60,6 @@ public class Spleef extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerButtonListener(), this);
 
         getServer().getPluginManager().registerEvents(new SpectatorListener(), this);
-
-        if (this.pmr == null) {
-            this.pmr = new ArenasRunnable();
-        }
 
         getLogger().info("Плагин успешно запущен.");
     }
