@@ -95,12 +95,12 @@ public final class SpleefManager implements IGameManager {
 
         SpleefArena tmpArena = this.arenas.get(arena);
         if (tmpArena == null) {
-            throw new PlayerGameException("Карта " + mainColor + "'" + variableColor + arena + mainColor + "' не найдена!");
+            throw new PlayerGameException(mainColor + "Карта '" + variableColor + arena + mainColor + "' не найдена!");
         }
 
         int count = tmpArena.getAllPlayers().size();
         if (count >= tmpArena.getMaxPlayers()) {
-            throw new PlayerGameException("Карта " + mainColor + "'" + variableColor + arena + mainColor + "' переполнена!");
+            throw new PlayerGameException(mainColor + "Карта '" + variableColor + arena + mainColor + "' переполнена!");
         }
 
         SpleefTeam team = tmpArena.getFreeTeam();

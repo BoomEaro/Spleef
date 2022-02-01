@@ -3,8 +3,6 @@ package ru.boomearo.spleef.objects.state;
 import ru.boomearo.gamecontrol.GameControl;
 import ru.boomearo.gamecontrol.exceptions.ConsoleGameException;
 import ru.boomearo.gamecontrol.objects.states.AbstractRegenState;
-import ru.boomearo.gamecontrol.objects.states.IGameState;
-import ru.boomearo.gamecontrol.runnable.RegenTask;
 import ru.boomearo.spleef.managers.SpleefManager;
 import ru.boomearo.spleef.objects.SpleefArena;
 import ru.boomearo.spleef.objects.SpleefPlayer;
@@ -33,7 +31,7 @@ public class RegenState extends AbstractRegenState implements SpectatorFirst {
 
         try {
             setWaitingRegen(true);
-            GameControl.getInstance().getGameManager().queueRegenArena(new RegenTask(this.arena));
+            GameControl.getInstance().getGameManager().queueRegenArena(this.arena);
         }
         catch (ConsoleGameException e) {
             e.printStackTrace();
