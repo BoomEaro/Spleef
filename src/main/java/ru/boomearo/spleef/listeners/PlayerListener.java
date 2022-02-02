@@ -80,10 +80,10 @@ public class PlayerListener implements Listener {
         SpleefPlayer tp = Spleef.getInstance().getSpleefManager().getGamePlayer(pl.getName());
         if (tp != null) {
 
-            //Если игрок ломает в арене этот блок то позволяем
-            //И если на арене идет игра то делаем
+            //Если игрок ломает в арене этот блок, то позволяем
+            //И если на арене идет игра, то делаем
             Block b = e.getBlock();
-            if (b.getType() == Material.SNOW_BLOCK) {
+            if (isAllowedToBreak(b.getType())) {
 
                 IGameState state = tp.getArena().getState();
                 if (state instanceof RunningState rs) {
@@ -120,5 +120,9 @@ public class PlayerListener implements Listener {
                 e.setCancelled(true);
             }
         }
+    }
+
+    private static boolean isAllowedToBreak(Material mat) {
+        return mat == Material.SNOW_BLOCK || mat == Material.PODZOL;
     }
 }
