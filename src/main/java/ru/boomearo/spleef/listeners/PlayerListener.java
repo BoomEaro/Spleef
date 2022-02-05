@@ -14,7 +14,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
-import ru.boomearo.gamecontrol.objects.states.IGameState;
+import ru.boomearo.gamecontrol.objects.states.game.IGameState;
 import ru.boomearo.spleef.Spleef;
 import ru.boomearo.spleef.managers.SpleefManager;
 import ru.boomearo.spleef.objects.SpleefPlayer;

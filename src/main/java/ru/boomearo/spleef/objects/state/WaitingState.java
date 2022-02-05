@@ -1,6 +1,7 @@
 package ru.boomearo.spleef.objects.state;
 
-import ru.boomearo.gamecontrol.objects.states.IWaitingState;
+import ru.boomearo.gamecontrol.objects.states.game.IWaitingState;
+import ru.boomearo.spleef.board.SpleefPLLobby;
 import ru.boomearo.spleef.managers.SpleefManager;
 import ru.boomearo.spleef.objects.SpleefArena;
 import ru.boomearo.spleef.objects.SpleefPlayer;
@@ -39,7 +40,7 @@ public class WaitingState implements IWaitingState {
 
             tp.getPlayerType().preparePlayer(tp);
 
-            tp.sendBoard(0);
+            tp.sendBoard((playerBoard -> new SpleefPLLobby(playerBoard, tp)));
         }
     }
 

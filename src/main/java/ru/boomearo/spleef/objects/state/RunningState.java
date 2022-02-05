@@ -15,10 +15,12 @@ import ru.boomearo.adveco.managers.EcoManager;
 import ru.boomearo.adveco.objects.EcoType;
 import ru.boomearo.gamecontrol.GameControl;
 import ru.boomearo.gamecontrol.exceptions.ConsoleGameException;
-import ru.boomearo.gamecontrol.objects.states.ICountable;
-import ru.boomearo.gamecontrol.objects.states.IRunningState;
+import ru.boomearo.gamecontrol.objects.states.game.ICountable;
+import ru.boomearo.gamecontrol.objects.states.game.IRunningState;
+import ru.boomearo.gamecontrol.objects.states.perms.SpectatorFirst;
 import ru.boomearo.serverutils.utils.other.DateUtil;
 import ru.boomearo.spleef.Spleef;
+import ru.boomearo.spleef.board.SpleefPLGame;
 import ru.boomearo.spleef.managers.SpleefManager;
 import ru.boomearo.spleef.managers.SpleefStatistics;
 import ru.boomearo.spleef.objects.SpleefArena;
@@ -65,7 +67,7 @@ public class RunningState implements IRunningState, ICountable, SpectatorFirst {
         for (SpleefPlayer tp : this.arena.getAllPlayers()) {
             tp.getPlayerType().preparePlayer(tp);
 
-            tp.sendBoard(1);
+            tp.sendBoard((playerBoard -> new SpleefPLGame(playerBoard, tp)));
         }
 
         this.arena.sendMessages(SpleefManager.prefix + "Игра началась. Удачи!");

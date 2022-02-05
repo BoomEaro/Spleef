@@ -7,31 +7,33 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.md_5.bungee.api.ChatColor;
+
 import ru.boomearo.gamecontrol.exceptions.ConsoleGameException;
 import ru.boomearo.gamecontrol.exceptions.GameControlException;
 import ru.boomearo.gamecontrol.exceptions.PlayerGameException;
 import ru.boomearo.gamecontrol.managers.GameManager;
 import ru.boomearo.gamecontrol.objects.IGameManager;
 import ru.boomearo.gamecontrol.objects.defactions.IDefaultAction;
-import ru.boomearo.gamecontrol.objects.states.IGameState;
 
+import ru.boomearo.gamecontrol.objects.states.game.IGameState;
+import ru.boomearo.gamecontrol.objects.states.perms.SpectatorFirst;
 import ru.boomearo.spleef.Spleef;
+import ru.boomearo.spleef.board.SpleefPLGame;
+import ru.boomearo.spleef.board.SpleefPLLobby;
 import ru.boomearo.spleef.objects.SpleefArena;
 import ru.boomearo.spleef.objects.SpleefPlayer;
 import ru.boomearo.spleef.objects.SpleefTeam;
 import ru.boomearo.spleef.objects.playertype.IPlayerType;
 import ru.boomearo.spleef.objects.playertype.LosePlayer;
 import ru.boomearo.spleef.objects.playertype.PlayingPlayer;
-import ru.boomearo.spleef.objects.state.SpectatorFirst;
 
-public final class SpleefManager implements IGameManager {
+public final class SpleefManager implements IGameManager<SpleefPlayer> {
 
     private final ConcurrentMap<String, SpleefArena> arenas = new ConcurrentHashMap<>();
 
@@ -142,7 +144,7 @@ public final class SpleefManager implements IGameManager {
         type.preparePlayer(newTp);
 
         if (isSpec) {
-            newTp.sendBoard(1);
+            newTp.sendBoard((playerBoard -> new SpleefPLGame(playerBoard, newTp)));
 
             pl.sendMessage(prefix + "Вы присоединились к карте " + mainColor + "'" + variableColor + arena + mainColor + "' как наблюдатель.");
             pl.sendMessage(prefix + "Чтобы покинуть игру, используйте несколько раз " + variableColor + "кнопку " + mainColor + "'" + variableColor + "1" + mainColor + "' или " + variableColor + "телепортируйтесь к любому игроку " + mainColor + "используя возможность наблюдателя.");
@@ -150,7 +152,7 @@ public final class SpleefManager implements IGameManager {
             tmpArena.sendMessages(prefix + pl.getDisplayName() + mainColor + " присоединился к игре как наблюдатель!");
         }
         else {
-            newTp.sendBoard(0);
+            newTp.sendBoard((playerBoard -> new SpleefPLLobby(playerBoard, newTp)));
 
             pl.sendMessage(prefix + "Вы присоединились к карте " + mainColor + "'" + variableColor + arena + mainColor + "'!");
             pl.sendMessage(prefix + "Чтобы покинуть игру, используйте " + variableColor + "Магма крем " + mainColor + "или команду " + variableColor + "/lobby" + variableColor + ".");

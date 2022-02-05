@@ -13,21 +13,18 @@ import java.util.concurrent.ConcurrentMap;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
-import org.bukkit.entity.Player;
 
 import ru.boomearo.gamecontrol.objects.IForceStartable;
 import ru.boomearo.gamecontrol.objects.arena.ClipboardRegenableGameArena;
 import ru.boomearo.gamecontrol.objects.region.IRegion;
-import ru.boomearo.gamecontrol.objects.states.IGameState;
 import ru.boomearo.spleef.Spleef;
 import ru.boomearo.spleef.managers.SpleefManager;
 import ru.boomearo.spleef.objects.playertype.IPlayerType;
 import ru.boomearo.spleef.objects.state.WaitingState;
 
-public class SpleefArena extends ClipboardRegenableGameArena implements IForceStartable, ConfigurationSerializable {
+public class SpleefArena extends ClipboardRegenableGameArena<SpleefPlayer> implements IForceStartable, ConfigurationSerializable {
 
     private final int minPlayers;
     private final int maxPlayers;
@@ -35,10 +32,6 @@ public class SpleefArena extends ClipboardRegenableGameArena implements IForceSt
 
     private final IRegion arenaRegion;
     private final ConcurrentMap<Integer, SpleefTeam> teams;
-
-    private volatile IGameState state = new WaitingState(this);
-
-    private final ConcurrentMap<String, SpleefPlayer> players = new ConcurrentHashMap<>();
 
     private boolean forceStarted = false;
 
@@ -49,6 +42,8 @@ public class SpleefArena extends ClipboardRegenableGameArena implements IForceSt
         this.timeLimit = timeLimit;
         this.arenaRegion = arenaRegion;
         this.teams = teams;
+
+        setState(new WaitingState(this));
     }
 
     @Override
@@ -62,23 +57,8 @@ public class SpleefArena extends ClipboardRegenableGameArena implements IForceSt
     }
 
     @Override
-    public SpleefPlayer getGamePlayer(String name) {
-        return this.players.get(name);
-    }
-
-    @Override
-    public Collection<SpleefPlayer> getAllPlayers() {
-        return this.players.values();
-    }
-
-    @Override
     public SpleefManager getManager() {
         return Spleef.getInstance().getSpleefManager();
-    }
-
-    @Override
-    public IGameState getState() {
-        return this.state;
     }
 
     @Override
@@ -116,91 +96,14 @@ public class SpleefArena extends ClipboardRegenableGameArena implements IForceSt
         return null;
     }
 
-    public void setState(IGameState state) {
-        //Устанавливаем новое
-        this.state = state;
-
-        //Инициализируем новое
-        this.state.initState();
-    }
-
-    public void addPlayer(SpleefPlayer player) {
-        this.players.put(player.getName(), player);
-    }
-
-    public void removePlayer(String name) {
-        this.players.remove(name);
-    }
-
-    public void sendMessages(String msg) {
-        sendMessages(msg, null);
-    }
-
-    public void sendMessages(String msg, String ignore) {
-        for (SpleefPlayer tp : this.players.values()) {
-            if (ignore != null) {
-                if (tp.getName().equals(ignore)) {
-                    continue;
-                }
-            }
-
-            Player pl = tp.getPlayer();
-            if (pl.isOnline()) {
-                pl.sendMessage(msg);
-            }
-        }
-    }
-
-    public void sendLevels(int level) {
-        if (Bukkit.isPrimaryThread()) {
-            handleSendLevels(level);
-        }
-        else {
-            Bukkit.getScheduler().runTask(Spleef.getInstance(), () -> {
-                handleSendLevels(level);
-            });
-        }
-    }
-
-    public void sendSounds(Sound sound, float volume, float pitch, Location loc) {
-        for (SpleefPlayer tp : this.players.values()) {
-            Player pl = tp.getPlayer();
-            if (pl.isOnline()) {
-                pl.playSound((loc != null ? loc : pl.getLocation()), sound, volume, pitch);
-            }
-        }
-    }
-
-    public void sendSounds(Sound sound, float volume, float pitch) {
-        sendSounds(sound, volume, pitch, null);
-    }
-
-    private void handleSendLevels(int level) {
-        for (SpleefPlayer tp : this.players.values()) {
-            Player pl = tp.getPlayer();
-            if (pl.isOnline()) {
-                pl.setLevel(level);
-            }
-        }
-    }
-
     public Collection<SpleefPlayer> getAllPlayersType(Class<? extends IPlayerType> clazz) {
         Set<SpleefPlayer> tmp = new HashSet<>();
-        for (SpleefPlayer tp : this.players.values()) {
+        for (SpleefPlayer tp : getAllPlayers()) {
             if (tp.getPlayerType().getClass() == clazz) {
                 tmp.add(tp);
             }
         }
         return tmp;
-    }
-
-    public void sendTitle(String first, String second, int in, int stay, int out) {
-        for (SpleefPlayer sp : this.players.values()) {
-            Player pl = sp.getPlayer();
-            if (pl.isOnline()) {
-                pl.sendTitle(first, second, in, stay, out);
-            }
-        }
     }
 
     @Override
