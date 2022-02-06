@@ -69,31 +69,13 @@ public class Sql {
         });
     }
 
-    public void putStatsData(SpleefStatsType type, String name, double value) {
+    public void insertOrUpdateStatsData(SpleefStatsType type, String name, double value) {
         this.executor.execute(() -> {
             try (PreparedStatement statement = this.connection.prepareStatement(
-                    "INSERT INTO " + type.getDBName() + "(`name`, `value`) " +
-                            "VALUES(?, ?)")) {
+                    "INSERT INTO " + type.getDBName() + "(`name`, `value`) VALUES(?, ?) ON CONFLICT (name) DO UPDATE SET value = EXCLUDED.value")) {
                 statement.setString(1, name);
                 statement.setDouble(2, value);
-                statement.execute();
-            }
-            catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    public void updateStatsData(SpleefStatsType type, String name, double value) {
-        this.executor.execute(() -> {
-            String sql = "UPDATE " + type.getDBName() + " SET value = ? "
-                    + "WHERE name = ?";
-
-            try (PreparedStatement pstmt = this.connection.prepareStatement(sql)) {
-
-                pstmt.setDouble(1, value);
-                pstmt.setString(2, name);
-                pstmt.executeUpdate();
+                statement.executeUpdate();
             }
             catch (SQLException e) {
                 e.printStackTrace();
@@ -103,9 +85,9 @@ public class Sql {
 
     private void createNewDatabaseStatsData(SpleefStatsType type) {
         String sql = "CREATE TABLE IF NOT EXISTS " + type.getDBName() + " (\n"
-                + "	id integer PRIMARY KEY,\n"
-                + "	name text NOT NULL,\n"
-                + "	value double NOT NULL\n"
+                + "	id INTEGER PRIMARY KEY,\n"
+                + "	name VARCHAR(255) UNIQUE NOT NULL,\n"
+                + "	value DOUBLE NOT NULL\n"
                 + ");";
 
         try (Statement stmt = this.connection.createStatement()) {
