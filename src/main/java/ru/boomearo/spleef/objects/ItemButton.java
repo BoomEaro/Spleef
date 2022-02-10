@@ -38,7 +38,7 @@ public enum ItemButton {
         public ItemStack getItem() {
             ItemStack item = new ItemStack(Material.MAGMA_CREAM, 1);
             ItemMeta meta = item.getItemMeta();
-            meta.setDisplayName("§cПокинуть игру §8[§cПКМ§8]");
+            meta.setDisplayName("§cПокинуть игру §8[§cSHIFT+ПКМ§8]");
             meta.setLore(Arrays.asList("§fКликните чтобы покинуть игру."));
             meta.addEnchant(Enchantment.DIG_SPEED, 1, true);
             meta.addItemFlags(ItemFlag.values());
@@ -48,11 +48,13 @@ public enum ItemButton {
 
         @Override
         public void handleClick(SpleefPlayer player) {
-            try {
-                GameControl.getInstance().getGameManager().leaveGame(player.getPlayer());
-            }
-            catch (GameControlException e) {
-                e.printStackTrace();
+            if (player.getPlayer().isSneaking()) {
+                try {
+                    GameControl.getInstance().getGameManager().leaveGame(player.getPlayer());
+                }
+                catch (GameControlException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
