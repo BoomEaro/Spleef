@@ -1,13 +1,16 @@
 package ru.boomearo.spleef.objects.state;
 
+import org.bukkit.Location;
 import org.bukkit.Sound;
 
 import ru.boomearo.gamecontrol.objects.states.game.ICountable;
 import ru.boomearo.gamecontrol.objects.states.game.IStartingState;
 import ru.boomearo.serverutils.utils.other.DateUtil;
+import ru.boomearo.serverutils.utils.other.DistanceUtils;
 import ru.boomearo.spleef.managers.SpleefManager;
 import ru.boomearo.spleef.objects.SpleefArena;
 import ru.boomearo.spleef.objects.SpleefPlayer;
+import ru.boomearo.spleef.objects.SpleefTeam;
 import ru.boomearo.spleef.objects.playertype.PlayingPlayer;
 
 public class StartingState implements IStartingState, ICountable {
@@ -89,7 +92,14 @@ public class StartingState implements IStartingState, ICountable {
                 return;
             }
 
+            if (this.count <= 5) {
+                for (SpleefPlayer tp : this.arena.getAllPlayers()) {
+                    handleTp(tp, false, true);
+                }
+            }
+
             arena.sendLevels(this.count);
+
             if (this.count <= 5) {
                 arena.sendMessages(SpleefManager.prefix + "Игра начнется через " + SpleefManager.variableColor + DateUtil.formatedTime(this.count, false));
                 arena.sendSounds(Sound.BLOCK_NOTE_BLOCK_PLING, 999, 2);
@@ -107,6 +117,26 @@ public class StartingState implements IStartingState, ICountable {
         }
 
         this.cd--;
+    }
+
+    private void handleTp(SpleefPlayer tp, boolean force, boolean alsoOther) {
+        //Обычных игроков ТОЛЬКО телепортируем
+        if (tp.getPlayerType() instanceof PlayingPlayer) {
+
+            SpleefTeam team = tp.getTeam();
+            Location loc = team.getSpawnPoint();
+            if (loc != null) {
+                //Если игрок будет дальше одного блока то тепаем назад
+                if (DistanceUtils.distance2DCircle(loc, tp.getPlayer().getLocation()) >= 0.8d || force) {
+                    tp.getPlayer().teleport(loc);
+                }
+            }
+            return;
+        }
+
+        if (alsoOther) {
+            tp.getPlayerType().preparePlayer(tp);
+        }
     }
 
 

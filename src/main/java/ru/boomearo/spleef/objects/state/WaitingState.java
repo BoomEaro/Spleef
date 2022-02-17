@@ -37,7 +37,9 @@ public class WaitingState implements IWaitingState {
             if (tp.getPlayerType() instanceof LosePlayer) {
                 tp.setPlayerType(new PlayingPlayer());
             }
+        }
 
+        for (SpleefPlayer tp : this.arena.getAllPlayers()) {
             tp.getPlayerType().preparePlayer(tp);
 
             tp.sendBoard((playerBoard -> new SpleefPLLobby(playerBoard, tp)));
