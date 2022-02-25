@@ -23,6 +23,7 @@ import ru.boomearo.gamecontrol.objects.defactions.IDefaultAction;
 
 import ru.boomearo.gamecontrol.objects.states.game.IGameState;
 import ru.boomearo.gamecontrol.objects.states.perms.SpectatorFirst;
+import ru.boomearo.gamecontrol.objects.statistics.DefaultStatsManager;
 import ru.boomearo.spleef.Spleef;
 import ru.boomearo.spleef.board.SpleefPLGame;
 import ru.boomearo.spleef.board.SpleefPLLobby;
@@ -32,6 +33,7 @@ import ru.boomearo.spleef.objects.SpleefTeam;
 import ru.boomearo.spleef.objects.playertype.IPlayerType;
 import ru.boomearo.spleef.objects.playertype.LosePlayer;
 import ru.boomearo.spleef.objects.playertype.PlayingPlayer;
+import ru.boomearo.spleef.objects.SpleefStatsType;
 
 public final class SpleefManager implements IGameManager<SpleefPlayer> {
 
@@ -39,7 +41,7 @@ public final class SpleefManager implements IGameManager<SpleefPlayer> {
 
     private final ConcurrentMap<String, SpleefPlayer> players = new ConcurrentHashMap<>();
 
-    private final SpleefStatistics stats = new SpleefStatistics();
+    private final DefaultStatsManager stats = new DefaultStatsManager(this, SpleefStatsType.values());
 
     public static final ChatColor mainColor = GameManager.backgroundTextColor;
     public static final ChatColor variableColor = ChatColor.of(new Color(196, 255, 254));
@@ -226,7 +228,7 @@ public final class SpleefManager implements IGameManager<SpleefPlayer> {
     }
 
     @Override
-    public SpleefStatistics getStatisticManager() {
+    public DefaultStatsManager getStatisticManager() {
         return this.stats;
     }
 

@@ -18,16 +18,16 @@ import ru.boomearo.gamecontrol.exceptions.ConsoleGameException;
 import ru.boomearo.gamecontrol.objects.states.game.ICountable;
 import ru.boomearo.gamecontrol.objects.states.game.IRunningState;
 import ru.boomearo.gamecontrol.objects.states.perms.SpectatorFirst;
+import ru.boomearo.gamecontrol.objects.statistics.DefaultStatsManager;
 import ru.boomearo.serverutils.utils.other.DateUtil;
 import ru.boomearo.spleef.Spleef;
 import ru.boomearo.spleef.board.SpleefPLGame;
 import ru.boomearo.spleef.managers.SpleefManager;
-import ru.boomearo.spleef.managers.SpleefStatistics;
 import ru.boomearo.spleef.objects.SpleefArena;
 import ru.boomearo.spleef.objects.SpleefPlayer;
 import ru.boomearo.spleef.objects.playertype.LosePlayer;
 import ru.boomearo.spleef.objects.playertype.PlayingPlayer;
-import ru.boomearo.spleef.objects.statistics.SpleefStatsType;
+import ru.boomearo.spleef.objects.SpleefStatsType;
 
 public class RunningState implements IRunningState, ICountable, SpectatorFirst {
 
@@ -93,8 +93,8 @@ public class RunningState implements IRunningState, ICountable, SpectatorFirst {
                     this.deathPlayers++;
 
                     //Добавляем единицу в статистику поражений
-                    SpleefStatistics trs = Spleef.getInstance().getSpleefManager().getStatisticManager();
-                    trs.addStats(SpleefStatsType.Defeat, tp.getName());
+                    DefaultStatsManager trs = Spleef.getInstance().getSpleefManager().getStatisticManager();
+                    trs.addStatsToPlayer(SpleefStatsType.Defeat, tp.getName());
 
                     this.arena.sendSounds(Sound.ENTITY_WITHER_HURT, 999, 2);
 
@@ -129,7 +129,7 @@ public class RunningState implements IRunningState, ICountable, SpectatorFirst {
                             this.arena.sendSounds(Sound.ENTITY_PLAYER_LEVELUP, 999, 2);
 
                             //Добавляем единицу в статистику побед
-                            trs.addStats(SpleefStatsType.Wins, winner.getName());
+                            trs.addStatsToPlayer(SpleefStatsType.Wins, winner.getName());
 
                             //В зависимости от того сколько игроков ПРОИГРАЛО мы получим награду.
                             double reward = SpleefManager.winReward + (this.deathPlayers * SpleefManager.winReward);

@@ -4,12 +4,10 @@ import ru.boomearo.board.objects.PlayerBoard;
 import ru.boomearo.board.objects.boards.AbstractHolder;
 import ru.boomearo.board.objects.boards.AbstractPage;
 import ru.boomearo.board.objects.boards.AbstractPageList;
-import ru.boomearo.gamecontrol.objects.statistics.StatsPlayer;
 import ru.boomearo.spleef.Spleef;
 import ru.boomearo.spleef.managers.SpleefManager;
 import ru.boomearo.spleef.objects.SpleefPlayer;
-import ru.boomearo.spleef.objects.statistics.SpleefStatsData;
-import ru.boomearo.spleef.objects.statistics.SpleefStatsType;
+import ru.boomearo.spleef.objects.SpleefStatsType;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -164,13 +162,8 @@ public class SpleefPLLobby extends AbstractPageList {
         }
 
         private static String getStatisticData(SpleefStatsType type, String name) {
-            SpleefStatsData data = Spleef.getInstance().getSpleefManager().getStatisticManager().getStatsData(type);
-            StatsPlayer sp = data.getStatsPlayer(name);
-            if (sp == null) {
-                return SpleefManager.mainColor + type.getName() + ": " + SpleefManager.variableColor + "0";
-            }
-
-            return SpleefManager.mainColor + type.getName() + ": " + SpleefManager.variableColor + (long) sp.getValue();
+            double value = Spleef.getInstance().getSpleefManager().getStatisticManager().getStatsValueFromPlayer(type, name);
+            return SpleefManager.mainColor + type.getName() + ": " + SpleefManager.variableColor + (long) value;
         }
 
     }
